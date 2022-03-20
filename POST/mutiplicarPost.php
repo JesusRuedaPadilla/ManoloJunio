@@ -21,26 +21,31 @@
             $n1= $_POST['numero1'];
         
             $n2= $_POST['numero2'];
-        
-                // %2B -- Codigo suma ASCII
 
-            if($_POST['suma']){
+       
+                // %2B -- Codigo suma ASCII
+              $sumar= $_POST['suma'];
+              $restar=  $_POST['resta'];
+              $multiplicar=  $_POST['multiplica'];
+              $dividir=  $_POST['divide'];
+
+            if($sumar){
                 $resultado= $n1+$n2;
                 echo "El resultado de la suma es " .$resultado;
             }
         
-            else if($_POST['resta']){
+            else if($restar){
         
                 $resultado= $n1-$n2;
                 echo "El resultado de la resta es " .$resultado;
             }
         
-            else if($_POST['multiplica']){
+            else if($multiplicar){
                 $resultado= $n1*$n2;
                 echo "El resultado de la multiplicacion es " .$resultado;
             }
         
-            else if($_POST['divide']){
+            else if($dividir){
                 $resultado= $n1/$n2;
                 echo "El resultado de la division es " .$resultado;
             }
