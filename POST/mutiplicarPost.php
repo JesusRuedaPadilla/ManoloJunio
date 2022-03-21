@@ -22,38 +22,32 @@
         
             $n2= $_POST['numero2'];
 
-       
-                // %2B -- Codigo suma ASCII
-              $sumar= $_POST['suma'];
-              $restar=  $_POST['resta'];
-              $multiplicar=  $_POST['multiplica'];
-              $dividir=  $_POST['divide'];
-
-            if($sumar){
+      
+                // %2B -- Codigo suma ASCII/
+            if(isset($_POST['suma'])){
                 $resultado= $n1+$n2;
                 echo "El resultado de la suma es " .$resultado;
             }
         
-            else if($restar){
+            else if(isset($_POST['resta'])){
         
                 $resultado= $n1-$n2;
                 echo "El resultado de la resta es " .$resultado;
             }
         
-            else if($multiplicar){
+            else if(isset($_POST['multiplica'])){
                 $resultado= $n1*$n2;
                 echo "El resultado de la multiplicacion es " .$resultado;
             }
         
-            else if($dividir){
+            else if(isset($_POST['divide'])){
                 $resultado= $n1/$n2;
                 echo "El resultado de la division es " .$resultado;
             }
         
         
         }
-        
-    
+          
     }
     
     else{
@@ -74,7 +68,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   
-  <title>Login Tienda Web</title>
+  <title>Cosa</title>
   <link rel="stylesheet" href="./css/estilos.css">
   </head>
 
