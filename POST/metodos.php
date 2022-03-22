@@ -30,13 +30,13 @@
         
     }
 
-    function MuestraErrores($errores){
+    function MuestraErrores($erroresDetec){
 
             $errores=array();
 
-            for($i=0; $i<sizeof($errores); $i++){
+            foreach($erroresDetec as $valor){
             
-                echo $errores[$i];
+                echo $valor;
                 echo "<br>";
             }
     }
@@ -92,7 +92,7 @@ function PintaFormularioPHP(){
 function EscribeFormularioHTML(){
     //EOD (para escribir una cadena larga y que se muestre tal y como esta)
     $str = <<<EOD
-    <form action='mutiplicarPost.php' method='post'>
+    <form action='' method='post'>
            
             <br/>
             <label for='numero1' ></label><br/>
