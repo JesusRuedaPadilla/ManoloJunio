@@ -23,16 +23,16 @@
         
         else{
         
-        return true;
+        return $errores;
         
         
         }
         
     }
 
-    function MuestraErrores(){
+    function MuestraErrores($errores){
 
-            $errores=array();
+            // $errores=array();
 
             for($i=0; $i<sizeof($errores); $i++){
             
@@ -42,6 +42,7 @@
     }
     
     function FormularioEnviado(){
+        
         if (isset($_POST['suma']) || isset($_POST['resta']) || isset($_POST['multiplica']) || isset($_POST['divide'])){
 
             return true;
@@ -85,6 +86,31 @@ function PintaFormulario(){
     
     
     }
+
+
+}
+function EscribeFormulario(){
+    $str = <<<EOD
+    <form action='mutiplicarPost.php' method='post'>
+           
+            <br/>
+            <label for='numero1' ></label><br/>
+                <input type='text' name='numero1' id='numero1' maxlength="50" /><br>
+           
+                <label for='numero2' ></label><br>
+                <input type='numero2' name='numero2' id='numero2' maxlength="50" /><br></br>
+    
+                <button name='suma' id='suma' value="suma">Sumar</button>
+                <button name='resta' id='resta' value="resta">Restar</button>
+                <button name='multiplica' id='multiplica' value="multiplica">Multiplicar</button>
+                <button name='divide' id='divide' value="divide">Dividir</button>
+                  
+            
+    
+        </form>
+    
+    EOD;
+    echo $str;
 }
 
 
