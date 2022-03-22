@@ -3,7 +3,7 @@
 
     function CommpruebaErrores(){
         $errores= array();
-
+        
         if(empty($_POST['numero1'])){
             $errores[]= "Comprueba que has escrito el Primer numero";
 
@@ -90,6 +90,7 @@ function PintaFormularioPHP(){
 
 }
 function EscribeFormularioHTML(){
+    //EOD (para escribir una cadena larga y que se muestre tal y como esta)
     $str = <<<EOD
     <form action='mutiplicarPost.php' method='post'>
            
@@ -112,7 +113,5 @@ function EscribeFormularioHTML(){
     EOD;
     echo $str;
 }
-
-
 
 ?>
