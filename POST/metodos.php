@@ -32,7 +32,7 @@
 
     function MuestraErrores($errores){
 
-            // $errores=array();
+            $errores=array();
 
             for($i=0; $i<sizeof($errores); $i++){
             
@@ -54,9 +54,9 @@
 
     }
 
-function PintaFormulario(){
+function PintaFormularioPHP(){
 
-    if(isset($_POST['numero1']) && isset($_POST['numero2'])){
+    
         
         $n1= $_POST['numero1'];
     
@@ -85,11 +85,11 @@ function PintaFormulario(){
         }
     
     
-    }
+    
 
 
 }
-function EscribeFormulario(){
+function EscribeFormularioHTML(){
     $str = <<<EOD
     <form action='mutiplicarPost.php' method='post'>
            

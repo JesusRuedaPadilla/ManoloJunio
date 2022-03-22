@@ -1,11 +1,9 @@
 <?php
   include_once "metodos.php";
 
-  
-  
     if(CommpruebaErrores()==false){
         
-            PintaFormulario();
+            PintaFormularioPHP();
               
         }
         
@@ -29,8 +27,8 @@
 <body>
 
     <?php
-        EscribeFormulario();
+        EscribeFormularioHTML();
     ?>
-    
+
 </body>
 </html>
