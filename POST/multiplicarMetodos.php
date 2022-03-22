@@ -22,7 +22,7 @@
   
   <title>Cosa</title>
   <link rel="stylesheet" href="./css/estilos.css">
-  </head>sdwq
+  </head>
 
 <body>
 
