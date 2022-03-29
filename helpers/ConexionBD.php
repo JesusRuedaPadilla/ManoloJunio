@@ -20,6 +20,31 @@ class ConexionBD{
 	
     }
     
+    public static function InsertaImagen($correo,$contraseña,$foto)
+    {
+        
+        $res= self::$con->query("select * from prueba1 where correo ='$correo' and contrasena='$contraseña'");
+        
+        $registro = $res->fetchAll(PDO::FETCH_ASSOC);
+        return $registro;
+	
+    }
+
+    
+    public static function InsertaDatos($correo,$contraseña,$foto)
+    {
+        // echo "correo:".$correo."<br>"."nombre:".$nombre."<br>"."apellidos:".$apellidos."<br>"."fecha:".$fecha_nac;
+        
+        $sql="INSERT INTO `prueba1` (correo,contrasena,foto) VALUES ('$correo','$contraseña','$foto')";
+        $res= self::$con->exec($sql);
+    
+        // if($foto!=""){
+        //     $res->bindParam(1,$correo);
+        //     $res->bindParam(2,$contraseña);
+        //     $res->bindParam(3,$foto);            
+        //     $res->execute();
+        // }        
+    }
 
 }
 
