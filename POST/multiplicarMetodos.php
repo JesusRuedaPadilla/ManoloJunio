@@ -6,8 +6,7 @@
 
     $valida->CompruebaVacio("numero1");
     $valida->CompruebaVacio("numero2");
-    $valida->CompruebaSiNumero("numero1");
-    $valida->CompruebaSiNumero("numero2");
+
     
 //    var_dump($valida->getErrores());
 if(FormularioEnviado()){
