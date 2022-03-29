@@ -6,13 +6,14 @@ $valida=new Validator();
 
     if($valida->FormularioEnviado()){
 
-        ConexionBD::conecta();
+        
         $correo=$_POST['correo'];
         $contraseña=$_POST['contrasena'];
         
         
         if($valida->Requerido($correo) && $valida->Requerido($contraseña) && $valida->Email($correo) && $valida->ContraseñaValidada($contraseña)){
-           var_dump(ConexionBD::obtieneUsuario($correo,$contraseña));
+            ConexionBD::conecta();
+            var_dump(ConexionBD::obtieneUsuario($correo,$contraseña));
             
             
         }
