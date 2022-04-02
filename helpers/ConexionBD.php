@@ -20,16 +20,6 @@ class ConexionBD{
 	
     }
     
-    public static function InsertaImagen($correo,$contraseña,$foto)
-    {
-        
-        $res= self::$con->query("select * from prueba1 where correo ='$correo' and contrasena='$contraseña'");
-        
-        $registro = $res->fetchAll(PDO::FETCH_ASSOC);
-        return $registro;
-	
-    }
-
     
     public static function InsertaDatos($correo,$contraseña,$foto)
     {
@@ -45,6 +35,24 @@ class ConexionBD{
         //     $res->execute();
         // }        
     }
+
+    public static function obtieneProductosPaginados(int $pagina, int $filas):array
+    {
+        $registros = array();
+        $res = self::$con->query("select * from prueba1");
+        $registros =$res->fetchAll();
+        $total = count($registros);
+        $paginas = ceil($total /$filas);
+        $registros = array();
+        if ($pagina <= $paginas)
+        {
+            $inicio = ($pagina-1) * $filas;
+            $res= self::$con->query("select * from prueba1 limit $inicio, $filas");
+            $registros = $res->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $registros;
+    }
+
 
 }
 
