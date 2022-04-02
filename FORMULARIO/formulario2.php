@@ -22,11 +22,12 @@ $valida=new Validator();
         if($valida->Requerido($correo) && $valida->Requerido($contraseña) && $valida->Email($correo) && $valida->ContraseñaValidada($contraseña)){
             ConexionBD::conecta();
             
-            ConexionBD::InsertaDatos($correo,$contraseña,$foto);
+            // ConexionBD::InsertaDatos($correo,$contraseña,$foto);
     
             echo "<img src='data:./imagenes/imagen1/png;base64,$foto' title='var'/>";
             
-            
+            ConexionBD::obtieneUsuario($correo,$contraseña);
+            var_dump( ConexionBD::obtieneUsuario($correo,$contraseña));
         }
         
         else{
@@ -58,9 +59,9 @@ $valida=new Validator();
        
             <label for='contrasena' >Contraseña</label><br>
             <input type='password' name='contrasena' id='contrasena' maxlength="12"/><br></br>
-
+<!-- 
             <input type='file' name='fichero'><br>
-            <input type="hidden"><br>
+            <input type="hidden"><br> -->
             <button name='enviar' id='enviar' value="enviar">Enviar</button>
            
     </form>
