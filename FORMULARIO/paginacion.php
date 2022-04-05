@@ -30,15 +30,15 @@ if($p==1){
 
 else if(ConexionBD::NumPaginas(2)>$p && $p!=1){
   
+    echo "<button disabled>$p</button>";
     echo "<a href='paginacion.php?p=$b&t=2'>Siguiente</a>";
     echo "<a href='paginacion.php?p=$c&t=2'>Atras</a>";
 }
 
 else if($p==ConexionBD::NumPaginas(2)){
 
-    $a=ConexionBD::NumPaginas(2)-1;
-
-    echo "<a href='paginacion.php?p=$a&t=2'>Atras</a>";
+    echo "<button disabled>$p</button>";
+    echo "<a href='paginacion.php?p=$c&t=2'>Atras</a>";
 }
 
 
