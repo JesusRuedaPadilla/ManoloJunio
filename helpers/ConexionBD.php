@@ -53,8 +53,20 @@ class ConexionBD{
         return $registros;
     }
 
+    public static function NumPaginas(int $filas):int
+    {
+        $registros = array();
+        $res = self::$con->query("select * from prueba1");
+        $registros =$res->fetchAll();
+        $total = count($registros);
+        $paginas = ceil($total /$filas);
+    
+        return $paginas;
+    }
+
 
 }
+
 
 
     // function obtieneCorreo($correo){
