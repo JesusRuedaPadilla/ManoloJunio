@@ -12,36 +12,36 @@ $b=$p+1;
 
 $c=$p-1;
 
-for ($i=0;$i<count($lista);$i++)
-{
-    echo "Correo : " .$lista[$i]['correo']. " Contraseña : " .$lista[$i]['contrasena']. "<a href='paginacion.php?g=editar'>Editar</a>" ."<br>";
+// for ($i=0;$i<count($lista);$i++)
+// {
+//     echo "Correo : " .$lista[$i]['correo']. " Contraseña : " .$lista[$i]['contrasena']. "<a href='paginacion.php?g=editar'>Editar</a>" ."<br>";
     
    
-}
+// }
 
 
-if($p==1){
+// if($p==1){
 
-    echo "<button disabled>1</button>";
+//     echo "<button disabled>1</button>";
 
-    echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
+//     echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
 
    
-}
+// }
 
-else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
+// else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
   
-    echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
-    echo "<button disabled>$p</button>";
-    echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
-}
+//     echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
+//     echo "<button disabled>$p</button>";
+//     echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
+// }
 
-else if($p==ConexionBD::NumPaginas($t)){
+// else if($p==ConexionBD::NumPaginas($t)){
 
-    echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
-    echo "<button disabled>$p</button>";
+//     echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
+//     echo "<button disabled>$p</button>";
    
-}
+// }
 
 
 ?>
@@ -68,38 +68,49 @@ else if($p==ConexionBD::NumPaginas($t)){
 
     <tr>
 
-        <td>
             <?php
-                // $lista[0]
+                for ($i=0;$i<count($lista);$i++){
+                    echo "<td>".$lista[$i]['correo']."</td>";
+                }
+                
 
             ?>
 
-        </td>
-
-        <td>Mayormente soleado</td>
-
-   
-
     </tr>
 
     <tr>
-
-        <td>19°C</td>
-
-        <td>17°C</td>
-
-
-    </tr>
-
-    <tr>
-
-        <td>E 13 km/h</td>
-
-        <td>E 11 km/h</td>
-
-
+        <?php
+            for ($i=0;$i<count($lista);$i++){
+                echo "<td>".$lista[$i]['contrasena']."</td>";
+            }
+        ?>
     </tr>
 
     </table>
+
+    <?php
+        if($p==1){
+
+            echo "<button disabled>1</button>";
+        
+            echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
+        
+           
+        }
+        
+        else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
+          
+            echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
+            echo "<button disabled>$p</button>";
+            echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
+        }
+        
+        else if($p==ConexionBD::NumPaginas($t)){
+        
+            echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
+            echo "<button disabled>$p</button>";
+           
+        }
+    ?>
 </body>
 </html>
