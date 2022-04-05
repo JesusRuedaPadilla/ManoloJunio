@@ -24,21 +24,21 @@ if($p==1){
 
     echo "<button disabled>1</button>";
 
-    echo "<a href='paginacion.php?p=2&t=2'>Siguiente</a>";
+    echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
 
    
 }
 
-else if(ConexionBD::NumPaginas(2)>$p && $p!=1){
+else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
   
-    echo "<a href='paginacion.php?p=$c&t=2'>Atras</a>";
+    echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
     echo "<button disabled>$p</button>";
-    echo "<a href='paginacion.php?p=$b&t=2'>Siguiente</a>";
+    echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
 }
 
-else if($p==ConexionBD::NumPaginas(2)){
+else if($p==ConexionBD::NumPaginas($t)){
 
-    echo "<a href='paginacion.php?p=$c&t=2'>Atras</a>";
+    echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
     echo "<button disabled>$p</button>";
    
 }
@@ -54,6 +54,52 @@ else if($p==ConexionBD::NumPaginas(2)){
     <title>Document</title>
 </head>
 <body>
-    
+    <table class="default">
+
+    <tr>
+
+        <th>Correo</th>
+
+        <th>Contraseña</th>
+
+      
+
+    </tr>
+
+    <tr>
+
+        <td>
+            <?php
+                // $lista[0]
+
+            ?>
+
+        </td>
+
+        <td>Mayormente soleado</td>
+
+   
+
+    </tr>
+
+    <tr>
+
+        <td>19°C</td>
+
+        <td>17°C</td>
+
+
+    </tr>
+
+    <tr>
+
+        <td>E 13 km/h</td>
+
+        <td>E 11 km/h</td>
+
+
+    </tr>
+
+    </table>
 </body>
 </html>
