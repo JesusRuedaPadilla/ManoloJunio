@@ -33,7 +33,6 @@ else if(ConexionBD::NumPaginas(2)>$p && $p!=1){
     echo "<a href='paginacion.php?p=$c&t=2'>Atras</a>";
     echo "<button disabled>$p</button>";
     echo "<a href='paginacion.php?p=$b&t=2'>Siguiente</a>";
-
 }
 
 else if($p==ConexionBD::NumPaginas(2)){
