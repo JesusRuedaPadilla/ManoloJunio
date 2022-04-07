@@ -12,37 +12,6 @@ $b=$p+1;
 
 $c=$p-1;
 
-// for ($i=0;$i<count($lista);$i++)
-// {
-//     echo "Correo : " .$lista[$i]['correo']. " Contraseña : " .$lista[$i]['contrasena']. "<a href='paginacion.php?g=editar'>Editar</a>" ."<br>";
-    
-   
-// }
-
-
-// if($p==1){
-
-//     echo "<button disabled>1</button>";
-
-//     echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
-
-   
-// }
-
-// else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
-  
-//     echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
-//     echo "<button disabled>$p</button>";
-//     echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
-// }
-
-// else if($p==ConexionBD::NumPaginas($t)){
-
-//     echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
-//     echo "<button disabled>$p</button>";
-   
-// }
-
 
 ?>
 <!DOCTYPE html>
@@ -52,9 +21,10 @@ $c=$p-1;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/estilosPaginacion.css">
 </head>
 <body>
-    <table class="default">
+    <table border="1" id="tabla">
 
     <tr>
 
@@ -70,47 +40,46 @@ $c=$p-1;
 
             <?php
                 for ($i=0;$i<count($lista);$i++){
-                    echo "<td>".$lista[$i]['correo']."</td>";
+                    echo "<tr><td>".$lista[$i]['correo']."</td>"."<td>".$lista[$i]['contrasena']."<a href='paginacion.php?g=editar'>Editar</a>" ."</td></tr>";
                 }
                 
 
             ?>
+            <?php
+                // for ($i=0;$i<count($lista);$i++){
+                //     echo "<td>".$lista[$i]['contrasena']."<a href='paginacion.php?g=editar'>Editar</a>" ."</td>";
+                // }
+             ?>
 
-    </tr>
-
-    <tr>
-        <?php
-            for ($i=0;$i<count($lista);$i++){
-                echo "<td>".$lista[$i]['contrasena']."</td>";
-            }
-        ?>
     </tr>
 
     </table>
+    
+    <footer id="paginacion">
+        <?php
+            if($p==1){
 
-    <?php
-        if($p==1){
-
-            echo "<button disabled>1</button>";
-        
-            echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
-        
-           
-        }
-        
-        else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
-          
-            echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
-            echo "<button disabled>$p</button>";
-            echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
-        }
-        
-        else if($p==ConexionBD::NumPaginas($t)){
-        
-            echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
-            echo "<button disabled>$p</button>";
-           
-        }
-    ?>
+                echo "<button disabled>1</button>";
+                
+                echo "<a href='paginacion.php?p=2&t=$t'>Siguiente</a>";
+                
+                
+            }
+                
+            else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
+                
+                echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
+                echo "<button disabled>$p</button>";
+                echo "<a href='paginacion.php?p=$b&t=$t'>Siguiente</a>";
+            }
+                
+            else if($p==ConexionBD::NumPaginas($t)){
+                
+                echo "<a href='paginacion.php?p=$c&t=$t'>Atras</a>";
+                echo "<button disabled>$p</button>";
+                
+            }
+        ?>
+    </footer>
 </body>
 </html>
