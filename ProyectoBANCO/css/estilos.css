@@ -1,0 +1,19 @@
+@font-face{
+   font-family: "patata";
+   src: url("../fonts/Nunito-Italic-VariableFont_wght.ttf");
+ }
+
+img{
+   height: 300px; 
+   width: 500px;
+padding: 10px;
+    
+}
+
+body{
+   font-family: "patata";
+    text-align: center;
+   background-color: #EAF4F7;
+}
+
+

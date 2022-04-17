@@ -5,11 +5,18 @@ class ConexionBD{
 
     private static $con;
 
-    public static function conecta()
-    {
-       self::$con = new PDO('mysql:host=localhost;dbname=formularioprimero', 'root','');
-       self::$con->query("SET NAMES utf8");
-    }
+        public static function conecta(){
+    
+            try {
+                self::$con= new PDO('mysql:host=localhost;dbname=formularioprimero', 'root', '');
+                self::$con->query("SET NAMES utf8");
+                return true;
+            } catch (\Throwable $th) {
+                return false;
+            }
+               
+               
+        }
 
     public static function obtieneUsuario($correo,$contraseña)
     {
@@ -21,6 +28,15 @@ class ConexionBD{
 	
     }
     
+    public static function existeusuario($correo,$contraseña)
+    {
+
+        $sql="SELECT * FROM prueba1 WHERE correo like '$correo' and contrasena like '$contraseña'"; 
+        $resultado = self::$con->query($sql);
+        $count = $resultado->rowCount();
+        return $count==1;
+                     
+    }
     
     public static function InsertaDatos($correo,$contraseña,$foto)
     {
