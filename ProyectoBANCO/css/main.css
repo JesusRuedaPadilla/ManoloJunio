@@ -159,7 +159,14 @@ li.categoria:hover ul.submenu {
   -webkit-transition: height 0.5s ease-out;
   -moz-transition: height 0.5s ease-out;
 }
+table{
+  border:1px solid black;
 
+}
+
+td,th{
+  border:1px solid black;
+}
 
 footer {
   background-color: #0E6187;

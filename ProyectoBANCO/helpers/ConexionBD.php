@@ -8,7 +8,7 @@ class ConexionBD{
         public static function conecta(){
     
             try {
-                self::$con= new PDO('mysql:host=localhost;dbname=formularioprimero', 'root', '');
+                self::$con= new PDO('mysql:host=localhost;dbname=banco', 'root', '');
                 self::$con->query("SET NAMES utf8");
                 return true;
             } catch (\Throwable $th) {
@@ -21,7 +21,7 @@ class ConexionBD{
     public static function obtieneUsuario($correo,$contraseña)
     {
         
-        $res= self::$con->query("select * from prueba1 where correo ='$correo' and contrasena='$contraseña'");
+        $res= self::$con->query("select * from personas where correo ='$correo' and contrasena='$contraseña'");
         
         $registro = $res->fetchAll(PDO::FETCH_ASSOC);
         return $registro;
@@ -31,7 +31,7 @@ class ConexionBD{
     public static function existeusuario($correo,$contraseña)
     {
 
-        $sql="SELECT * FROM prueba1 WHERE correo like '$correo' and contrasena like '$contraseña'"; 
+        $sql="SELECT * FROM personas WHERE correo like '$correo' and contrasena like '$contraseña'"; 
         $resultado = self::$con->query($sql);
         $count = $resultado->rowCount();
         return $count==1;
@@ -42,7 +42,7 @@ class ConexionBD{
     {
         // echo "correo:".$correo."<br>"."nombre:".$nombre."<br>"."apellidos:".$apellidos."<br>"."fecha:".$fecha_nac;
         
-        $sql="INSERT INTO `prueba1` (correo,contrasena,foto) VALUES ('$correo','$contraseña','$foto')";
+        $sql="INSERT INTO `personas` (correo,contrasena,foto) VALUES ('$correo','$contraseña','$foto')";
         $res= self::$con->exec($sql);
     
         // if($foto!=""){
@@ -56,7 +56,8 @@ class ConexionBD{
     public static function obtieneProductosPaginados(int $pagina, int $filas):array
     {
         $registros = array();
-        $res = self::$con->query("select * from prueba1");
+        $res = self::$con->query("SELECT * FROM personas INNER JOIN gastos ON personas.id = gastos.id_persona;");
+       
         $registros =$res->fetchAll();
         $total = count($registros);
         $paginas = ceil($total /$filas);
@@ -64,7 +65,7 @@ class ConexionBD{
         if ($pagina <= $paginas)
         {
             $inicio = ($pagina-1) * $filas;
-            $res= self::$con->query("select * from prueba1 limit $inicio, $filas");
+            $res= self::$con->query("SELECT * FROM personas INNER JOIN gastos ON personas.id = gastos.id_persona limit $inicio, $filas");
             $registros = $res->fetchAll(PDO::FETCH_ASSOC);
         }
         return $registros;
@@ -73,7 +74,7 @@ class ConexionBD{
     public static function NumPaginas(int $filas):int
     {
         $registros = array();
-        $res = self::$con->query("select * from prueba1");
+        $res = self::$con->query("select * from personas");
         $registros =$res->fetchAll();
         $total = count($registros);
         $paginas = ceil($total /$filas);

@@ -99,23 +99,28 @@ if(isset($_POST['logout'])){
 
 <article>
  
-    <table border="1" id="tabla">
+<table style='text-align:center; margin: 0 auto; width:50%;' cellspacing=5px; id="tabla">
+ 
+    <thead>
 
-    <tr>
+        <tr>
 
-        <th>Correo</th>
+            <td>Concepto</td>
 
-        <th>Contraseña</th>
+            <td>Movimientos</td>
 
-      
+            <td>Fecha</td>
 
-    </tr>
+            <td>Accion</td>
 
+        </tr>
+
+    </thead>
     <tr>
 
             <?php
                 for ($i=0;$i<count($lista);$i++){
-                    echo "<tr><td>".$lista[$i]['correo']."</td>"."<td>".$lista[$i]['contrasena']."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td></tr>";
+                    echo "<td>".$lista[$i]['correo']."</td>"."<td>".$lista[$i]['contrasena']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>".$lista[$i]['concepto']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>";
                 }
                 
 
