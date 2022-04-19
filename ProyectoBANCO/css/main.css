@@ -48,10 +48,6 @@ table {
   border-spacing: 0;
 }
 
-@font-face {
-  font-family: "patata";
-  src: url("../fonts/Nunito-Italic-VariableFont_wght.ttf");
-}
 body {
   font-family: "patata";
 }
@@ -202,4 +198,9 @@ a {
   position: absolute;
 left: 700px;
 top: 400px;
+}
+#nuevo{
+  position: absolute;
+  left: 700px;
+  top: 500px;
 }

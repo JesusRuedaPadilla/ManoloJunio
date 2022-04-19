@@ -1,5 +1,5 @@
 <?php
- include_once "./helpers/Session.php";
+include_once "./helpers/Session.php";
  include_once "./helpers/Login.php";
  include_once "./helpers/ConexionBD.php"; 
  include_once "./Clases/Persona.php"; 
@@ -10,39 +10,35 @@
 
         ConexionBD::conecta();
         $correo=Session::leer('correo');
-        $persona=ConexionBD::obtienePersona($correo);
-        $idPersona=$persona->getId();
-        $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t'],$idPersona);
 
-        $p=$_GET['p'];
-        
-        $t=$_GET['t'];
-        
-        $b=$p+1;
-        
-        $c=$p-1;
-     
+        // $persona=ConexionBD::obtienePersona($correo);
+        // $idPersona=$persona->getId();
+        // $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t'],$idPersona);
 
-}
-else{
-    header("Location:paginaLogin.php");
-}
+        // $p=$_GET['p'];
+        
+        // $t=$_GET['t'];
+        
+        // $b=$p+1;
+        
+        // $c=$p-1;
+        
+    }
 
-if(isset($_POST['logout'])){
+    else{
+        header("Location:paginaLogin.php");
+    }
+    
+    if(isset($_POST['logout'])){
 
  
-    Session::destruir();
-   
-    header("Location:paginaLogin.php");
-
-}
-
-if(isset($_POST['nuevo'])){
-
-    header("Location:a.php?p=1&t=3");
-
-}
+        Session::destruir();
+       
+        header("Location:paginaLogin.php");
+    
+    }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -128,95 +124,10 @@ if(isset($_POST['nuevo'])){
     </header>
 
 <article>
- 
-<table style='text-align:center; margin: 0 auto; width:50%;' cellspacing=5px; id="tabla">
- 
-    <thead>
+    <?php
+        echo "<p>Esto funciona</p>";   
+    ?>
 
-        <tr>
-
-            <td>Concepto</td>
-
-            <td>Movimientos</td>
-
-            <td>Fecha</td>
-
-            <td>Accion</td>
-
-        </tr>
-
-    </thead>
-    <tr>
-
-            <?php
-                for ($i=0;$i<count($lista);$i++){
-                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
-                
-                }
-
-                for($i=0;$i<count($lista);$i++){
-                    $posible=$lista[$i]['cantidad'];
-                $suma=0;
-                $a=1;
-
-                  if($i=$i+1>=count($lista)){
-                    $sumatoria=$posible+$sumatoria;
-
-                    $a=0;
-                  }
-                  
-                  if ($a==0){
-                    echo "<p id='sumaTOTAL'>".$sumatoria."</p>";
-                  }
-                  $i= $i+1;
-
-                  $suma= $lista[$i]['cantidad'];
-                   $sumatoria=$posible+$suma;
-                }
-              
-            ?>
-
-    </tr>
-
-    </table>
-
-        <div id="pagina">
-        <?php
-            if($p==1){
-
-                echo "<button disabled>1</button>";
-                
-                echo "<a href='paginaInicio.php?p=2&t=$t'>Siguiente</a>";
-                
-                
-            }
-                
-            else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
-                
-                echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>";
-                echo "<button disabled>$p</button>";
-                echo "<a href='paginaInicio.php?p=$b&t=$t'>Siguiente</a>";
-            }
-                
-            else if($p==ConexionBD::NumPaginas($t)){
-                
-                echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>";
-                echo "<button disabled>$p</button>";
-                
-            }
-        ?>
-     </div>
-
-     <div id="botonNuevo">
-
-     <form action='' method='post'>
-
-            <input id="nuevo" type='submit' name='nuevo' value='Nuevo'/>
-
-        </form>
-     </div>
-
-            
             
 </article>
 
