@@ -10,7 +10,9 @@
 
         ConexionBD::conecta();
         $correo=Session::leer('correo');
-        $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t'],$correo);
+        $persona=ConexionBD::obtienePersona($correo);
+        $idPersona=$persona->getId();
+        $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t'],$idPersona);
 
         $p=$_GET['p'];
         
@@ -58,8 +60,7 @@ if(isset($_POST['logout'])){
         <nav id="navIcono">
 
             <?php
-                $persona=ConexionBD::obtienePersona($correo);
-                $hola=$persona->getId();
+               
             //    $clase->setNombre( $listado['nombre']);
             // foreach($listado as $clase => $nombre) {
             //     echo "$clase => $nombre\n";
@@ -143,7 +144,7 @@ if(isset($_POST['logout'])){
 
             <?php
                 for ($i=0;$i<count($lista);$i++){
-                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
+                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad *-1']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
                 }
                 
 
