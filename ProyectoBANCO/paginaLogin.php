@@ -17,8 +17,8 @@
                         // echo "USUARIO LOGUEADO"."<br>";
                             
                         Session::init();
-                       $SESIONCORREO = Session::escribir("correo",$correo);
-                       $SESIONCONTRASEÑA = Session::escribir("contrasena",$contraseña);
+                        Session::escribir("correo",$correo);
+                        Session::escribir("contrasena",$contraseña);
                     //    $a= Session::existe('correo');
                     
                     if(Login::UsuarioEstaLogueado()){

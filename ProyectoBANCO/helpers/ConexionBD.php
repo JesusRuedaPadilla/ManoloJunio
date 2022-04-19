@@ -1,5 +1,5 @@
 <?php
-// require_once ('../User.php');
+ include_once "./Clases/Persona.php"; 
 
 class ConexionBD{
 
@@ -18,13 +18,20 @@ class ConexionBD{
                
         }
 
-    public static function obtieneUsuario($correo,$contraseña)
+    public static function obtienePersona($correo)  
     {
-        
-        $res= self::$con->query("select * from personas where correo ='$correo' and contrasena='$contraseña'");
-        
-        $registro = $res->fetchAll(PDO::FETCH_ASSOC);
-        return $registro;
+        $persona=null;
+
+        $res= self::$con->query("select * from personas where correo ='$correo'");
+        $registros=$res->fetch();
+        if($registros!=false){
+            $persona=new Persona(array('id'=>$registros['id'],'nombre'=>$registros['nombre'],'apellidos'=>$registros['apellidos'],
+                                    'correo'=>$registros['correo'],'contrasena'=>$registros['contrasena']));            
+            return $persona;
+        }else
+        {
+            return $persona;
+        }
 	
     }
     
@@ -53,10 +60,10 @@ class ConexionBD{
         // }        
     }
 
-    public static function obtieneProductosPaginados(int $pagina, int $filas):array
+    public static function obtieneProductosPaginados(int $pagina, int $filas,$correo):array
     {
         $registros = array();
-        $res = self::$con->query("SELECT * FROM personas INNER JOIN gastos ON personas.id = gastos.id_persona;");
+        $res = self::$con->query("select * from personas p, gastos g where p.id =g.id_persona and correo like '$correo';");
        
         $registros =$res->fetchAll();
         $total = count($registros);
@@ -65,11 +72,33 @@ class ConexionBD{
         if ($pagina <= $paginas)
         {
             $inicio = ($pagina-1) * $filas;
-            $res= self::$con->query("SELECT * FROM personas INNER JOIN gastos ON personas.id = gastos.id_persona limit $inicio, $filas");
+            $res= self::$con->query("select * from personas p, gastos g where p.id =g.id_persona and correo like '$correo' limit $inicio, $filas");
             $registros = $res->fetchAll(PDO::FETCH_ASSOC);
         }
         return $registros;
     }
+   
+    public static function obtieneNOMBRECABECERA($correo)
+    {
+
+        $res= self::$con->query("select `nombre` from personas where correo ='$correo'");
+
+        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
+
+        return $registro;
+    }
+
+     
+    public static function obtieneApellidosCABECERA($correo)
+    {
+
+        $res= self::$con->query("select `apellidos` from personas where correo ='$correo'");
+
+        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
+
+        return $registro;
+    }
+
 
     public static function NumPaginas(int $filas):int
     {

@@ -62,9 +62,8 @@ input {
 }
 
 header {
-  width: 100%;
-  height: 160px;
-  background-color: #EAF4F7;
+ 
+  background-color: #0E6187;
 }
 
 img {
@@ -77,13 +76,14 @@ img {
   height: 20px;
   position: absolute;
   top: 60px;
-  right: 60px;
+  right: 200px;
+  color: white;
 }
 
 #logout {
   position: absolute;
   right: 20px;
-  top: -20px;
+  top: 45px;
   border-radius: 5px;
 }
 
@@ -161,7 +161,9 @@ li.categoria:hover ul.submenu {
 }
 table{
   border:1px solid black;
-
+  position: absolute;
+left: 400px;
+top: 300px;
 }
 
 td,th{
@@ -192,4 +194,12 @@ div .cajaizq {
 
 a {
   color: red;
+  position: absolute;
+
 }/*# sourceMappingURL=main.css.map */
+
+#pagina{
+  position: absolute;
+left: 700px;
+top: 400px;
+}

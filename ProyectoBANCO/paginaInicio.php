@@ -2,13 +2,15 @@
  include_once "./helpers/Session.php";
  include_once "./helpers/Login.php";
  include_once "./helpers/ConexionBD.php"; 
+ include_once "./Clases/Persona.php"; 
  
  Session::init();
             
     if(Login::UsuarioEstaLogueado()){
 
         ConexionBD::conecta();
-        $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t']);
+        $correo=Session::leer('correo');
+        $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t'],$correo);
 
         $p=$_GET['p'];
         
@@ -17,7 +19,7 @@
         $b=$p+1;
         
         $c=$p-1;
-        
+     
 
 }
 else{
@@ -42,7 +44,7 @@ if(isset($_POST['logout'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuario</title>
     <script src="https://kit.fontawesome.com/f4af5b899a.js" crossorigin="anonymous"></script>
-    <script src="./JS/tablaUsuario.js"></script>
+
     <link rel="stylesheet" href="css/main.css">
    
 
@@ -50,18 +52,39 @@ if(isset($_POST['logout'])){
 <body>
     <header>
         <nav id="imgPrincipal">
-           <img src="" alt="">
+           <img src="./img/R.jpg" alt="">
         </nav>
 
         <nav id="navIcono">
-        <i class="fas fa-user"></i>
+
+            <?php
+                $persona=ConexionBD::obtienePersona($correo);
+                $hola=$persona->getId();
+            //    $clase->setNombre( $listado['nombre']);
+            // foreach($listado as $clase => $nombre) {
+            //     echo "$clase => $nombre\n";
+            // }
+                            // setNombre($listado);
+
+                $soloNombre=ConexionBD::obtieneNOMBRECABECERA($correo);
+                $soloApellidos=ConexionBD::obtieneApellidosCABECERA($correo);
+                foreach($soloNombre as $nombre => $nombre1){
+                    echo "$nombre1</br>";
+                }
+                foreach($soloApellidos as $nombre => $nombre2){
+                    echo "$nombre2";
+                }
+             
+            ?>
         
+       
+        </nav>
         <form action='' method='post'>
             <input id="logout" type='submit' name='logout' value='Cerrar Sesion'/>
-        </form>
-        </nav>
 
-        <nav>
+        </form>
+
+        <!-- <nav>
             <ul>
                 
                 <li class="categoria">
@@ -93,7 +116,7 @@ if(isset($_POST['logout'])){
                     </ul>
                 </li>
             </ul>
-        </nav>
+        </nav> -->
 
     </header>
 
@@ -120,7 +143,7 @@ if(isset($_POST['logout'])){
 
             <?php
                 for ($i=0;$i<count($lista);$i++){
-                    echo "<td>".$lista[$i]['correo']."</td>"."<td>".$lista[$i]['contrasena']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>".$lista[$i]['concepto']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>";
+                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
                 }
                 
 
@@ -129,7 +152,7 @@ if(isset($_POST['logout'])){
     </tr>
 
     </table>
-    
+        <div id="pagina">
         <?php
             if($p==1){
 
@@ -154,7 +177,7 @@ if(isset($_POST['logout'])){
                 
             }
         ?>
-    
+     </div>
             
             
 </article>
@@ -162,20 +185,15 @@ if(isset($_POST['logout'])){
     <footer>
         <div class="continente">
     <div class="cajaizq">
-        <a href="../Guia/Guía de Estilos.pdf">Guia de estilo</a><br>
-        <a href="../MapaWeb/mapaWeb.php">Mapa web del sitio</a>
+        
 </div>
 
     <div class="cajacent">
-        Enlaces relacionados: <br>
-        <a href="https://www.dgt.es/inicio/">DGT</a><br>
-        <a href="https://sede.dgt.gob.es/es/permisos-de-conducir/examenes-y-pruebas/index.shtml">Solicitud oficial de examen</a>
+       
     </div>
 
     <div class="cajader">
-        Contacto<br>
-        Telefono: 953845624<br>
-        Email: jijihaha@gmail.com
+
     </div>
 </div> 
     </footer>
