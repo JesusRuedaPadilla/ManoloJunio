@@ -144,7 +144,7 @@ if(isset($_POST['logout'])){
 
             <?php
                 for ($i=0;$i<count($lista);$i++){
-                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad *-1']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
+                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
                 }
                 
 
