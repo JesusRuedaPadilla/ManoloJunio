@@ -91,40 +91,6 @@ if(isset($_POST['nuevo'])){
 
         </form>
 
-        <!-- <nav>
-            <ul>
-                
-                <li class="categoria">
-                    <a href="paginaUsuario.php">Usuarios</a>
-                    <ul class="submenu">
-                        <li><a href="altaUsuario.php">Alta Usuarios</a></li>
-                        <li><a href="eliminarUsuario.php">Eliminacion Usuarios</a></li>
-                    </ul>
-                </li>
-                <li class="categoria">
-                    <a href="#">Tematicas</a>
-                    <ul class="submenu">
-                        <li><a href="altaTematicas.php">Alta temáticas</a></li>
-                        <li><a href="eliminaTematicas.php">Elimina Tematicas</a></li>
-                    </ul>
-                </li>
-                <li class="categoria">
-                    <a href="#">Preguntas</a>
-                    <ul class="submenu">
-                        <li><a href="altaPreguntas.php">Alta preguntas</a></li>
-                        <li><a href="#">Alta masiva Preguntas</a></li>
-                    </ul>
-                </li>
-                <li class="categoria">
-                    <a href="#">Exámenes</a>
-                    <ul class="submenu">
-                        <li><a href="#">Alta Exámen</a></li>
-                        <li><a href="#">Histórico</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav> -->
-
     </header>
 
 <article>
@@ -153,26 +119,34 @@ if(isset($_POST['nuevo'])){
                     echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
                 
                 }
+            
+                // for($i=0;$i<=count($lista);$i++){
 
-                for($i=0;$i<count($lista);$i++){
-                    $posible=$lista[$i]['cantidad'];
-                $suma=0;
-                $a=1;
+                //     $posible=$lista[$i]['cantidad'];
+                // $suma=0;
+                // $a=1;
 
-                  if($i=$i+1>=count($lista)){
-                    $sumatoria=$posible+$sumatoria;
+                // if($i>=count($lista)){
+                //     $i=count($lista);
+                //     $a=0;
 
-                    $a=0;
-                  }
+                //     if ($a==0){
+                //         echo "<p id='sumaTOTAL'>".$sumatoria."</p>";
+                //         break;
+                //       }
+                //   }
+                //    if ($a==1){
+                //     $i= $i+1;
+
+                //     $suma= $lista[$i]['cantidad'];
+                //      $sumatoria=$posible+$suma;
+                //      $i=$i-1;
+                //   }
                   
-                  if ($a==0){
-                    echo "<p id='sumaTOTAL'>".$sumatoria."</p>";
-                  }
-                  $i= $i+1;
-
-                  $suma= $lista[$i]['cantidad'];
-                   $sumatoria=$posible+$suma;
-                }
+                // }
+              
+                
+               
               
             ?>
 
@@ -182,26 +156,41 @@ if(isset($_POST['nuevo'])){
 
         <div id="pagina">
         <?php
-            if($p==1){
+          
+            if(ConexionBD::NumPaginas($t,$idPersona)==$p && $t<ConexionBD::NumPaginas($t,$idPersona) && $p==1){
 
                 echo "<button disabled>1</button>";
                 
-                echo "<a href='paginaInicio.php?p=2&t=$t'>Siguiente</a>";
+                // echo "<a href='paginaInicio.php?p=2&t=$t'>Siguiente</a>";
                 
                 
             }
+
+            if($p<ConexionBD::NumPaginas($t,$idPersona) && $p==1){
+
+                echo "<button disabled>1</button>"."</br>";
                 
-            else if(ConexionBD::NumPaginas($t)>$p && $p!=1){
-                
-                echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>";
-                echo "<button disabled>$p</button>";
                 echo "<a href='paginaInicio.php?p=$b&t=$t'>Siguiente</a>";
+                
+                
             }
                 
-            else if($p==ConexionBD::NumPaginas($t)){
+            
+           if($p<ConexionBD::NumPaginas($t,$idPersona) && ConexionBD::NumPaginas($t,$idPersona)>$t && $p!=1){
                 
-                echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>";
                 echo "<button disabled>$p</button>";
+                echo "<a href='paginaInicio.php?p=$b&t=$t'>Siguiente</a>"."</br>";
+                echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>"."</br>";
+               
+               
+               
+            }
+                
+            if($p==ConexionBD::NumPaginas($t,$idPersona)){
+
+                echo "<button disabled>$p</button>"."</br>";
+                echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>";
+               
                 
             }
         ?>

@@ -92,10 +92,10 @@ class ConexionBD{
     }
 
 
-    public static function NumPaginas(int $filas):int
+    public static function NumPaginas(int $filas,$id):int
     {
         $registros = array();
-        $res = self::$con->query("select * from personas");
+        $res = self::$con->query("(select `concepto`, cantidad *-1 AS cantidad, `fecha` from gastos where id_persona like '$id') UNION (select `concepto`, `cantidad` , `fecha` from ingresos where id_persona like '$id')");
         $registros =$res->fetchAll();
         $total = count($registros);
         $paginas = ceil($total /$filas);
