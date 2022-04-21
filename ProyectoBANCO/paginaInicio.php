@@ -157,16 +157,16 @@ if(isset($_POST['nuevo'])){
         <div id="pagina">
         <?php
           
-            if(ConexionBD::NumPaginas($t,$idPersona)==$p && $t<ConexionBD::NumPaginas($t,$idPersona) && $p==1){
+            if(ConexionBD::NumPaginas($t,$idPersona)==$p && $t>ConexionBD::NumPaginas($t,$idPersona) && $p==1){
 
                 echo "<button disabled>1</button>";
                 
                 // echo "<a href='paginaInicio.php?p=2&t=$t'>Siguiente</a>";
                 
-                
+            
             }
 
-            if($p<ConexionBD::NumPaginas($t,$idPersona) && $p==1){
+            else if($p<ConexionBD::NumPaginas($t,$idPersona) && $p==1){
 
                 echo "<button disabled>1</button>"."</br>";
                 
@@ -176,7 +176,7 @@ if(isset($_POST['nuevo'])){
             }
                 
             
-           if($p<ConexionBD::NumPaginas($t,$idPersona) && ConexionBD::NumPaginas($t,$idPersona)>$t && $p!=1){
+           else if($p<ConexionBD::NumPaginas($t,$idPersona) && ConexionBD::NumPaginas($t,$idPersona)>$t && $p!=1){
                 
                 echo "<button disabled>$p</button>";
                 echo "<a href='paginaInicio.php?p=$b&t=$t'>Siguiente</a>"."</br>";
@@ -186,7 +186,7 @@ if(isset($_POST['nuevo'])){
                
             }
                 
-            if($p==ConexionBD::NumPaginas($t,$idPersona)){
+            else if($p==ConexionBD::NumPaginas($t,$idPersona) && $p!=1){
 
                 echo "<button disabled>$p</button>"."</br>";
                 echo "<a href='paginaInicio.php?p=$c&t=$t'>Atras</a>";
