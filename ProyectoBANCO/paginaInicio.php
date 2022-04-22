@@ -117,7 +117,7 @@ if(isset($_POST['nuevo'])){
 
 <article>
  
-<table style='text-align:center; margin: 0 auto; width:50%;' cellspacing=5px; id="tabla">
+<table style='width:90%;' id="tabla">
  
     <thead>
 
