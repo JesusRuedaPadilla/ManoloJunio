@@ -89,7 +89,7 @@ if(isset($_POST['nuevo'])){
         
        
         </nav>
-        
+
         <?php
         //MUESTRA TOTAL INGRESOS -GASTOS
 
@@ -105,7 +105,7 @@ if(isset($_POST['nuevo'])){
             //    }
             // echo implode(" ",$GASTOS);
                 $DineroTotal=$Ingresos+$GASTOS;
-                echo "<p id='DineroTotal'>"."TOTAL: ".$DineroTotal. "€"."</p>";
+                echo "<p id='DineroTotal'>"."TOTAL: " .$DineroTotal. "€"."</p>";
             ?>
 
         <form action='' method='post'>
