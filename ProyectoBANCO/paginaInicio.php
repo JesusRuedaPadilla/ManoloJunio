@@ -76,15 +76,23 @@ if(isset($_POST['nuevo'])){
                 $soloNombre=ConexionBD::obtieneNOMBRECABECERA($correo);
                 $soloApellidos=ConexionBD::obtieneApellidosCABECERA($correo);
                 foreach($soloNombre as $nombre => $nombre1){
-                    echo "$nombre1</br>";
+                    echo "$nombre1 ";
                 }
                 foreach($soloApellidos as $nombre => $nombre2){
                     echo "$nombre2";
                 }
              
                 
-            //MUESTRA TOTAL INGRESOS -GASTOS
             
+    
+            ?>
+        
+       
+        </nav>
+        
+        <?php
+        //MUESTRA TOTAL INGRESOS -GASTOS
+
                 $GASTOS=implode(" ",ConexionBD::CalculaGastos($idPersona));
                 //  for ($i=0;$i<count($GASTOS);$i++){
                 //     echo "<p id='gastos'>".$GASTOS[$i] ."</p>";
@@ -97,13 +105,9 @@ if(isset($_POST['nuevo'])){
             //    }
             // echo implode(" ",$GASTOS);
                 $DineroTotal=$Ingresos+$GASTOS;
-                echo "<p id='DineroTotal'>".$DineroTotal."</p>";
-            
-    
+                echo "<p id='DineroTotal'>"."TOTAL: ".$DineroTotal. "€"."</p>";
             ?>
-        
-       
-        </nav>
+
         <form action='' method='post'>
             <input id="logout" type='submit' name='logout' value='Cerrar Sesion'/>
 

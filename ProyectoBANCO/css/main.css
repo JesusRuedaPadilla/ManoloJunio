@@ -68,12 +68,13 @@ img {
 }
 
 #navIcono {
-  width: 20px;
-  height: 20px;
+  /* width: 200px; */
+  /* height: 30px; */
   position: absolute;
-  top: 60px;
-  right: 200px;
+  top: 93px;
+  right: 5px;
   color: white;
+  font-size: 20px;
 }
 
 #logout {
@@ -207,8 +208,8 @@ top: 400px;
 
 #DineroTotal{
   position: absolute;
-  bottom:-12px;
-  right: 500px;
+  top:60px;
+  right: 600px;
   color: white;
   font-size: 40px;
 }
