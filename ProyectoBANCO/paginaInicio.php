@@ -82,6 +82,24 @@ if(isset($_POST['nuevo'])){
                     echo "$nombre2";
                 }
              
+                
+            //MUESTRA TOTAL INGRESOS -GASTOS
+            
+                $GASTOS=implode(" ",ConexionBD::CalculaGastos($idPersona));
+                //  for ($i=0;$i<count($GASTOS);$i++){
+                //     echo "<p id='gastos'>".$GASTOS[$i] ."</p>";
+                
+                // }
+                $Ingresos=implode(" ",ConexionBD::CalculaIngresos($idPersona));
+            //     for ($i=0;$i<count($Ingresos);$i++){
+            //        echo "<p id='ingresos'>".$Ingresos[$i] ."</p>";
+               
+            //    }
+            // echo implode(" ",$GASTOS);
+                $DineroTotal=$Ingresos+$GASTOS;
+                echo "<p id='DineroTotal'>".$DineroTotal."</p>";
+            
+    
             ?>
         
        
@@ -119,37 +137,10 @@ if(isset($_POST['nuevo'])){
                     echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
                 
                 }
-            
-                // for($i=0;$i<=count($lista);$i++){
+                            
 
-                //     $posible=$lista[$i]['cantidad'];
-                // $suma=0;
-                // $a=1;
-
-                // if($i>=count($lista)){
-                //     $i=count($lista);
-                //     $a=0;
-
-                //     if ($a==0){
-                //         echo "<p id='sumaTOTAL'>".$sumatoria."</p>";
-                //         break;
-                //       }
-                //   }
-                //    if ($a==1){
-                //     $i= $i+1;
-
-                //     $suma= $lista[$i]['cantidad'];
-                //      $sumatoria=$posible+$suma;
-                //      $i=$i-1;
-                //   }
-                  
-                // }
-              
-                
-               
-              
             ?>
-
+           
     </tr>
 
     </table>

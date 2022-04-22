@@ -103,7 +103,29 @@ class ConexionBD{
         return $paginas;
     }
 
+     
+    public static function CalculaGastos($id)
+    {
+  
+        $res= self::$con->query("(select SUM(cantidad *-1) AS cantidad from gastos where id_persona like '$id')");
 
+        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
+
+        return $registro;
+    }
+
+     
+    public static function CalculaIngresos($id)
+    {
+  
+        $res= self::$con->query("(select SUM(`cantidad`) from ingresos where id_persona like '$id')");
+
+        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
+
+        return $registro;
+    }
+   
+    
 }
 
 
