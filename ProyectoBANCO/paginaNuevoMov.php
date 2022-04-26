@@ -60,7 +60,6 @@ if(isset($_POST['Crear'])){
 
         
         $DatoGastoEdit=new Gastos($GastoActualizado);
-        var_dump($DatoGastoEdit);
         ConexionBD::InsertarDatosGastos($DatoGastoEdit);
         header("Location:paginaInicio.php?p=1&t=3");
     }
@@ -131,17 +130,16 @@ if(isset($_POST['Crear'])){
 
                         <td><input type="text" name="cantidad"></td>
                     </tr>
-                   
-                    <tr>
-
-                    <input type="radio" value="ingreso" name="movimientos">Ingreso</br>
-                    
-                    <input type="radio" value="gasto" name="movimientos">Gasto</br>
-
-
-                    </tr>
+                
                 </tbody>
             </table>
+
+            <div id="radios">
+                <input type="radio" value="ingreso" name="movimientos">Ingreso</br>
+                        
+                <input type="radio" value="gasto" name="movimientos">Gasto</br>
+            </div>
+            
             <div style="text-align:center; margin-top:10px;">
                 <input type="submit" name="Crear" value="Crear" >
             </div>
