@@ -112,7 +112,7 @@ include_once "./helpers/Session.php";
                     </tr>
                     <tr>
                         <td>Fecha</td>
-                        <td><input type="text" name="fecha" value="<?php echo $gastos==null?"" :$gastos->getFecha()?>"></td>
+                        <td><input type="date" name="fecha" value="<?php echo $gastos==null?"" :$gastos->getFecha()?>"></td>
                     </tr>
                     <tr>
                         <td>Cantidad</td>
