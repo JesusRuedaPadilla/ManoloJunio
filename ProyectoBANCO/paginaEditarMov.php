@@ -99,6 +99,7 @@ include_once "./helpers/Session.php";
 
 <article>
     <form action="" method="post">
+        <div id="FormularioEditar">
             <table>
                 <tbody>
                     <tr>
@@ -120,6 +121,7 @@ include_once "./helpers/Session.php";
                     </tr>
                 </tbody>
             </table>
+        </div>
             <div style="text-align:center; margin-top:10px;">
                 <input type="submit" name="Actualizar" value="Actualizar" >
             </div>

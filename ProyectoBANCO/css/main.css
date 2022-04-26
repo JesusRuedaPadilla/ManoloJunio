@@ -229,7 +229,7 @@ left: 150px;
 #NuevoFORM{
   position: relative;
   left: 550px;
- bottom: 120px;
+ bottom: 150px;
   color: black;
 }
 
@@ -238,6 +238,14 @@ left: 150px;
   position: relative;
   bottom: 120px;
   left: 30px;
+
+}
+
+#FormularioEditar{
+  color: black;
+  position: relative;
+  bottom: 150px;
+  left: 510px;
 
 }
 
