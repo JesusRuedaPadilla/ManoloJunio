@@ -60,7 +60,7 @@ if(isset($_POST['Crear'])){
 
         
         $DatoGastoEdit=new Gastos($GastoActualizado);
-
+        var_dump($DatoGastoEdit);
         ConexionBD::InsertarDatosGastos($DatoGastoEdit);
         header("Location:paginaInicio.php?p=1&t=3");
     }

@@ -196,6 +196,8 @@ class ConexionBD{
         $codigo=$ingresos->getId();
 
         $res = self::$con->query("INSERT INTO `ingresos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo','$concepto','$fecha','$cantidad')");
+        
+        // self::$con->commit();// self::$con->flush();
     }
 
     public static function InsertarDatosGastos($gastos){
