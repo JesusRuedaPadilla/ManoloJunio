@@ -62,7 +62,7 @@ if(isset($_POST['nuevo'])){
 <body>
     <header>
         <nav id="imgPrincipal">
-           <img src="./img/R.jpg" alt="">
+            <a href="paginaInicio.php?p=1&t=3"><img src="./img/R.jpg"/></a>
         </nav>
 
         <nav id="navIcono">

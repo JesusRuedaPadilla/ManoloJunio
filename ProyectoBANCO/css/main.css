@@ -222,8 +222,22 @@ top: 500px;
 #radios{
   color: black;
   position: relative;
-  left: 130px;
-  top: 350px;
+top:500px;
+left: 150px;
 }
 
+#NuevoFORM{
+  position: relative;
+  left: 550px;
+ bottom: 120px;
+  color: black;
+}
+
+#botonCrear{
+  color: black;
+  position: relative;
+  bottom: 120px;
+  left: 30px;
+
+}
 

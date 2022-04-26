@@ -28,11 +28,7 @@ include_once "./helpers/Session.php";
       
     
     }
-    
         
-
-  
-    
     if(isset($_POST['logout'])){
 
  
