@@ -10,7 +10,9 @@
 
         ConexionBD::conecta();
         $correo=Session::leer('correo');
+    
         $persona=ConexionBD::obtienePersona($correo);
+    
         $idPersona=$persona->getId();
         $lista = ConexionBD::obtieneProductosPaginados($_GET['p'],$_GET['t'],$idPersona);
 
@@ -39,7 +41,7 @@ if(isset($_POST['logout'])){
 
 if(isset($_POST['nuevo'])){
 
-    header("Location:a.php?p=1&t=3");
+    header("Location:paginaNuevoMov.php?p=1&t=3");
 
 }
 ?>
@@ -91,20 +93,20 @@ if(isset($_POST['nuevo'])){
         </nav>
 
         <?php
+        
         //MUESTRA TOTAL INGRESOS -GASTOS
 
                 $GASTOS=implode(" ",ConexionBD::CalculaGastos($idPersona));
-                //  for ($i=0;$i<count($GASTOS);$i++){
-                //     echo "<p id='gastos'>".$GASTOS[$i] ."</p>";
-                
-                // }
+             
                 $Ingresos=implode(" ",ConexionBD::CalculaIngresos($idPersona));
-            //     for ($i=0;$i<count($Ingresos);$i++){
-            //        echo "<p id='ingresos'>".$Ingresos[$i] ."</p>";
-               
-            //    }
-            // echo implode(" ",$GASTOS);
-                $DineroTotal=$Ingresos+$GASTOS;
+          
+
+
+                $BUENGASTO= intval($GASTOS);
+                $BUENINGRESO= intval($Ingresos);
+
+                $DineroTotal=$BUENGASTO+$BUENINGRESO;
+
                 echo "<p id='DineroTotal'>"."TOTAL: " .$DineroTotal. "€"."</p>";
             ?>
 
@@ -138,9 +140,15 @@ if(isset($_POST['nuevo'])){
 
             <?php
                 for ($i=0;$i<count($lista);$i++){
-                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>"."<a href='paginaInicio.php?g=editar'>Editar</a>" ."</td>"."</tr>";
-                
+
+                    echo "<tr>"."<td>".$lista[$i]['concepto']."</td>"."<td>".$lista[$i]['cantidad']."</td>"."<td>".$lista[$i]['fecha']."</td>"."<td>".
+                    "<a href=paginaEditarMov.php?p=".$p."&cant=".$lista[$i]['cantidad']."&id_persona=".$idPersona."><button id='editar' name='editar'>Editar</button></a>
+                    <a href=paginaBorrar.php?p=".$p."&cant=".$lista[$i]['cantidad']."&id_persona=".$idPersona."><button>Borrar</button></a>" ."</td>"."</tr>";
+                    
+
+                    // <a href=""><button>Editar</button></a> 
                 }
+               
                             
 
             ?>
@@ -148,8 +156,9 @@ if(isset($_POST['nuevo'])){
     </tr>
 
     </table>
-
+    
         <div id="pagina">
+        
         <?php
           
             if(ConexionBD::NumPaginas($t,$idPersona)==$p && $t>ConexionBD::NumPaginas($t,$idPersona) && $p==1){
@@ -191,8 +200,7 @@ if(isset($_POST['nuevo'])){
         ?>
      </div>
 
-     <div id="botonNuevo">
-
+     <div id="botonNuevo">  
      <form action='' method='post'>
 
             <input id="nuevo" type='submit' name='nuevo' value='Nuevo'/>
@@ -211,11 +219,13 @@ if(isset($_POST['nuevo'])){
 </div>
 
     <div class="cajacent">
-       
+        
+       <!-- <a href="">HOLA<input type='submit' name='elimina' value=''/></a> -->
     </div>
 
     <div class="cajader">
 
+    
     </div>
 </div> 
     </footer>

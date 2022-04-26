@@ -195,19 +195,20 @@ div .cajaizq {
 
 a {
   color: red;
-  position: absolute;
+  /* position: absolute; */
 
 }/*# sourceMappingURL=main.css.map */
 
 #pagina{
   position: absolute;
 left: 700px;
-top: 400px;
+top: 500px;
+
 }
 #nuevo{
   position: absolute;
-  left: 700px;
-  top: 500px;
+  left: 1390px;
+  top: 250px;
 }
 
 #DineroTotal{
@@ -217,4 +218,5 @@ top: 400px;
   color: white;
   font-size: 40px;
 }
+
 

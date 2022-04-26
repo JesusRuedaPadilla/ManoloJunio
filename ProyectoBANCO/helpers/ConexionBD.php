@@ -1,5 +1,7 @@
 <?php
  include_once "./Clases/Persona.php"; 
+ include_once "./Clases/Gastos.php"; 
+ include_once "./Clases/Ingresos.php"; 
 
 class ConexionBD{
 
@@ -34,6 +36,37 @@ class ConexionBD{
         }
 	
     }
+
+    public static function obtieneGastos($id_persona,$cantidad)  
+    {
+        $gastos=null;
+        $cantidad=$cantidad*-1;
+        $res= self::$con->query("select * from gastos where id_persona ='$id_persona' AND cantidad='$cantidad'");
+        $registros=$res->fetch();
+        
+        if($registros!=false){
+            $gastos=new Gastos(array('id'=>$registros['id'],'concepto'=>$registros['concepto'],'fecha'=>$registros['fecha'],
+                                    'cantidad'=>$registros['cantidad']));            
+            return $gastos;
+        }
+
+        else
+        {
+            $cantidad=$cantidad*-1;
+            $res= self::$con->query("select * from ingresos where id_persona ='$id_persona' AND cantidad='$cantidad'");
+            $registros=$res->fetch();
+
+            $ingresos=new Ingresos(array('id'=>$registros['id'],'concepto'=>$registros['concepto'],'fecha'=>$registros['fecha'],
+            'cantidad'=>$registros['cantidad']));     
+
+            return $ingresos;
+        }
+        
+	
+    }
+
+
+
     
     public static function existeusuario($correo,$contraseña)
     {
@@ -125,41 +158,57 @@ class ConexionBD{
         return $registro;
     }
    
-    
+    public static function actualizarDatosGastos($gastos){
+        $codigo=$gastos->getId();
+        $concepto=$gastos->getConcepto();
+        $fecha=$gastos->getFecha();
+        $cantidad=$gastos->getCantidad();
+        $res = self::$con->query("update gastos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
+    }
+
+    public static function actualizarDatosIngresos($ingresos){
+        $codigo=$ingresos->getId();
+        $concepto=$ingresos->getConcepto();
+        $fecha=$ingresos->getFecha();
+        $cantidad=$ingresos->getCantidad();
+        $res = self::$con->query("update ingresos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
+    }
+
+    public static function BorrarDatosIngresos($ingresos){
+        $concepto=$ingresos->getConcepto();
+        $codigo=$ingresos->getId();
+
+        $res = self::$con->query("delete from ingresos where id='$codigo' AND concepto='$concepto'");
+    }
+
+    public static function BorrarDatosGastos($gastos){
+        $concepto=$gastos->getConcepto();
+        $codigo=$gastos->getId();
+
+        $res = self::$con->query("delete from gastos where id='$codigo' AND concepto='$concepto'");
+    }
+
+    public static function InsertarDatosIngresos($ingresos){
+        
+        $concepto=$ingresos->getConcepto();
+        $cantidad=$ingresos->getCantidad();
+        $fecha=$ingresos->getFecha();
+        $codigo=$ingresos->getId();
+
+        $res = self::$con->query("INSERT INTO `ingresos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo','$concepto','$fecha','$cantidad')");
+    }
+
+    public static function InsertarDatosGastos($gastos){
+        
+        $concepto=$gastos->getConcepto();
+        $cantidad=$gastos->getCantidad();
+        $fecha=$gastos->getFecha();
+        $codigo=$gastos->getId();
+
+        $res = self::$con->query("INSERT INTO `gastos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo','$concepto','$fecha','$cantidad')");
+    }
+
 }
-
-
-
-    // function obtieneCorreo($correo){
-    //     try{
-
-        
-    //     $conexion= new PDO('mysql:host=localhost;dbname=formularioprimero', 'root', '');
-           
-    
-    //     $res= $conexion->query("select * from prueba1 where correo=$correo");
-    //     $registro = $res->fetchAll(PDO::FETCH_ASSOC);
-        
-    //     return $registro;
-
-           
-    //     // var_dump($registro);
-    
-            
-    //     // $res=$conexion->query('select * from users');
-    //     // $registro=$res->fetchAll(PDO::FETCH_NUM);
-    
-    //     // var_dump($registro);
-    
-    //     // $res=$conexion->query('select * from users');
-    //     // $registro=$res->fetchAll(PDO::FETCH_CLASS,"User");
-    
-    //     // var_dump($registro);
-    //     }
-    //     catch (PDOException $e) {
-    //         echo $e->getMessage();
-    //     }
-    // } 
 
    
 ?>
