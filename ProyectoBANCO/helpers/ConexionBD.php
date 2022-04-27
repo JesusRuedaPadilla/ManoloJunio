@@ -158,20 +158,41 @@ class ConexionBD{
         return $registro;
     }
    
-    public static function actualizarDatosGastos($gastos){
+    public static function actualizarDatosGastos($gastos,$persona){
         $codigo=$gastos->getId();
         $concepto=$gastos->getConcepto();
         $fecha=$gastos->getFecha();
         $cantidad=$gastos->getCantidad();
-        $res = self::$con->query("update gastos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
+        $codigo_per=$persona->getId();
+        $res = self::$con->query("(select `concepto`, cantidad *-1 AS cantidad, `fecha` from gastos where id='$codigo'");
+        if($res){
+            $res2 = self::$con->query("update gastos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
+        }
+
+        else{
+            $res2 = self::$con->query("INSERT INTO `gastos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo_per','$concepto','$fecha','$cantidad')");
+            $res3 = self::$con->query("DELETE FROM `ingresos` WHERE `id`='$codigo'");
+        }
+     
+        $funciona=$res;
     }
 
-    public static function actualizarDatosIngresos($ingresos){
+    public static function actualizarDatosIngresos($ingresos,$persona){
         $codigo=$ingresos->getId();
         $concepto=$ingresos->getConcepto();
         $fecha=$ingresos->getFecha();
         $cantidad=$ingresos->getCantidad();
-        $res = self::$con->query("update ingresos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
+        $codigo_per=$persona->getId();
+        $res = self::$con->query("(select `concepto`, cantidad *-1 AS cantidad, `fecha` from ingresos where id='$codigo'");
+        if($res){
+            $res2 = self::$con->query("update ingresos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
+        }
+
+        else{
+            $res2 = self::$con->query("INSERT INTO `ingresos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo_per','$concepto','$fecha','$cantidad')");
+            $res3 = self::$con->query("DELETE FROM `gastos` WHERE `id`='$codigo'");
+        }
+       
     }
 
     public static function BorrarDatosIngresos($ingresos){

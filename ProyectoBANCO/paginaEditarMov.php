@@ -20,21 +20,52 @@ include_once "./helpers/Session.php";
 
     if(isset($_POST['Actualizar'])){
 
-        if(isset($_POST['Actualizar'])){
+        
+        if($_POST['movimientos']=='gasto'){
+
             $GastoActualizado=array();
             $GastoActualizado["id"]=$_POST["codigo"];
             $GastoActualizado["concepto"]=$_POST["concepto"];
             $GastoActualizado["fecha"]=$_POST["fecha"];
             $GastoActualizado["cantidad"]=$_POST["cantidad"];
-
-
+    
+            
             $DatoGastoEdit=new Gastos($GastoActualizado);
-            $DatoIngresoEdit=new Ingresos($GastoActualizado);
-            ConexionBD::actualizarDatosGastos($DatoGastoEdit);
-            ConexionBD::actualizarDatosIngresos($DatoIngresoEdit);
+            ConexionBD::actualizarDatosGastos($DatoGastoEdit,$persona);
+            $gastos=$DatoGastoEdit;
             header("Location:paginaInicio.php?p=1&t=3");
         }
+
+        if($_POST['movimientos']=='ingreso'){
+
+            $GastoActualizado=array();
+            $GastoActualizado["id"]=$_POST["codigo"];
+            $GastoActualizado["concepto"]=$_POST["concepto"];
+            $GastoActualizado["fecha"]=$_POST["fecha"];
+            $GastoActualizado["cantidad"]=$_POST["cantidad"];
     
+            
+            $DatoIngresoEdit=new Ingresos($GastoActualizado);
+    
+            ConexionBD::actualizarDatosIngresos($DatoIngresoEdit,$persona);
+            $gastos=$DatoIngresoEdit;
+            header("Location:paginaInicio.php?p=1&t=3");
+        }
+
+            // $GastoActualizado=array();
+            // $GastoActualizado["id"]=$_POST["codigo"];
+            // $GastoActualizado["concepto"]=$_POST["concepto"];
+            // $GastoActualizado["fecha"]=$_POST["fecha"];
+            // $GastoActualizado["cantidad"]=$_POST["cantidad"];
+
+
+            // $DatoGastoEdit=new Gastos($GastoActualizado);
+            // $DatoIngresoEdit=new Ingresos($GastoActualizado);
+            // ConexionBD::actualizarDatosGastos($DatoGastoEdit);
+            // ConexionBD::actualizarDatosIngresos($DatoIngresoEdit);
+            // header("Location:paginaInicio.php?p=1&t=3");
+        
+        
     }
     
         
@@ -121,8 +152,13 @@ include_once "./helpers/Session.php";
                     </tr>
                 </tbody>
             </table>
+            <div id="radios">
+                <input type="radio" value="ingreso" name="movimientos">Ingreso</br>
+                        
+                <input type="radio" value="gasto" name="movimientos">Gasto</br>
+            </div>
         </div>
-            <div style="text-align:center; margin-top:10px;">
+            <div id="actualiza" style="text-align:center; margin-top:10px;">
                 <input type="submit" name="Actualizar" value="Actualizar" >
             </div>
     

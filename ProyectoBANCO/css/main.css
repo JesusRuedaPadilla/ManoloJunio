@@ -222,7 +222,7 @@ top: 500px;
 #radios{
   color: black;
   position: relative;
-top:500px;
+top:550px;
 left: 150px;
 }
 
@@ -244,8 +244,13 @@ left: 150px;
 #FormularioEditar{
   color: black;
   position: relative;
-  bottom: 150px;
+  bottom: 190px;
   left: 510px;
 
 }
 
+#actualiza{
+  color: black;
+  position: relative;
+  bottom: 140px;
+}
