@@ -3,6 +3,7 @@ include_once "./helpers/Session.php";
  include_once "./helpers/Login.php";
  include_once "./helpers/ConexionBD.php"; 
  include_once "./Clases/Persona.php"; 
+ include_once "./helpers/Validator.php"; 
  
  Session::init();
             

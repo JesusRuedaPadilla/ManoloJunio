@@ -3,6 +3,7 @@
   include_once "./helpers/Session.php";
   include_once "./helpers/Login.php";
   include_once "./helpers/ConexionBD.php"; 
+  include_once "./helpers/Validator.php"; 
 
     $error="";
     if (isset($_POST['enviar']))
@@ -10,7 +11,10 @@
         
         $correo = $_POST['correo'];
         $contraseña = $_POST['contrasena'];
-      
+        
+        Validator::CompruebaVacio($correo);
+        Validator::CompruebaVacio($contraseña);
+
             if(ConexionBD::conecta()){
 
                 if(ConexionBD::existeusuario($correo,$contraseña)){

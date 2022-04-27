@@ -3,19 +3,19 @@ class Validator{
 
     private $errores=array();
 
-        function CompruebaVacio($vacio){
+       public static function CompruebaVacio($vacio){
 
             if(empty($_POST[$vacio])){
 
-                $this->errores[$vacio."vacio"]= $vacio . "esta vacio";
+                $errores[$vacio."vacio"]= $vacio . "esta vacio";
     
             }
             
         }
 
-        function FormularioEnviado(){
+        public static function FormularioEnviado(){
         
-            if (isset($_POST['correo']) || isset($_POST['contrasena'])){
+            if (isset($_POST['enviar'])){
     
                 return true;
     
@@ -35,9 +35,9 @@ class Validator{
         // }
 
 
-        function getErrores(){
+        public static function getErrores(){
     
-           return $this->errores;
+           return $errores;
         }
 
         //filter_var($_POST[$campo],FILTER_VALIDATE_EMAIL); //Validar que lo introducido es un email
@@ -64,7 +64,7 @@ class Validator{
         // }
         // call_user_func($funcion) Para ejecutar una funcion que le demos como parametro a otra funcion (ej: una funcion llama a imprimir error)
 
-        function Email($campo)
+        public static function Email($campo)
             {
                 if(!filter_var($campo,FILTER_VALIDATE_EMAIL))
                 {
@@ -74,7 +74,7 @@ class Validator{
                 return true;
             }
 
-        function ContraseñaValidada($contraseña){
+            public static function ContraseñaValidada($contraseña){
 
                 if(preg_match("^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,12}$^",$contraseña)==1)
                 {
@@ -90,7 +90,7 @@ class Validator{
         }
         
 
-        function Dni($campo)
+        public static  function Dni($campo)
             {
             $letras="TRWAGMYFPDXBNJZSQVHLCKE";
             $mensaje="";
@@ -116,7 +116,7 @@ class Validator{
                 return FALSE;
             }
 
-        function ValidacionPasada()
+            public static  function ValidacionPasada()
             {
                 if(count($this->errores)!=0)
                 {
@@ -125,7 +125,7 @@ class Validator{
                 return true;
             }  
             
-           function Requerido($campo)
+            public static  function Requerido($campo)
             {
                 if(!isset($campo) || empty($campo))
                 {
@@ -135,7 +135,7 @@ class Validator{
                 return true;
             }
 
-            function MuestraErrores($erroresDetec){
+            public static function MuestraErrores($erroresDetec){
     
                 foreach($erroresDetec as $valor){
                 
