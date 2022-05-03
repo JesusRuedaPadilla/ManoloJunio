@@ -17,6 +17,7 @@ include_once "./helpers/Session.php";
         $correo=Session::leer('correo');
 
         $persona=ConexionBD::obtienePersona($correo);
+      
         $gastos=ConexionBD::obtieneGastos($persona->getId(),$cant,$p);
 
     if(isset($_POST['Actualizar'])){

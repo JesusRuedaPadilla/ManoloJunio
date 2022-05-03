@@ -103,6 +103,7 @@ class ConexionBD{
         return $registros;
     }
     
+  
     public static function obtieneNOMBRECABECERA($correo)
     {
 

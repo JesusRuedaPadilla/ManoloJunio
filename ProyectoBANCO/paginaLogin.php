@@ -8,7 +8,8 @@
     $error="";
     if (isset($_POST['enviar']))
     {
-        
+    
+
         $correo = $_POST['correo'];
         $contraseña = $_POST['contrasena'];
         

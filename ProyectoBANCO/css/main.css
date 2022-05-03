@@ -186,6 +186,7 @@ footer .continente {
 div {
   color: white;
   padding: 12px;
+  width: 100px;
 }
 div .cajaizq {
   color: white;
@@ -224,6 +225,7 @@ top: 500px;
   position: relative;
 top:550px;
 left: 150px;
+width: 150px;
 }
 
 #NuevoFORM{
@@ -231,6 +233,7 @@ left: 150px;
   left: 550px;
  bottom: 150px;
   color: black;
+  height: 20%;
 }
 
 #botonCrear{
@@ -253,4 +256,14 @@ left: 150px;
   color: black;
   position: relative;
   bottom: 140px;
+}
+
+#botonCrear input{
+  position: relative;
+  left: 700px;
+}
+
+#actualiza input{
+  position: relative;
+  left: 700px;
 }
