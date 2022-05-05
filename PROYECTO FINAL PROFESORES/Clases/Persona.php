@@ -7,27 +7,27 @@
 
 class Persona{
     
-    protected $id;
-    protected $nombre;
-    protected $apellidos;
-    protected $correo;
-    protected $contraseña;
+    public $id_usuario;
+    public $nombre;
+    public $apellidos;
+    public $rol;
+    public $contrasena;
  
 
     public function getNombre() {return $this->nombre; }
     public function getApellidos() {return $this->apellidos; }
-    public function getCorreo() {return $this->correo; }
-    public function getContraseña() {return $this->contraseña; }
-    public function getId() {return $this->id; }
+    public function getRol() {return $this->rol; }
+    public function getContraseña() {return $this->contrasena; }
+    public function getId() {return $this->id_usuario; }
 
 
     public function __construct($row) {
 
-        $this->id = $row['id'];
+        $this->id_usuario = $row['id_usuario'];
         $this->nombre = $row['nombre'];
         $this->apellidos = $row['apellidos'];
-        $this->correo = $row['correo'];
-        $this->contraseña = $row['contrasena'];
+        $this->contrasena = $row['contrasena'];
+        $this->rol = $row['rol'];
   
 
     }

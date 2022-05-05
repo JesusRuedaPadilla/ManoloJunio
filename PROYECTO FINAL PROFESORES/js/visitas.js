@@ -8,8 +8,6 @@ window.addEventListener("load", function(){
 
     botonEnviar.onclick=comprobarUsuario(txtUser,txtContraseña);
 
-
-   
 })
 
 function comprobarUsuario(txtUser,txtContraseña){
@@ -22,20 +20,22 @@ function comprobarUsuario(txtUser,txtContraseña){
        ajax.onreadystatechange=function(){
            if(this.readyState==4 && this.status==200){
                var respuesta=JSON.parse(this.responseText);
+            //    debugger;
                if(respuesta.success){
                    document.getElementById("identificacion").style.display="none";
                    var plantilla=traerPlantilla("plantillas/visitas.html");
-                   for(let i=0;i<respuesta.desplazamientos.length;i++){
+                   //for(let i=0;i<respuesta.user.length;i++){
                         var copia=plantilla.cloneNode(true);
-                        copia.children[0].children[0].innerHTML=respuesta.desplazamientos[i];
+                        copia.children[0].children[0].innerHTML=respuesta.user;
                         copia.children[1].style.display="none";
                         copia.children[0].children[1].onclick=pulsado;
                         copia.children[0].children[1].onmouseover=punteroFlecha;
                         copia.children[0].children[1].onmouseout=punteroCursor;
                  
                         document.body.appendChild(copia);
-                   }
+                   //}
                }
+            
            }
 
        }
