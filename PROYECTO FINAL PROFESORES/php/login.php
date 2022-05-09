@@ -26,7 +26,7 @@ include_once "../helpers/Validator.php";
             
             if(Login::UsuarioEstaLogueado()){
               $obj->success=true;
-              $obj->user=ConexionBD::obtienePersona($correo);
+              $obj->user=ConexionBD::obtieneTodosDatos($correo);
 
                 // header("Location:paginaInicio.php?p=1&t=3");
             }

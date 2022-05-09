@@ -35,6 +35,11 @@ function comprobarUsuario(txtUser,txtContraseña){
                         document.body.appendChild(copia);
                    //}
                }
+               if(respuesta.error){
+                  var mensajeError=document.getElementById("mensaje");
+                mensajeError.innerHTML=respuesta.error;
+                 
+               }
             
            }
 
