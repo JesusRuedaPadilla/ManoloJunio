@@ -24,15 +24,17 @@ function comprobarUsuario(txtUser,txtContraseña){
                if(respuesta.success){
                    document.getElementById("identificacion").style.display="none";
                    var plantilla=traerPlantilla("plantillas/visitas.html");
+                //    debugger;
                    //for(let i=0;i<respuesta.user.length;i++){
                         var copia=plantilla.cloneNode(true);
-                        copia.children[0].children[0].innerHTML=respuesta.user;
-                        copia.children[1].style.display="none";
-                        copia.children[0].children[1].onclick=pulsado;
-                        copia.children[0].children[1].onmouseover=punteroFlecha;
-                        copia.children[0].children[1].onmouseout=punteroCursor;
-                 
-                        document.body.appendChild(copia);
+                        // var a=respuesta.user.descripcion;
+                        copia.children[0].children[0].innerHTML=respuesta.user.sede;
+                        // copia.children[1].style.display="none";
+                        // copia.children[0].children[1].onclick=pulsado;
+                        // copia.children[0].children[1].onmouseover=punteroFlecha;
+                        // copia.children[0].children[1].onmouseout=punteroCursor;
+                        var descSede=document.getElementsByClassName("sede")[0];
+                        descSede.innerHTML=copia;
                    //}
                }
                if(respuesta.error){
@@ -64,25 +66,25 @@ function traerPlantilla(url){
 
 }
 
-function pulsado(){
-    var valor=this.innerHTML;
-    if(valor==="+"){
-        this.innerHTML="-";
-        this.parentNode.nextElementSibling.style.display="block";
-    }
-    else{
-        this.innerHTML="+";
-        this.parentNode.nextElementSibling.style.display="none";
-    }
-}
+// function pulsado(){
+//     var valor=this.innerHTML;
+//     if(valor==="+"){
+//         this.innerHTML="-";
+//         this.parentNode.nextElementSibling.style.display="block";
+//     }
+//     else{
+//         this.innerHTML="+";
+//         this.parentNode.nextElementSibling.style.display="none";
+//     }
+// }
 
-function punteroFlecha(){
-    this.style.cursor="Arrow";
-}
+// function punteroFlecha(){
+//     this.style.cursor="Arrow";
+// }
 
-function punteroCursor(){
-    this.style.cursor="pointer";
-}
+// function punteroCursor(){
+//     this.style.cursor="pointer";
+// }
 
 
 

@@ -82,26 +82,34 @@ class ConexionBD{
                                 WHERE (u.id_usuario = a.id_usuario AND a.id_detalle_convenio = d.id_detalle_convenio AND d.id_convenio=c.id_convenio AND e.id_empresa=s.id_empresa AND d.id_sede=s.id_sede)
                                 AND (u.id_usuario = '$correo')");
                     
-        $registro = $res2->fetchAll();
+        $registro = $res->fetchAll();
       
-       
-        if($registro!=false){
-            $SI=count($registro);
-            for($i=0;$i<$SI;$i++){
+    
+
+        $registro2 = $res2->fetchAll();
+
+        $registroFinal=$registro + $registro2;
+
+        $SI=count($registroFinal);
+         
+           
+        $obj=new stdClass();
+            for($i=0;$i<$SI-1;$i++){
                 $sede=null;
                 for($i=0;$i<$SI;$i++){
-                    $sede[$i]=new Sede(array('descripcion'=>$registro[$i]['descripcion'],'direccion'=>$registro[$i]['direccion'],
-                    'codigo_postal'=>$registro[$i]['codigo_postal'],'localidad'=>$registro[$i]['localidad'],'municipio'=>$registro[$i]['municipio'],'provincia'=>$registro[$i]['provincia']));            
-                    
+                   
+                  
+                    $obj->success=true;
+
+                    $sede[$i]=new Sede(array('descripcion'=>$registroFinal[$i]['descripcion'],'direccion'=> $registroFinal[$i]['direccion'],
+                    'codigo_postal'=> $registroFinal[$i]['codigo_postal'],'localidad'=> $registroFinal[$i]['localidad'],'municipio'=> $registroFinal[$i]['municipio'],'provincia'=> $registroFinal[$i]['provincia']));            
+                    $obj->user->sede[$i]=$sede[$i];
                 }
              
             }
 
-          return $sede;
+          return $obj;
         }
-       
-
-        // $registro2 = $res2->fetchAll();
 
         // if($registro==false){
         //     $res= self::$con->query("SELECT u.*,a.nombre_alumno,d.fecha_inicio,d.fecha_fin,c.descripcion,c.fecha_firma,s.descripcion,s.direccion,s.codigo_postal,s.localidad,s.municipio,s.provincia,e.nombre_empresa
@@ -114,7 +122,7 @@ class ConexionBD{
         // }
         // return $sede;
         // return $registro + $registro2;
-    }
+    
     public static function obtieneGastos($id_persona,$cantidad)  
     {
         $gastos=null;
