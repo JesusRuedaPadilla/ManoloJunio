@@ -70,45 +70,49 @@ class ConexionBD{
 
         $persona=null;
 
-        $res= self::$con->query("SELECT u.*,a.nombre_alumno,d.fecha_inicio as Inicio,d.fecha_fin as Fin ,c.descripcion,c.fecha_firma,s.descripcion,s.direccion,s.codigo_postal,s.localidad,s.municipio,s.provincia,e.nombre_empresa,v.fecha_inicio,v.hora_inicio,v.fecha_fin,v.hora_fin
-                                FROM usuario u, alumno_detalle_convenio a, detalle_convenio d, convenio c, sede s, empresa e, visita v
-                                WHERE (u.id_usuario = a.id_usuario AND a.id_detalle_convenio = d.id_detalle_convenio AND d.id_convenio=c.id_convenio AND e.id_empresa=s.id_empresa AND d.id_sede=s.id_sede AND v.id_alumno_detalle_convenio=a.id_alumno_detalle_convenio)
-                                AND (u.id_usuario = '$correo')");
+        $res= self::$con->query("SELECT a.*, e.*,d.*,c.*,s.*
+        FROM alumno_detalle_convenio a, detalle_convenio d, convenio c, sede s, empresa e
+        WHERE (a.id_detalle_convenio = d.id_detalle_convenio AND d.id_convenio=c.id_convenio AND e.id_empresa=s.id_empresa AND d.id_sede=s.id_sede)
+        AND (a.id_usuario = '$correo') ORDER BY e.nombre_empresa ,c.fecha_firma,s.id_sede,a.id_alumno_detalle_convenio");
+//fecha_firma,sede,y alumno
 
-       
+// SELECT e.nombre_empresa, c.id_convenio, c.descripcion AS desconvenio, c.fecha_firma, dc.id_detalle_convenio, dc.fecha_Inicio, dc.fecha_fin, s.descripcion, adc.id_alumno_detalle_convenio, adc.nombre_alumno 
+// FROM usuario u JOIN alumno_detalle_convenio adc JOIN `detalle_convenio` dc JOIN convenio c JOIN sede s JOIN empresa e 
+// ON u.id_usuario=adc.id_usuario AND adc.id_detalle_convenio=dc.id_detalle_convenio AND dc.id_convenio=c.id_convenio AND dc.id_sede=s.id_sede AND s.id_empresa=e.id_empresa WHERE u.id_usuario='$correo'
+// ORDER BY e.nombre_empresa, c.descripcion, s.descripcion
 
-        $res2=self::$con->query("SELECT u.*,a.nombre_alumno,d.fecha_inicio,d.fecha_fin,c.descripcion,c.fecha_firma,s.descripcion,s.direccion,s.codigo_postal,s.localidad,s.municipio,s.provincia,e.nombre_empresa
-                                FROM usuario u, alumno_detalle_convenio a, detalle_convenio d, convenio c, sede s, empresa e
-                                WHERE (u.id_usuario = a.id_usuario AND a.id_detalle_convenio = d.id_detalle_convenio AND d.id_convenio=c.id_convenio AND e.id_empresa=s.id_empresa AND d.id_sede=s.id_sede)
-                                AND (u.id_usuario = '$correo')");
+        // $res2=self::$con->query("SELECT u.*,a.nombre_alumno,d.fecha_inicio,d.fecha_fin,c.descripcion,c.fecha_firma,s.descripcion,s.direccion,s.codigo_postal,s.localidad,s.municipio,s.provincia,e.nombre_empresa
+        //                         FROM usuario u, alumno_detalle_convenio a, detalle_convenio d, convenio c, sede s, empresa e
+        //                         WHERE (u.id_usuario = a.id_usuario AND a.id_detalle_convenio = d.id_detalle_convenio AND d.id_convenio=c.id_convenio AND e.id_empresa=s.id_empresa AND d.id_sede=s.id_sede)
+        //                         AND (u.id_usuario = '$correo')");
                     
-        $registro = $res->fetchAll();
+        $registro = $res->fetchAll(PDO::FETCH_ASSOC);
       
     
 
-        $registro2 = $res2->fetchAll();
+        // $registro2 = $res2->fetchAll(PDO::FETCH_ASSOC);
 
-        $registroFinal=$registro + $registro2;
+        // $registroFinal=$registro + $registro2;
 
-        $SI=count($registroFinal);
+        // $SI=count($registroFinal);
          
            
-        $obj=new stdClass();
-            for($i=0;$i<$SI-1;$i++){
-                $sede=null;
-                for($i=0;$i<$SI;$i++){
+        // $obj=new stdClass();
+        //     for($i=0;$i<$SI-1;$i++){
+        //         $sede=null;
+        //         for($i=0;$i<$SI;$i++){
                    
                   
-                    $obj->success=true;
+        //             $obj->success=true;
 
-                    $sede[$i]=new Sede(array('descripcion'=>$registroFinal[$i]['descripcion'],'direccion'=> $registroFinal[$i]['direccion'],
-                    'codigo_postal'=> $registroFinal[$i]['codigo_postal'],'localidad'=> $registroFinal[$i]['localidad'],'municipio'=> $registroFinal[$i]['municipio'],'provincia'=> $registroFinal[$i]['provincia']));            
-                    $obj->user->sede[$i]=$sede[$i];
-                }
+        //             $sede[$i]=new Sede(array('descripcion'=>$registroFinal[$i]['descripcion'],'direccion'=> $registroFinal[$i]['direccion'],
+        //             'codigo_postal'=> $registroFinal[$i]['codigo_postal'],'localidad'=> $registroFinal[$i]['localidad'],'municipio'=> $registroFinal[$i]['municipio'],'provincia'=> $registroFinal[$i]['provincia']));            
+        //             $obj->user->sede[$i]=$sede[$i];
+        //         }
              
-            }
+        //     }
 
-          return $obj;
+          return $registro;
         }
 
         // if($registro==false){
@@ -122,38 +126,35 @@ class ConexionBD{
         // }
         // return $sede;
         // return $registro + $registro2;
-    
-    public static function obtieneGastos($id_persona,$cantidad)  
-    {
-        $gastos=null;
-        $cantidad=$cantidad*-1;
-        $res= self::$con->query("select * from gastos where id_persona ='$id_persona' AND cantidad='$cantidad'");
-        $registros=$res->fetch();
-        
-        if($registros!=false){
-            $gastos=new Gastos(array('id'=>$registros['id'],'concepto'=>$registros['concepto'],'fecha'=>$registros['fecha'],
-                                    'cantidad'=>$registros['cantidad']));            
-            return $gastos;
-        }
+    public static function obtieneVisitas($id_alumno){
 
-        else
-        {
-            $cantidad=$cantidad*-1;
-            $res= self::$con->query("select * from ingresos where id_persona ='$id_persona' AND cantidad='$cantidad'");
-            $registros=$res->fetch();
+        $res= self::$con->query("SELECT v.* FROM visita v WHERE id_alumno_detalle_convenio='$id_alumno'");
 
-            $ingresos=new Ingresos(array('id'=>$registros['id'],'concepto'=>$registros['concepto'],'fecha'=>$registros['fecha'],
-            'cantidad'=>$registros['cantidad']));     
-
-            return $ingresos;
-        }
-        
-	
+        $registro = $res->fetchAll(PDO::FETCH_ASSOC);
+        return $registro;
     }
 
+    // public static function obtieneEmpresa($id_empresa){
 
+    //     $res= self::$con->query("SELECT e.* FROM empresa e  WHERE id_empresa='$id_empresa'");
+
+    //     $registro = $res->fetchAll(PDO::FETCH_ASSOC);
+    //     return $registro;
+    // }
 
     
+    // public static function obtieneDatosPorEmpresa($correo){
+
+    //     $res= self::$con->query("SELECT e.nombre_empresa, c.id_convenio, c.descripcion AS desconvenio, c.fecha_firma, dc.id_detalle_convenio, dc.fecha_Inicio, dc.fecha_fin, s.descripcion, adc.id_alumno_detalle_convenio, adc.nombre_alumno 
+    //     FROM usuario u JOIN alumno_detalle_convenio adc JOIN `detalle_convenio` dc JOIN convenio c JOIN sede s JOIN empresa e 
+    //     ON u.id_usuario=adc.id_usuario AND adc.id_detalle_convenio=dc.id_detalle_convenio AND dc.id_convenio=c.id_convenio AND dc.id_sede=s.id_sede AND s.id_empresa=e.id_empresa WHERE u.id_usuario='$correo'
+    //     ORDER BY e.nombre_empresa, c.descripcion, s.descripcion");
+
+    //     $registro = $res->fetchAll(PDO::FETCH_ASSOC);
+    //     return $registro;
+    // }
+        
+            
     public static function existeusuario($correo,$contraseña)
     {
 
@@ -164,14 +165,6 @@ class ConexionBD{
                      
     }
     
-    public static function InsertaDatos($correo,$contraseña)
-    {
-        
-        $sql="INSERT INTO `personas` (correo,contrasena,foto) VALUES ('$correo','$contraseña','$foto')";
-        $res= self::$con->exec($sql);
-         
-    }
-
     public static function obtieneProductosPaginados(int $pagina, int $filas,$id):array
     {
         $registros = array();
@@ -189,28 +182,6 @@ class ConexionBD{
         return $registros;
     }
     
-  
-    public static function obtieneNOMBRECABECERA($correo)
-    {
-
-        $res= self::$con->query("select `nombre` from personas where correo ='$correo'");
-
-        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
-
-        return $registro;
-    }
-
-     
-    public static function obtieneApellidosCABECERA($correo)
-    {
-
-        $res= self::$con->query("select `apellidos` from personas where correo ='$correo'");
-
-        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
-
-        return $registro;
-    }
-
 
     public static function NumPaginas(int $filas,$id):int
     {
@@ -223,99 +194,6 @@ class ConexionBD{
         return $paginas;
     }
 
-     
-    public static function CalculaGastos($id)
-    {
-  
-        $res= self::$con->query("(select SUM(cantidad *-1) AS cantidad from gastos where id_persona like '$id')");
-
-        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
-
-        return $registro;
-    }
-
-     
-    public static function CalculaIngresos($id)
-    {
-  
-        $res= self::$con->query("(select SUM(`cantidad`) from ingresos where id_persona like '$id')");
-
-        $registro = $res->fetchAll(PDO::FETCH_COLUMN);
-
-        return $registro;
-    }
-   
-    public static function actualizarDatosGastos($gastos,$persona){
-        $codigo=$gastos->getId();
-        $concepto=$gastos->getConcepto();
-        $fecha=$gastos->getFecha();
-        $cantidad=$gastos->getCantidad();
-        $codigo_per=$persona->getId();
-        $res = self::$con->query("(select `concepto`, cantidad *-1 AS cantidad, `fecha` from gastos where id='$codigo'");
-        if($res){
-            $res2 = self::$con->query("update gastos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
-        }
-
-        else{
-            $res2 = self::$con->query("INSERT INTO `gastos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo_per','$concepto','$fecha','$cantidad')");
-            $res3 = self::$con->query("DELETE FROM `ingresos` WHERE `id`='$codigo'");
-        }
-     
-        $funciona=$res;
-    }
-
-    public static function actualizarDatosIngresos($ingresos,$persona){
-        $codigo=$ingresos->getId();
-        $concepto=$ingresos->getConcepto();
-        $fecha=$ingresos->getFecha();
-        $cantidad=$ingresos->getCantidad();
-        $codigo_per=$persona->getId();
-        $res = self::$con->query("(select `concepto`, cantidad *-1 AS cantidad, `fecha` from ingresos where id='$codigo'");
-        if($res){
-            $res2 = self::$con->query("update ingresos set concepto='$concepto', fecha='$fecha', cantidad='$cantidad' where id='$codigo'");
-        }
-
-        else{
-            $res2 = self::$con->query("INSERT INTO `ingresos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo_per','$concepto','$fecha','$cantidad')");
-            $res3 = self::$con->query("DELETE FROM `gastos` WHERE `id`='$codigo'");
-        }
-       
-    }
-
-    public static function BorrarDatosIngresos($ingresos){
-        $concepto=$ingresos->getConcepto();
-        $codigo=$ingresos->getId();
-
-        $res = self::$con->query("delete from ingresos where id='$codigo' AND concepto='$concepto'");
-    }
-
-    public static function BorrarDatosGastos($gastos){
-        $concepto=$gastos->getConcepto();
-        $codigo=$gastos->getId();
-
-        $res = self::$con->query("delete from gastos where id='$codigo' AND concepto='$concepto'");
-    }
-
-    public static function InsertarDatosIngresos($ingresos){
-        
-        $concepto=$ingresos->getConcepto();
-        $cantidad=$ingresos->getCantidad();
-        $fecha=$ingresos->getFecha();
-        $codigo=$ingresos->getId();
-
-        $res = self::$con->query("INSERT INTO `ingresos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo','$concepto','$fecha','$cantidad')");
-        
-    }
-
-    public static function InsertarDatosGastos($gastos){
-        
-        $concepto=$gastos->getConcepto();
-        $cantidad=$gastos->getCantidad();
-        $fecha=$gastos->getFecha();
-        $codigo=$gastos->getId();
-
-        $res = self::$con->query("INSERT INTO `gastos`(`id`, `id_persona`, `concepto`, `fecha`, `cantidad`) VALUES (NULL,'$codigo','$concepto','$fecha','$cantidad')");
-    }
 
 }
 
