@@ -70,7 +70,7 @@ class ConexionBD{
 
         $persona=null;
 
-        $res= self::$con->query("SELECT a.*, e.*,d.*,c.*,s.*
+        $res= self::$con->query("SELECT a.*, e.*,d.*,c.descripcion as Descrip,c.fecha_firma,s.*
         FROM alumno_detalle_convenio a, detalle_convenio d, convenio c, sede s, empresa e
         WHERE (a.id_detalle_convenio = d.id_detalle_convenio AND d.id_convenio=c.id_convenio AND e.id_empresa=s.id_empresa AND d.id_sede=s.id_sede)
         AND (a.id_usuario = '$correo') ORDER BY e.nombre_empresa ,c.fecha_firma,s.id_sede,a.id_alumno_detalle_convenio");
@@ -126,6 +126,7 @@ class ConexionBD{
         // }
         // return $sede;
         // return $registro + $registro2;
+
     public static function obtieneVisitas($id_alumno){
 
         $res= self::$con->query("SELECT v.* FROM visita v WHERE id_alumno_detalle_convenio='$id_alumno'");

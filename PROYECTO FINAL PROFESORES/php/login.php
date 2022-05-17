@@ -28,23 +28,6 @@ include_once "../helpers/Validator.php";
               $obj->success=true;
               $obj->user=ConexionBD::obtieneTodosDatos($correo);
 
-        
-            //   for ($i=0;$i<count($obj->user);$i++){
-            //     $idAlumno= $obj->user[$i]["id_empresa"];
-            //     $id_usuario= $obj->user[$i]["id_usuario"];
-            //      $obj->user[$i]["Empresa"]=ConexionBD::obtieneDatosPorEmpresa($id_usuario);
-                 
-            //      for($i=0;$i<count($obj->user);$i++){
-            //       $Empresa= $obj->user[$i]["nombre_empresa"];
-            //       if($obj->user[$i]['nombre_empresa']!=[$Empresa]){
-            //         $obj->user[$i]['nombre_empresa']=[$Empresa];
-            //       }
-            //       else{
-            //         $obj->user[$i]['nombre_empresa']="";
-            //       }
-            //      }
-            // }
-
               for ($i=0;$i<count($obj->user);$i++){
                   $idAlumno= $obj->user[$i]["id_alumno_detalle_convenio"];
                    $obj->user[$i]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
@@ -68,5 +51,5 @@ include_once "../helpers/Validator.php";
   }
 
   echo json_encode($obj);
-        
+
 ?>
