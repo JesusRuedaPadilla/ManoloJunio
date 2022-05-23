@@ -22,6 +22,7 @@ include_once "../helpers/Validator.php";
                 Session::init();
                 Session::escribir("correo",$correo);
                 Session::escribir("contrasena",$contraseña);
+                
             //    $a= Session::existe('correo');
             
             if(Login::UsuarioEstaLogueado()){
