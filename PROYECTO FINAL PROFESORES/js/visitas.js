@@ -230,7 +230,10 @@ function CompruebaLogueado(){
                     // var botones= clonVisitas.querySelectorAll("button");
                     // debugger;
                     var botonBorrar=clonVisitas.children[5].children[1];
+                    var botonGuardar=clonVisitas.children[5].children[0];
                     botonBorrar.onclick=ProgramaBorrado(respuesta.user[i].visitas[j].id_visita,botonBorrar);
+
+                    botonGuardar.onclick=ProgramaGuardar(respuesta.user[i],respuesta.user[i].visitas[j].id_visita,botonBorrar);
                     // debugger;
 
                     copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
@@ -322,12 +325,17 @@ function ProgramaBorrado(id_visita,botonBorrar){
 
 function ProgramaInsertar(respuesta,botones1){
     return function(ev){
-        // debugger;
+        debugger;
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
         // debugger;
-        var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio];
-        Visita;
+        if((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")){
+            var Visita=null;
+        }
+        else{
+            var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio];
+        }
+       
         // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
     
         // ev.preventDefault();
@@ -362,8 +370,8 @@ function ProgramaInsertar(respuesta,botones1){
                    fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
                    
                  }
-                 else{
-                     alert("No se ha podido insertar la visita");
+                 if(respuesta.fallo){
+                     alert("Compruebe que todos los datos introducidos son correctos");
                  }
  
                   
@@ -377,6 +385,73 @@ function ProgramaInsertar(respuesta,botones1){
             
                 // debugger;
                 ajax.open("POST","./api/InsertarVisita.php");
+                ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                // debugger;
+            
+                ajax.send("visita=" + JSON.stringify(Visita));
+            
+           
+
+
+    }
+}
+
+
+function ProgramaGuardar(respuesta,id_visita,botonGuardar){
+    return function(ev){
+        debugger;
+        var fila=this.parentElement.parentElement;
+        var inputs=fila.querySelectorAll("input");
+        // debugger;
+        
+        var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio,id_visita];
+        // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
+    
+        // ev.preventDefault();
+        // debugger;
+        // var visita=Añadido.children[1].children[0].value;
+        var ajax=new XMLHttpRequest();
+        ajax.onreadystatechange=function(){
+            if(this.readyState==4 && this.status==200){
+                // debugger;
+                var respuesta=JSON.parse(this.responseText);
+                    debugger;
+                if(respuesta.success){
+                    alert("VISITA ACTUALIZADA CORRECTAMENTE");
+                   
+                //     // alert(Visita[0]);
+                  
+                //    var id_visitaInsertada= respuesta.response[0].id_visita;
+                //    var Filainsertada= botones1[0].parentElement.parentElement;
+                //    var fila=Filainsertada.cloneNode(true);
+                //     // debugger;
+                //    for(let i=1;i<Filainsertada.children.length-1;i++){
+
+                //     Filainsertada.children[i].children[0].value="";
+
+                //    }
+
+                //    Filainsertada.parentElement.insertBefore(fila, Filainsertada.parentElement.children[0]);
+                //    fila.children[5].children[0].innerHTML="Guardar";
+                //    botonBorrar= fila.children[5].children[0].cloneNode(true);
+                //    fila.children[5].children[0].parentElement.appendChild(botonBorrar);
+                //    botonBorrar.innerHTML="Borrar";
+
+                //    fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
+                   
+                 }
+                 
+                 if(respuesta.fallo){
+                     alert("No se ha podido insertar la visita");
+                 }
+ 
+                  
+                }
+         
+            }
+
+                // debugger;
+                ajax.open("POST","./api/actualizarVisita.php");
                 ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
                 // debugger;
             
