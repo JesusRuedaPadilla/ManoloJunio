@@ -130,14 +130,6 @@ function CompruebaLogueado(){
                    
                      procesaDatos(respuesta);
 
-                    //  var ocultar=document.getElementById("oculto");
-                    //  // ocultar.setAttribute('id', 'oculto');
-                    //  ocultar.innerHTML=" + ";
-                    //  var aaa= document.getElementsByClassName("cabEmpresa")[0];
-                    //  var ocultarEmpresa= document.getElementsByClassName("empresa")[0];
-                    //  ocultarEmpresa.children[1].style.display ='none';
-                    //  aaa.appendChild(ocultar);
-                    //  ocultar.onclick=ocultaEmpresa;
                 }
 
                  
@@ -235,13 +227,14 @@ function CompruebaLogueado(){
                     elementos[2].value=respuesta.user[i].visitas[j].hora_inicio;
                     elementos[3].value=respuesta.user[i].visitas[j].fecha_fin;
                     elementos[4].value=respuesta.user[i].visitas[j].hora_fin;
-                    
-                    var botones= clonVisitas.querySelectorAll("button");
-                    botones[1].onclick=ProgramaBorrado(respuesta.user[i].visitas[j].id_visita,botones);
+                    // var botones= clonVisitas.querySelectorAll("button");
+                    // debugger;
+                    var botonBorrar=clonVisitas.children[5].children[1];
+                    botonBorrar.onclick=ProgramaBorrado(respuesta.user[i].visitas[j].id_visita,botonBorrar);
                     // debugger;
 
-                    copiaAlumno.querySelector("tbody").appendChild(clonVisitas);
-                    copiaAlumno.appendChild(clonVisitas);
+                    copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
+                    // copiaAlumno.appendChild(clonVisitas);
 
                
                 } 
@@ -258,84 +251,16 @@ function CompruebaLogueado(){
             botones[1].parentElement.removeChild(botones[1]);
             // debugger;
             botones[0].innerHTML="Añadir";
-           
-            botones[0].onclick=ProgramaInsertar();
+            var botones1= clonVisitas.querySelectorAll("button");
+            botones[0].onclick=ProgramaInsertar(respuesta.user[i],botones1);
 
             copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
-
-            // var botonAñadir=botones[0];
-            // var Añadido=botonAñadir.parentElement.parentElement;
-            // debugger;
-           
-
-            // var botonCrear=document.getElementsByTagName("button")[4];
-            // debugger;
-            // botonCrear.innerHTML=" ";
-            // if(botonCrear.innerHTML=!" "){
-        
-            //     botonCrear.style.display="none";
-        
-            // }
-            // else if(botonCrear.innerHTML==" "){
-                
-            //     var botonCrear=document.getElementsByTagName("button")[4];
-            //     botonCrear.innerHTML=" + ";
-               
-            // }
   
          }
          copiaAnexo.appendChild(copiaAlumno);
          
     }
-         
-                    // copiaAlumno.querySelector("tbody").appendChild(clonVisitas);
 
-                    // var botonCrear=document.createElement("button");
-                    // var ultimoTh=clonVisitas.querySelector("th:last-child");
-                   
-                    
-
-                    // debugger;
-                    // botonCrear.innerHTML=" ";
-                    // if(botonCrear.innerHTML!=" "){
-                
-                    //     botonCrear.style.display="none";
-                
-                    // }
-                    // else if(botonCrear.innerHTML==" "){
-        
-                    //     // var botonCrear=document.getElementsByTagName("button")[4];
-                    //     botonCrear.innerHTML=" + ";
-                       
-                    // }
-
-
-    //var botonGuardar= document.getElementsByTagName("button")[2];
-
-    //botonGuardar.onclick=guardarDatos();
-    // var botonCrear=document.getElementsByTagName("button")[4];
-    // debugger;
-    // if(botonCrear.innerHTML=!null){
-
-    //     var botonCrear=document.getElementsByTagName("button")[4];
-    //     botonCrear.innerHTML=" + ";
-
-    // }
-    // else{
-    //     botonCrear.style.display="none";
-    // }
-
-//     var ocultar=plantilla.getElementsByTagName("span")[1];
-//     // ocultar.setAttribute('id', 'oculto');
-//     ocultar.innerHTML=" + ";
-//     var aaa= document.getElementsByClassName("cabEmpresa")[0];
-//     var ocultarEmpresa= document.getElementsByClassName("empresa")[0];
-//     ocultarEmpresa.children[1].style.display ='none';
-//     aaa.appendChild(ocultar);
-//   debugger;
-//     ocultar.onclick=ocultaEmpresa(plantilla);
-   
-    
  }
 
  
@@ -362,27 +287,7 @@ function guardarDatos(){
     }
 }
 
-// function pulsado(){
-//     var valor=this.innerHTML;
-//     if(valor==="+"){
-//         this.innerHTML="-";
-//         this.parentNode.nextElementSibling.style.display="block";
-//     }
-//     else{
-//         this.innerHTML="+";
-//         this.parentNode.nextElementSibling.style.display="none";
-//     }
-// }
-
-// function punteroFlecha(){
-//     this.style.cursor="Arrow";
-// }
-
-// function punteroCursor(){
-//     this.style.cursor="pointer";
-// }
-
-function ProgramaBorrado(id_visita,botones){
+function ProgramaBorrado(id_visita,botonBorrar){
     return function(ev){
         ev.preventDefault();
         var ajax=new XMLHttpRequest();
@@ -393,8 +298,8 @@ function ProgramaBorrado(id_visita,botones){
                 if(respuesta.success){
                     
                     // alert("Elemento "+id_visita+ " Eliminado");
-                    // debugger;
-                   var FilaEliminada= botones[1].parentElement.parentElement;
+                    debugger;
+                   var FilaEliminada= botonBorrar.parentElement.parentElement;
                    FilaEliminada.parentElement.removeChild(FilaEliminada);
                    alert("VISITA ELIMINADA CORRECTAMENTE");
                  }
@@ -415,39 +320,69 @@ function ProgramaBorrado(id_visita,botones){
     }
 }
 
-function ProgramaInsertar(){
+function ProgramaInsertar(respuesta,botones1){
     return function(ev){
-        
+        // debugger;
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
-        console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
-
+        // debugger;
+        var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio];
+        Visita;
+        // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
+    
         // ev.preventDefault();
         // debugger;
         // var visita=Añadido.children[1].children[0].value;
-        // var ajax=new XMLHttpRequest();
-        // ajax.onreadystatechange=function(){
-        //     if(this.readyState==4 && this.status==200){
-        //         var respuesta=JSON.parse(this.responseText);
+        var ajax=new XMLHttpRequest();
+        ajax.onreadystatechange=function(){
+            if(this.readyState==4 && this.status==200){
+                // debugger;
+                var respuesta=JSON.parse(this.responseText);
  
-        //         if(respuesta.success){
-        //             debugger;
-        //             Añadido;
-        //             // alert("Elemento "+id_visita+ " Eliminado");
-        //             // debugger;
-        //            var FilaEliminada= botones[1].parentElement.parentElement;
-        //            FilaEliminada.parentElement.removeChild(FilaEliminada);
-        //            alert("VISITA ELIMINADA CORRECTAMENTE");
-        //          }
+                if(respuesta.success && respuesta.response){
+                   
+                    // alert(Visita[0]);
+                  
+                   var id_visitaInsertada= respuesta.response[0].id_visita;
+                   var Filainsertada= botones1[0].parentElement.parentElement;
+                   var fila=Filainsertada.cloneNode(true);
+                    // debugger;
+                   for(let i=1;i<Filainsertada.children.length-1;i++){
+
+                    Filainsertada.children[i].children[0].value="";
+
+                   }
+
+                   Filainsertada.parentElement.insertBefore(fila, Filainsertada.parentElement.children[0]);
+                   fila.children[5].children[0].innerHTML="Guardar";
+                   botonBorrar= fila.children[5].children[0].cloneNode(true);
+                   fila.children[5].children[0].parentElement.appendChild(botonBorrar);
+                   botonBorrar.innerHTML="Borrar";
+
+                   fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
+                   
+                 }
+                 else{
+                     alert("No se ha podido insertar la visita");
+                 }
  
                   
-        //         }
+                }
          
-        //     }
+            }
 
-        //     ajax.open("POST","./api/borrarVisita.php");
-        //     ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        //     ajax.send(visita);
+            // Terminado{
+                // hacer Json stringify de Visitas y en php hacer un json decode 
+            // }
+            
+                // debugger;
+                ajax.open("POST","./api/InsertarVisita.php");
+                ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                // debugger;
+            
+                ajax.send("visita=" + JSON.stringify(Visita));
+            
+           
 
 
     }

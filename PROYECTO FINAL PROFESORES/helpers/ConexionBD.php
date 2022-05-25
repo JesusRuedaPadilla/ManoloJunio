@@ -63,9 +63,19 @@ class ConexionBD{
       
     }
 
-    public static function InsertarVisitas($fecha_inicio,$hora_inicio,$fecha_fin,$hora_fin,$id_alumno_detalle_convenio){
-        
+    public static function InsertarVisitas($Visita){
+        $fecha_inicio=$Visita[0];
+        $hora_inicio=$Visita[1];
+        $fecha_fin=$Visita[2];
+        $hora_fin=$Visita[3];
+        $id_alumno_detalle_convenio=$Visita[4];
+
         $res = self::$con->query("INSERT INTO `visita` (`id_visita`, `fecha_inicio`, `hora_inicio`, `fecha_fin`, `hora_fin`, `id_alumno_detalle_convenio`, `dieta`) VALUES (NULL, '$fecha_inicio', '$hora_inicio', '$fecha_fin', '$hora_fin', '$id_alumno_detalle_convenio', '0')");
+        $res2 = self::$con->query("COMMIT");
+
+        $res3= self::$con->query("SELECT MAX(`id_visita`)as `id_visita`  FROM visita");
+        $registros = $res3->fetchAll(PDO::FETCH_ASSOC);
+        return $registros;
     }
 
     public static function obtieneProductosPaginados(int $pagina, int $filas,$id):array
