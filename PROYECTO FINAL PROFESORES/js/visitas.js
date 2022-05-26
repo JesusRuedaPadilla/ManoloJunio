@@ -229,11 +229,25 @@ function CompruebaLogueado(){
                     elementos[4].value=respuesta.user[i].visitas[j].hora_fin;
                     // var botones= clonVisitas.querySelectorAll("button");
                     // debugger;
+                    for (let l=1;l<=4;l++){
+                        elementos[l].onchange=function(){
+                            debugger;
+                        let botonGuardar= this.parentElement.parentElement.querySelector("button");
+                        console.log(botonGuardar);
+                        console.log(this);
+                        // botonGuardar.setAttribute("disabled",false);
+                        botonGuardar.disabled=false;
+
+                        }
+                    }
+                    
                     var botonBorrar=clonVisitas.children[5].children[1];
                     var botonGuardar=clonVisitas.children[5].children[0];
                     botonBorrar.onclick=ProgramaBorrado(respuesta.user[i].visitas[j].id_visita,botonBorrar);
-
-                    botonGuardar.onclick=ProgramaGuardar(respuesta.user[i],respuesta.user[i].visitas[j].id_visita,botonBorrar);
+                    // debugger;
+                    botonGuardar.onclick=ProgramaGuardar(respuesta.user[i],respuesta.user[i].visitas[j].id_visita,botonGuardar);
+                    // botonGuardar.setAttribute("disabled",true);
+                    botonGuardar.disabled=true;
                     // debugger;
 
                     copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
@@ -328,16 +342,24 @@ function ProgramaInsertar(respuesta,botones1){
         debugger;
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
+        // let indice = inputs[2].value.indexOf(" ' ' ");
+        let cadenaExtraida1 = inputs[2].value.substring("0", "2");
+        
+        // let cadenaExtraida2 = inputs[4].value.substring("0", "2");
+        // var cadenita= cadenaExtraida2-cadenaExtraida1;
         // debugger;
-        if((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")){
+        if(((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")) || 
+        (inputs[1].value>inputs[3].value) || ((inputs[1].value==inputs[3].value) && (inputs[2].value>=inputs[4].value)) /*|| cadenita<2*/){
             var Visita=null;
         }
         else{
-            var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio];
+            if((((inputs[1].value==inputs[3].value) && (inputs[2].value!=inputs[4].value)) /*&& cadenita>=2*/) || (inputs[1].value<inputs[3].value) && (inputs[2].value!=inputs[4].value) /*&& cadenita>=2)*/){
+                var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio];
+            }
+            
         }
        
         // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
-    
         // ev.preventDefault();
         // debugger;
         // var visita=Añadido.children[1].children[0].value;
@@ -345,13 +367,13 @@ function ProgramaInsertar(respuesta,botones1){
         ajax.onreadystatechange=function(){
             if(this.readyState==4 && this.status==200){
                 // debugger;
-                var respuesta=JSON.parse(this.responseText);
- 
-                if(respuesta.success && respuesta.response){
+                var respuestas=JSON.parse(this.responseText);
+    
+                if(respuestas.success && respuestas.response){
                    
                     // alert(Visita[0]);
                   
-                   var id_visitaInsertada= respuesta.response[0].id_visita;
+                   var id_visitaInsertada= respuestas.response[0].id_visita;
                    var Filainsertada= botones1[0].parentElement.parentElement;
                    var fila=Filainsertada.cloneNode(true);
                     // debugger;
@@ -362,15 +384,16 @@ function ProgramaInsertar(respuesta,botones1){
                    }
 
                    Filainsertada.parentElement.insertBefore(fila, Filainsertada.parentElement.children[0]);
-                   fila.children[5].children[0].innerHTML="Guardar";
+                   var botonGuardar=fila.children[5].children[0].innerHTML="Guardar";
                    botonBorrar= fila.children[5].children[0].cloneNode(true);
                    fila.children[5].children[0].parentElement.appendChild(botonBorrar);
                    botonBorrar.innerHTML="Borrar";
-
-                   fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
+                   debugger;
+                    fila.children[5].children[0].onclick=ProgramaGuardar(respuesta.id_alumno_detalle_convenio,id_visitaInsertada,botonGuardar);
+                    fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
                    
                  }
-                 if(respuesta.fallo){
+                 if(respuestas.fallo){
                      alert("Compruebe que todos los datos introducidos son correctos");
                  }
  
@@ -403,7 +426,6 @@ function ProgramaGuardar(respuesta,id_visita,botonGuardar){
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
         // debugger;
-        
         var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio,id_visita];
         // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
     
@@ -415,14 +437,13 @@ function ProgramaGuardar(respuesta,id_visita,botonGuardar){
             if(this.readyState==4 && this.status==200){
                 // debugger;
                 var respuesta=JSON.parse(this.responseText);
-                    debugger;
+                debugger;
                 if(respuesta.success){
+
                     alert("VISITA ACTUALIZADA CORRECTAMENTE");
-                   
+                    botonGuardar.disabled=true;
                 //     // alert(Visita[0]);
-                  
-                //    var id_visitaInsertada= respuesta.response[0].id_visita;
-                //    var Filainsertada= botones1[0].parentElement.parentElement;
+                //    var FilaActualizada= botonGuardar.parentElement.parentElement;
                 //    var fila=Filainsertada.cloneNode(true);
                 //     // debugger;
                 //    for(let i=1;i<Filainsertada.children.length-1;i++){
