@@ -32,8 +32,16 @@ class ConexionBD{
       
     
           return $registro;
-        }
+    }
 
+    
+    public static function obtieneProfesores(){
+
+        $res= self::$con->query("SELECT `id_usuario`,`nombre` FROM usuario");
+
+        $registro = $res->fetchAll(PDO::FETCH_ASSOC);
+        return $registro;
+    }
 
     public static function obtieneVisitas($id_alumno){
 
@@ -43,11 +51,21 @@ class ConexionBD{
         return $registro;
     }
         
-            
+       
+    public static function existeAdmin($correo,$contraseña)
+    {
+
+        $sql="SELECT * FROM usuario WHERE id_usuario like '$correo' and contrasena like '$contraseña' and rol like 'administrador'"; 
+        $resultado = self::$con->query($sql);
+        $count = $resultado->rowCount();
+        return $count;
+                     
+    }
+
     public static function existeusuario($correo,$contraseña)
     {
 
-        $sql="SELECT * FROM usuario WHERE id_usuario like '$correo' and contrasena like '$contraseña'"; 
+        $sql="SELECT * FROM usuario WHERE id_usuario like '$correo' and contrasena like '$contraseña' and rol like 'profesor'"; 
         $resultado = self::$con->query($sql);
         $count = $resultado->rowCount();
         return $count==1;

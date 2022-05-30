@@ -178,17 +178,6 @@ function CompruebaLogueado(){
             var btnDespliegue=copia.querySelector(".despliegue");
             btnDespliegue.innerHTML=" + ";
             btnDespliegue.onclick=ocultaEmpresa(plantilla);
-        //     var ocultar=plantilla.getElementsByTagName("span")[1];
-        //     // ocultar.setAttribute('id', 'oculto');
-        //     ocultar.innerHTML=" + ";
-        //     var aaa= document.getElementsByClassName("cabEmpresa")[0];
-        //     var ocultarEmpresa= document.getElementsByClassName("empresa")[0];
-        //     ocultarEmpresa.children[1].style.display ='none';
-        //     aaa.appendChild(ocultar);
-
-        // debugger;
-
-        //     ocultar.onclick=ocultaEmpresa(plantilla);
 
         }
 
@@ -233,8 +222,8 @@ function CompruebaLogueado(){
                         elementos[l].onchange=function(){
                             debugger;
                         let botonGuardar= this.parentElement.parentElement.querySelector("button");
-                        console.log(botonGuardar);
-                        console.log(this);
+                        // console.log(botonGuardar);
+                        // console.log(this);
                         // botonGuardar.setAttribute("disabled",false);
                         botonGuardar.disabled=false;
 
@@ -246,7 +235,6 @@ function CompruebaLogueado(){
                     botonBorrar.onclick=ProgramaBorrado(respuesta.user[i].visitas[j].id_visita,botonBorrar);
                     // debugger;
                     botonGuardar.onclick=ProgramaGuardar(respuesta.user[i],respuesta.user[i].visitas[j].id_visita,botonGuardar);
-                    // botonGuardar.setAttribute("disabled",true);
                     botonGuardar.disabled=true;
                     // debugger;
 
@@ -269,8 +257,8 @@ function CompruebaLogueado(){
             // debugger;
             botones[0].innerHTML="Añadir";
             var botones1= clonVisitas.querySelectorAll("button");
-            botones[0].onclick=ProgramaInsertar(respuesta.user[i],botones1);
-
+            botones[0].onclick=ProgramaInsertar(respuesta.user[i],botones1,respuesta.user);
+debugger;
             copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
   
          }
@@ -294,15 +282,6 @@ function traerPlantilla(url){
 
 }
 
-function guardarDatos(){
-    return function (ev){
-        ev.preventDefault();
-
-
-
-    
-    }
-}
 
 function ProgramaBorrado(id_visita,botonBorrar){
     return function(ev){
@@ -315,7 +294,7 @@ function ProgramaBorrado(id_visita,botonBorrar){
                 if(respuesta.success){
                     
                     // alert("Elemento "+id_visita+ " Eliminado");
-                    debugger;
+                    // debugger;
                    var FilaEliminada= botonBorrar.parentElement.parentElement;
                    FilaEliminada.parentElement.removeChild(FilaEliminada);
                    alert("VISITA ELIMINADA CORRECTAMENTE");
@@ -337,28 +316,42 @@ function ProgramaBorrado(id_visita,botonBorrar){
     }
 }
 
-function ProgramaInsertar(respuesta,botones1){
+function ProgramaInsertar(respuesta,botones1,usuarios){
     return function(ev){
-        debugger;
+        // debugger;
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
         // let indice = inputs[2].value.indexOf(" ' ' ");
         let cadenaExtraida1 = inputs[2].value.substring("0", "2");
-        
+     
         // let cadenaExtraida2 = inputs[4].value.substring("0", "2");
         // var cadenita= cadenaExtraida2-cadenaExtraida1;
         // debugger;
+    
         if(((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")) || 
         (inputs[1].value>inputs[3].value) || ((inputs[1].value==inputs[3].value) && (inputs[2].value>=inputs[4].value)) /*|| cadenita<2*/){
             var Visita=null;
         }
+        
         else{
             if((((inputs[1].value==inputs[3].value) && (inputs[2].value!=inputs[4].value)) /*&& cadenita>=2*/) || (inputs[1].value<inputs[3].value) && (inputs[2].value!=inputs[4].value) /*&& cadenita>=2)*/){
                 var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio];
             }
             
         }
-       
+        // for(let i=0;i<usuarios.length;i++){
+        //     for(let j=0;j<usuarios[i].visitas.length;j++)
+
+        //     if((usuarios[i].visitas[j].fecha_inicio && usuarios[i].visitas[j].hora_inicio.substring("0","5") && 
+        //     usuarios[i].visitas[j].fecha_fin && usuarios[i].visitas[j].hora_fin.substring("0","5")) === (inputs[1].value && (inputs[2].value) && (inputs[3].value) && (inputs[4].value))){
+
+        //         var Visita=null;
+        //         alert("LOS DATOS INTRODUCIDOS CONCUERDAN CON OTRA VISITA YA PROGRAMADA, REVISE LOS DATOS E INTENTELO DE NUEVO");
+                
+        // }
+           
+        // }
+    
         // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
         // ev.preventDefault();
         // debugger;
@@ -372,7 +365,7 @@ function ProgramaInsertar(respuesta,botones1){
                 if(respuestas.success && respuestas.response){
                    
                     // alert(Visita[0]);
-                  
+                //   debugger;
                    var id_visitaInsertada= respuestas.response[0].id_visita;
                    var Filainsertada= botones1[0].parentElement.parentElement;
                    var fila=Filainsertada.cloneNode(true);
@@ -384,11 +377,13 @@ function ProgramaInsertar(respuesta,botones1){
                    }
 
                    Filainsertada.parentElement.insertBefore(fila, Filainsertada.parentElement.children[0]);
-                   var botonGuardar=fila.children[5].children[0].innerHTML="Guardar";
+                   debugger;
                    botonBorrar= fila.children[5].children[0].cloneNode(true);
+                //    fila.children[5].children[0].disabled=true;
+                   var botonGuardar=fila.children[5].children[0].innerHTML="Guardar";
                    fila.children[5].children[0].parentElement.appendChild(botonBorrar);
                    botonBorrar.innerHTML="Borrar";
-                   debugger;
+                //    debugger;
                     fila.children[5].children[0].onclick=ProgramaGuardar(respuesta.id_alumno_detalle_convenio,id_visitaInsertada,botonGuardar);
                     fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
                    

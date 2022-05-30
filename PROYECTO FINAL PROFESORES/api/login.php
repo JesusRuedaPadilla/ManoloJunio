@@ -34,9 +34,36 @@ include_once "../helpers/Validator.php";
                    $obj->user[$i]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
               }
 
-              // $obj=ConexionBD::obtieneTodosDatos($correo);
-                // header("Location:paginaInicio.php?p=1&t=3");
             }
+          }
+          if(ConexionBD::existeAdmin($correo,$contraseña)){
+
+            Session::init();
+            Session::escribir("correo",$correo);
+            Session::escribir("contrasena",$contraseña);
+            Session::escribir("rol","administrador");
+
+            if(Login::AdminLogueado()){
+              $obj->success=true;
+              $obj->profesor=ConexionBD::obtieneProfesores();
+
+              for($i=0;$i<count($obj->profesor);$i++){
+                $id_usuario=$obj->profesor[$i]["id_usuario"];
+                $obj->profesor[$i]['datos']=ConexionBD::obtieneTodosDatos($id_usuario);
+
+                for($j=0;$j<count($obj->profesor[$i]['datos']);$j++){
+                  $idAlumno= $obj->profesor[$i]['datos'][$j]["id_alumno_detalle_convenio"];
+                  $obj->profesor[$i]['datos'][$j]["visitas"][$j]=ConexionBD::obtieneVisitas($idAlumno);
+                }
+             
+              }
+             
+
+              // for ($i=0;$i<count($obj->profesor['datos']);$i++){
+              //     $idAlumno= $obj->profesor[$i]['datos']["id_alumno_detalle_convenio"];
+              //     $obj->datos[$i]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
+              // }
+
           }
           else{
             $obj->success=false;
@@ -45,7 +72,7 @@ include_once "../helpers/Validator.php";
           }
         }
   }
-
+}
   else{
     $obj->success=false;
     $obj->error="Revise el usuario y la contraseña";

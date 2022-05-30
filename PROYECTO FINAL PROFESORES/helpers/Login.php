@@ -29,6 +29,15 @@ class Login
         }
         return false;
     }
+
+    public static function AdminLogueado()
+    {
+        if(Session::leer('correo') && Session::leer('contrasena') && Session::leer('rol'))
+        {
+            return true;
+        }
+        return false;
+    }
 }
 
 ?>
