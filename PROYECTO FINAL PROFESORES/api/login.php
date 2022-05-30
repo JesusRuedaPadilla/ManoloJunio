@@ -53,7 +53,7 @@ include_once "../helpers/Validator.php";
 
                 for($j=0;$j<count($obj->profesor[$i]['datos']);$j++){
                   $idAlumno= $obj->profesor[$i]['datos'][$j]["id_alumno_detalle_convenio"];
-                  $obj->profesor[$i]['datos'][$j]["visitas"][$j]=ConexionBD::obtieneVisitas($idAlumno);
+                  $obj->profesor[$i]['datos'][$j]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
                 }
              
               }
