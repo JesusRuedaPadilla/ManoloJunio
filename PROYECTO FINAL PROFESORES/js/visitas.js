@@ -69,7 +69,7 @@ debugger;
 function cerrarUsuario(){
     return function (ev){
         ev.preventDefault();
-
+debugger;
         var ajax=new XMLHttpRequest();
         ajax.onreadystatechange=function(){
             if(this.readyState==4 && this.status==200){
@@ -101,6 +101,41 @@ function cerrarUsuario(){
 } 
 }
 
+
+function cerrarUsuarioAdmin(){
+    return function (ev){
+        ev.preventDefault();
+debugger;
+        var ajax=new XMLHttpRequest();
+        ajax.onreadystatechange=function(){
+            if(this.readyState==4 && this.status==200){
+                var respuesta=JSON.parse(this.responseText);
+ 
+                if(respuesta.success){
+                    
+                    var botonCierraSesion=document.getElementById("logout");
+                    var padre=botonCierraSesion.parentNode;
+                    padre.removeChild(botonCierraSesion);
+                    var divProfesores=padre.getElementsByClassName("profesor");
+                    var numProfesores=divProfesores.length;
+                    for (let i=0;i<numProfesores;i++){
+                        padre.removeChild(divProfesores[0]);
+                    }
+                    var divInicioSesion=document.getElementById("identificacion");
+                    divInicioSesion.style.display="block";
+                    var inputCorreo=divInicioSesion.children[4];
+                    var inputContraseña=divInicioSesion.children[8];
+                    inputCorreo.value="";
+                    inputContraseña.value="";
+                 }
+                  
+                }
+         
+            }
+            ajax.open("GET","./api/logout.php");
+            ajax.send();
+} 
+}
 function comprobarUsuario(txtUser,txtContraseña){
     return function (ev){
         ev.preventDefault();
@@ -316,7 +351,7 @@ debugger;
     var anexo = divAux.children[1];
     divAux.appendChild(plantilla.querySelector(".acuerdo"));
     var acuerdo = divAux.children[2];
-    botonCierraSesion.onclick=cerrarUsuario();
+    botonCierraSesion.onclick=cerrarUsuarioAdmin();
  
     var copiaVISITAS= alumno.querySelector(".visita");
     divAux.appendChild(copiaVISITAS);
@@ -328,11 +363,11 @@ debugger;
     // debugger;
     for(let i=0;i<respuesta.profesor.length;i++){
         // debugger;
-        for(let j=0;j<respuesta.profesor[i+1].datos.length;j++){
+        for(let j=0;j<respuesta.profesor[i].datos.length;j++){
 
-            if(respuesta.profesor[i+1].nombre!=nombre){
-                nombre=  respuesta.profesor[i+1].nombre;
-                apellidos= respuesta.profesor[i+1].apellidos;
+            if(respuesta.profesor[i].nombre!=nombre){
+                nombre=  respuesta.profesor[i].nombre;
+                apellidos= respuesta.profesor[i].apellidos;
 
                 var copia=plantilla.children[0].cloneNode(true);
                 document.body.appendChild(copia);
@@ -344,8 +379,8 @@ debugger;
     
             }
 debugger;
-            if(respuesta.profesor[i+1].datos[j].nombre_empresa!=empresa){
-                empresa=  respuesta.profesor[i+1].datos[j].nombre_empresa;
+            if(respuesta.profesor[i].datos[j].nombre_empresa!=empresa){
+                empresa=  respuesta.profesor[i].datos[j].nombre_empresa;
                 convenio=" ";
                 var copia1=plantilla.children[1].cloneNode(true);
                 document.body.appendChild(copia1);
@@ -362,8 +397,8 @@ debugger;
             //     alert("El usuario introducido ES un administrador");
                 
             // }
-            if(respuesta.profesor[i+1].datos[j].Descrip!=convenio){
-                convenio= respuesta.profesor[i+1].datos[j].Descrip;
+            if(respuesta.profesor[i].datos[j].Descrip!=convenio){
+                convenio= respuesta.profesor[i].datos[j].Descrip;
                 sede=" ";
                 var copiaConvenio=acuerdo.cloneNode(true);
                 copiaConvenio.querySelector(".descrAcuerdo").innerHTML=convenio;
@@ -371,32 +406,32 @@ debugger;
                 copia.appendChild(copiaConvenio);
             }
     // debugger;
-            if(respuesta.profesor[i+1].datos[j].descripcion!=sede){
-                sede= respuesta.profesor[i+1].datos[j].descripcion;
+            if(respuesta.profesor[i].datos[j].descripcion!=sede){
+                sede= respuesta.profesor[i].datos[j].descripcion;
                 var copiaAnexo=anexo.cloneNode(true);
                 copiaAnexo.querySelector(".sede").innerHTML=sede;
                 copiaConvenio.appendChild(copiaAnexo);
                 
             }
     
-            if(respuesta.profesor[i+1].datos[j].nombre_alumno!=alumno){
-                alum= respuesta.profesor[i+1].datos[j].nombre_alumno;
+            if(respuesta.profesor[i].datos[j].nombre_alumno!=alumno){
+                alum= respuesta.profesor[i].datos[j].nombre_alumno;
                 var copiaAlumno = alumno.cloneNode(true);
     
                  copiaAlumno.querySelector(".nombreAlumno").innerHTML=alum;
              
             // debugger;
-                if(respuesta.profesor[i+1].datos[j].visitas.length>0){
+                if(respuesta.profesor[i].datos[j].visitas.length>0){
     
-                    for(let l=0;l<respuesta.profesor[i+1].datos[j].visitas.length;l++){
+                    for(let l=0;l<respuesta.profesor[i].datos[j].visitas.length;l++){
                         // debugger;
                         var clonVisitas=copiaVISITAS.cloneNode(true);
                         var elementos= clonVisitas.querySelectorAll("input");
     
-                        elementos[1].value=respuesta.profesor[i+1].datos[j].visitas[l].fecha_inicio;
-                        elementos[2].value=respuesta.profesor[i+1].datos[j].visitas[l].hora_inicio;
-                        elementos[3].value=respuesta.profesor[i+1].datos[j].visitas[l].fecha_fin;
-                        elementos[4].value=respuesta.profesor[i+1].datos[j].visitas[l].hora_fin;
+                        elementos[1].value=respuesta.profesor[i].datos[j].visitas[l].fecha_inicio;
+                        elementos[2].value=respuesta.profesor[i].datos[j].visitas[l].hora_inicio;
+                        elementos[3].value=respuesta.profesor[i].datos[j].visitas[l].fecha_fin;
+                        elementos[4].value=respuesta.profesor[i].datos[j].visitas[l].hora_fin;
                         // var botones= clonVisitas.querySelectorAll("button");
                         // debugger;
                         for (let k=1;k<=4;k++){
@@ -413,9 +448,9 @@ debugger;
                         
                         var botonBorrar=clonVisitas.children[5].children[1];
                         var botonGuardar=clonVisitas.children[5].children[0];
-                        botonBorrar.onclick=ProgramaBorrado(respuesta.profesor[i+1].datos[j].visitas[l].id_visita,botonBorrar);
+                        botonBorrar.onclick=ProgramaBorrado(respuesta.profesor[i].datos[j].visitas[l].id_visita,botonBorrar);
                         // debugger;
-                        botonGuardar.onclick=ProgramaGuardar(respuesta.profesor[i+1],respuesta.profesor[i+1].datos[j].visitas[l].id_visita,botonGuardar);
+                        botonGuardar.onclick=ProgramaGuardar(respuesta.profesor[i],respuesta.profesor[i].datos[j].visitas[l].id_visita,botonGuardar);
                         botonGuardar.disabled=true;
                         // debugger;
     
@@ -438,7 +473,7 @@ debugger;
                 // debugger;
                 botones[0].innerHTML="Añadir";
                 var botones1= clonVisitas.querySelectorAll("button");
-                botones[0].onclick=ProgramaInsertar(respuesta.profesor[i+1].datos[j],botones1,respuesta.profesor);
+                botones[0].onclick=ProgramaInsertar(respuesta.profesor[i].datos[j],botones1,respuesta.profesor);
     // debugger;
                 copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
       
