@@ -45,20 +45,20 @@ function ocultaEmpresaAdmin(){
 debugger;
 
         var span=this;
-        var empresa=span.parentElement.parentElement.parentElement;
+        var empresa=span.parentElement.parentElement;
         if(this.innerHTML==" + "){
             this.innerHTML=" - ";
             var acuerdo=empresa.getElementsByClassName("empresa");
             var acuerdo2=empresa.getElementsByClassName("acuerdo");
-            for (let i=0;i<acuerdo.length;i++){
+            for (let i=0;i<acuerdo2.length;i++){
                 acuerdo[i].style.display="block";
                 acuerdo2[i].style.display="block";
             }
         }else{
             this.innerHTML=" + ";
-            var acuerdo=empresa.getElementsByClassName("cabEmpresa");
+            var acuerdo=empresa.getElementsByClassName("empresa");
             var acuerdo2=empresa.getElementsByClassName("acuerdo");
-            for (let i=0;i<acuerdo.length;i++){
+            for (let i=0;i<acuerdo2.length;i++){
                 acuerdo[i].style.display="none";
                 acuerdo2[i].style.display="none";
             }

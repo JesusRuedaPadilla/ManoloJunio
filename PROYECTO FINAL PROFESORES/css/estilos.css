@@ -1,3 +1,47 @@
 body{
-    background-color: aqua;
+    background-color:aliceblue;
 }
+#enviar{
+    position: relative;
+    top: 12px;
+}
+.reset{
+    position: relative;
+    left: 20px;
+    bottom: 3px;
+}
+
+.empresa{
+    position: relative;
+    left: 30px;
+}
+
+
+.acuerdo{
+    position: relative;
+    left: 60px;
+}
+div {
+  width: 90%;
+}
+
+.borrar{
+    position: relative;
+    left: 15px;
+}
+
+.guardar{
+    position: relative;
+    left: 5px;
+}
+
+.borra{
+    position: relative;
+    left: 40px;
+}
+
+.guarda{
+    position: relative;
+    left: 20px;
+}
+
