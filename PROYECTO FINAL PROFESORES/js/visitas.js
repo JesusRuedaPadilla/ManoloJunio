@@ -66,6 +66,36 @@ debugger;
 
     }
 }
+
+
+function ResetContraseñaProfesor(){
+    return function (ev){
+        ev.preventDefault();
+debugger;
+
+        var Reset=this;
+        // var empresa=span.parentElement.parentElement.parentElement;
+        // if(this.innerHTML==" + "){
+        //     this.innerHTML=" - ";
+        //     var acuerdo=empresa.getElementsByClassName("empresa");
+        //     var acuerdo2=empresa.getElementsByClassName("acuerdo");
+        //     for (let i=0;i<acuerdo.length;i++){
+        //         acuerdo[i].style.display="block";
+        //         acuerdo2[i].style.display="block";
+        //     }
+        // }else{
+        //     this.innerHTML=" + ";
+        //     var acuerdo=empresa.getElementsByClassName("cabEmpresa");
+        //     var acuerdo2=empresa.getElementsByClassName("acuerdo");
+        //     for (let i=0;i<acuerdo.length;i++){
+        //         acuerdo[i].style.display="none";
+        //         acuerdo2[i].style.display="none";
+        //     }
+        // }
+
+    }
+}
+
 function cerrarUsuario(){
     return function (ev){
         ev.preventDefault();
@@ -376,6 +406,9 @@ debugger;
                 var btnDespliegue=copia.querySelector(".despliegue");
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
+
+                var btnReseteo=copia.querySelector(".reset");
+                btnReseteo.onclick=ResetContraseñaProfesor(plantilla);
     
             }
 debugger;
