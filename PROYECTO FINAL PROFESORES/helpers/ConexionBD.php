@@ -37,7 +37,7 @@ class ConexionBD{
     
     public static function obtieneProfesores(){
 
-        $res= self::$con->query("SELECT `id_usuario`,`nombre` FROM usuario");
+        $res= self::$con->query("SELECT `id_usuario`,`nombre`,apellidos,rol FROM usuario");
 
         $registro = $res->fetchAll(PDO::FETCH_ASSOC);
         return $registro;
@@ -62,7 +62,7 @@ class ConexionBD{
                      
     }
 
-    public static function existeusuario($correo,$contraseña)
+    public static function existeProfesor($correo,$contraseña)
     {
 
         $sql="SELECT * FROM usuario WHERE id_usuario like '$correo' and contrasena like '$contraseña' and rol like 'profesor'"; 

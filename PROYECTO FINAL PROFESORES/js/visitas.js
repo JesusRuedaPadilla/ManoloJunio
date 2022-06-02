@@ -18,7 +18,7 @@ window.addEventListener("load", function(){
 function ocultaEmpresa(){
     return function (ev){
         ev.preventDefault();
-
+debugger;
 
         var span=this;
         var empresa=span.parentElement.parentElement.parentElement;
@@ -39,6 +39,33 @@ function ocultaEmpresa(){
     }
 }
 
+function ocultaEmpresaAdmin(){
+    return function (ev){
+        ev.preventDefault();
+debugger;
+
+        var span=this;
+        var empresa=span.parentElement.parentElement.parentElement;
+        if(this.innerHTML==" + "){
+            this.innerHTML=" - ";
+            var acuerdo=empresa.getElementsByClassName("empresa");
+            var acuerdo2=empresa.getElementsByClassName("acuerdo");
+            for (let i=0;i<acuerdo.length;i++){
+                acuerdo[i].style.display="block";
+                acuerdo2[i].style.display="block";
+            }
+        }else{
+            this.innerHTML=" + ";
+            var acuerdo=empresa.getElementsByClassName("cabEmpresa");
+            var acuerdo2=empresa.getElementsByClassName("acuerdo");
+            for (let i=0;i<acuerdo.length;i++){
+                acuerdo[i].style.display="none";
+                acuerdo2[i].style.display="none";
+            }
+        }
+
+    }
+}
 function cerrarUsuario(){
     return function (ev){
         ev.preventDefault();
@@ -87,21 +114,17 @@ function comprobarUsuario(txtUser,txtContraseña){
             //    objetoS =respuesta;
             //    debugger;
          
+    // debugger;
+            if(respuesta.success && respuesta.admin==true){
+                   
+                procesaDatosAdmin(respuesta);
 
-               if(respuesta.success){
-
-                     procesaDatos(respuesta);
-                     
-                    //  var ocultar=document.getElementById("oculto");
-                    //  // ocultar.setAttribute('id', 'oculto');
-                    //  ocultar.innerHTML=" + ";
-                    //  var aaa= document.getElementsByClassName("cabEmpresa")[0];
-                    //  var ocultarEmpresa= document.getElementsByClassName("empresa")[0];
-                    //  ocultarEmpresa.children[1].style.display ='none';
-                    //  aaa.appendChild(ocultar);
-                    //  ocultar.onclick=ocultaEmpresa;
-                     
                 }
+                if(respuesta.success && respuesta.admin==false){
+                   
+                    procesaDatos(respuesta);
+
+               }
                 
                 if(respuesta.error){
                     var mensajeError=document.getElementById("mensaje");
@@ -125,13 +148,17 @@ function CompruebaLogueado(){
        ajax.onreadystatechange=function(){
            if(this.readyState==4 && this.status==200){
                var respuesta=JSON.parse(this.responseText);
-
-               if(respuesta.success){
+            // debugger;
+               if(respuesta.success && respuesta.admin==true){
                    
-                     procesaDatos(respuesta);
+                procesaDatosAdmin(respuesta);
 
                 }
+                if(respuesta.success && respuesta.admin==false){
+                   
+                    procesaDatos(respuesta);
 
+               }
                  
                }
         
@@ -169,6 +196,7 @@ function CompruebaLogueado(){
     // debugger;
     for(let i=0;i<respuesta.user.length;i++){
         if(respuesta.user[i].nombre_empresa!=empresa){
+            // debugger;
             empresa= respuesta.user[i].nombre_empresa;
             convenio=" ";
             var copia=plantilla.children[0].cloneNode(true);
@@ -180,7 +208,11 @@ function CompruebaLogueado(){
             btnDespliegue.onclick=ocultaEmpresa(plantilla);
 
         }
-
+        debugger;
+        if(respuesta.admin==true){
+            alert("El usuario introducido ES un administrador");
+            
+        }
         if(respuesta.user[i].Descrip!=convenio){
             convenio= respuesta.user[i].Descrip;
             sede=" ";
@@ -268,6 +300,157 @@ debugger;
 
  }
 
+ function procesaDatosAdmin(respuesta){
+    //  debugger;
+    document.getElementById("identificacion").style.display="none";
+    var plantilla=traerPlantilla("plantillas/visitasAdmin.html");
+
+   
+
+    var botonCierraSesion=plantilla.children[0];
+    document.body.appendChild(botonCierraSesion);
+    var divAux=document.createElement("div");
+    divAux.appendChild(plantilla.querySelector(".alumno"));
+    var alumno = divAux.children[0];
+    divAux.appendChild(plantilla.querySelector(".anexo"));
+    var anexo = divAux.children[1];
+    divAux.appendChild(plantilla.querySelector(".acuerdo"));
+    var acuerdo = divAux.children[2];
+    botonCierraSesion.onclick=cerrarUsuario();
+ 
+    var copiaVISITAS= alumno.querySelector(".visita");
+    divAux.appendChild(copiaVISITAS);
+
+    var empresa=" ";
+    var convenio=" ";
+    var sede=" ";
+    var nombre=" ";
+    // debugger;
+    for(let i=0;i<respuesta.profesor.length;i++){
+        // debugger;
+        for(let j=0;j<respuesta.profesor[i+1].datos.length;j++){
+
+            if(respuesta.profesor[i+1].nombre!=nombre){
+                nombre=  respuesta.profesor[i+1].nombre;
+                apellidos= respuesta.profesor[i+1].apellidos;
+
+                var copia=plantilla.children[0].cloneNode(true);
+                document.body.appendChild(copia);
+                copia.querySelector(".nombre").innerHTML=nombre +" "+apellidos;
+                
+                var btnDespliegue=copia.querySelector(".despliegue");
+                btnDespliegue.innerHTML=" + ";
+                btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
+    
+            }
+debugger;
+            if(respuesta.profesor[i+1].datos[j].nombre_empresa!=empresa){
+                empresa=  respuesta.profesor[i+1].datos[j].nombre_empresa;
+                convenio=" ";
+                var copia1=plantilla.children[1].cloneNode(true);
+                document.body.appendChild(copia1);
+                copia1.querySelector(".nombre").innerHTML=empresa;
+                copia1.style.display="none";
+                copia.appendChild(copia1);
+                // var btnDespliegue=copia.querySelector(".despliegue");
+                // btnDespliegue.innerHTML=" + ";
+                // btnDespliegue.onclick=ocultaEmpresa(plantilla);
+    
+            }
+            // debugger;
+            // if(respuesta.admin==true){
+            //     alert("El usuario introducido ES un administrador");
+                
+            // }
+            if(respuesta.profesor[i+1].datos[j].Descrip!=convenio){
+                convenio= respuesta.profesor[i+1].datos[j].Descrip;
+                sede=" ";
+                var copiaConvenio=acuerdo.cloneNode(true);
+                copiaConvenio.querySelector(".descrAcuerdo").innerHTML=convenio;
+                copiaConvenio.style.display="none";
+                copia.appendChild(copiaConvenio);
+            }
+    // debugger;
+            if(respuesta.profesor[i+1].datos[j].descripcion!=sede){
+                sede= respuesta.profesor[i+1].datos[j].descripcion;
+                var copiaAnexo=anexo.cloneNode(true);
+                copiaAnexo.querySelector(".sede").innerHTML=sede;
+                copiaConvenio.appendChild(copiaAnexo);
+                
+            }
+    
+            if(respuesta.profesor[i+1].datos[j].nombre_alumno!=alumno){
+                alum= respuesta.profesor[i+1].datos[j].nombre_alumno;
+                var copiaAlumno = alumno.cloneNode(true);
+    
+                 copiaAlumno.querySelector(".nombreAlumno").innerHTML=alum;
+             
+            // debugger;
+                if(respuesta.profesor[i+1].datos[j].visitas.length>0){
+    
+                    for(let l=0;l<respuesta.profesor[i+1].datos[j].visitas.length;l++){
+                        // debugger;
+                        var clonVisitas=copiaVISITAS.cloneNode(true);
+                        var elementos= clonVisitas.querySelectorAll("input");
+    
+                        elementos[1].value=respuesta.profesor[i+1].datos[j].visitas[l].fecha_inicio;
+                        elementos[2].value=respuesta.profesor[i+1].datos[j].visitas[l].hora_inicio;
+                        elementos[3].value=respuesta.profesor[i+1].datos[j].visitas[l].fecha_fin;
+                        elementos[4].value=respuesta.profesor[i+1].datos[j].visitas[l].hora_fin;
+                        // var botones= clonVisitas.querySelectorAll("button");
+                        // debugger;
+                        for (let k=1;k<=4;k++){
+                            elementos[k].onchange=function(){
+                                // debugger;
+                            let botonGuardar= this.parentElement.parentElement.querySelector("button");
+                            // console.log(botonGuardar);
+                            // console.log(this);
+                            // botonGuardar.setAttribute("disabled",false);
+                            botonGuardar.disabled=false;
+    
+                            }
+                        }
+                        
+                        var botonBorrar=clonVisitas.children[5].children[1];
+                        var botonGuardar=clonVisitas.children[5].children[0];
+                        botonBorrar.onclick=ProgramaBorrado(respuesta.profesor[i+1].datos[j].visitas[l].id_visita,botonBorrar);
+                        // debugger;
+                        botonGuardar.onclick=ProgramaGuardar(respuesta.profesor[i+1],respuesta.profesor[i+1].datos[j].visitas[l].id_visita,botonGuardar);
+                        botonGuardar.disabled=true;
+                        // debugger;
+    
+                        copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
+                        // copiaAlumno.appendChild(clonVisitas);
+    
+                   
+                    } 
+                  
+                    
+                //  debugger;
+                 
+            }
+    
+            
+            // debugger;
+                var clonVisitas=copiaVISITAS.cloneNode(true);
+                var botones= clonVisitas.querySelectorAll("button");
+                botones[1].parentElement.removeChild(botones[1]);
+                // debugger;
+                botones[0].innerHTML="Añadir";
+                var botones1= clonVisitas.querySelectorAll("button");
+                botones[0].onclick=ProgramaInsertar(respuesta.profesor[i+1].datos[j],botones1,respuesta.profesor);
+    // debugger;
+                copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
+      
+             }
+             copiaAnexo.appendChild(copiaAlumno);
+             
+        }
+    
+        }
+       
+ }
+
  
 function traerPlantilla(url){
     var ajax=new XMLHttpRequest();
@@ -281,6 +464,7 @@ function traerPlantilla(url){
 
 
 }
+
 
 
 function ProgramaBorrado(id_visita,botonBorrar){
