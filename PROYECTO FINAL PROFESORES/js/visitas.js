@@ -68,32 +68,51 @@ debugger;
 }
 
 
-function ResetContraseñaProfesor(){
+function ResetContraseñaProfesor(id_usuario){
     return function (ev){
         ev.preventDefault();
-debugger;
 
-        var Reset=this;
-        // var empresa=span.parentElement.parentElement.parentElement;
-        // if(this.innerHTML==" + "){
-        //     this.innerHTML=" - ";
-        //     var acuerdo=empresa.getElementsByClassName("empresa");
-        //     var acuerdo2=empresa.getElementsByClassName("acuerdo");
-        //     for (let i=0;i<acuerdo.length;i++){
-        //         acuerdo[i].style.display="block";
-        //         acuerdo2[i].style.display="block";
-        //     }
-        // }else{
-        //     this.innerHTML=" + ";
-        //     var acuerdo=empresa.getElementsByClassName("cabEmpresa");
-        //     var acuerdo2=empresa.getElementsByClassName("acuerdo");
-        //     for (let i=0;i<acuerdo.length;i++){
-        //         acuerdo[i].style.display="none";
-        //         acuerdo2[i].style.display="none";
-        //     }
-        // }
+        var botonReset=this;
+        debugger
+    
+            var datos="user="+id_usuario;
+            debugger;
+        
+                var ajax=new XMLHttpRequest();
+        
+                ajax.onreadystatechange=function(){
+                    if(this.readyState==4 && this.status==200){
+                        
+                        var respuesta=JSON.parse(this.responseText);
+                        
+                        if(respuesta.succes==true){
+    
+                            alert("Contraseña reseteada correctamente");
+                            debugger;
+                            // cerrarUsuario();
+                           
+                            // CambioContraseñaHTML=document.getElementById("cambioContraseña");
+                            // CambioContraseñaHTML.parentElement.removeChild(CambioContraseñaHTML);
+                            // inicioHTML=document.getElementById("identificacion");
+                            // inicioHTML.style.display="block";
+                            // inicioHTML.children[4].value="";
+                            // inicioHTML.children[8].value="";
+    
+                        }
+    
+                        else{
+                            alert("No se ha podido actualizar la contraseña");
+                        }
+                     
+                    }
+                 
+                }
+                ajax.open("POST","./api/resetContraseñaXAdmin.php");
+                ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+                ajax.send(datos);
 
     }
+    
 }
 
 function cerrarUsuario(){
@@ -179,18 +198,31 @@ function comprobarUsuario(txtUser,txtContraseña){
             //    objetoS =respuesta;
             //    debugger;
          
-    // debugger;
-            if(respuesta.success && respuesta.admin==true){
+         
+            if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
                    
                 procesaDatosAdmin(respuesta);
 
                 }
-                if(respuesta.success && respuesta.admin==false){
+                if(respuesta.success && respuesta.admin==false && respuesta.contraseñaCambiada==true){
                    
                     procesaDatos(respuesta);
 
                }
+
+               if(respuesta.contraseñaCambiada==false){
+                // alert("Hay que cambiar la contraseña para iniciar sesion de forma correcta");
+
+                document.getElementById("identificacion").style.display="none";
+                var plantilla=traerPlantilla("plantillas/cambioContraseña.html");
+                document.body.appendChild(plantilla);
+               debugger;
+               var aceptar=plantilla.getElementsByClassName("enviar")[0];
                 
+               aceptar.onclick=cambioContraseña(plantilla,respuesta.user);               
+                
+                
+            }
                 if(respuesta.error){
                     var mensajeError=document.getElementById("mensaje");
                   mensajeError.innerHTML=respuesta.error;
@@ -207,23 +239,95 @@ function comprobarUsuario(txtUser,txtContraseña){
        }
 
 }
+function cambioContraseña(plantilla,respuesta){
+    return function(ev){
+        ev.preventDefault();
+    debugger
+    var contraseñaXDefecto=plantilla.getElementsByClassName("contrasenaVieja")[0];
+    var contrasenaCambiada1=plantilla.getElementsByClassName("contrasenaNueva1")[0];
+    var contrasenaCambiada2=plantilla.getElementsByClassName("contrasenaNueva2")[0];
+
+    if((contrasenaCambiada1.value==contrasenaCambiada2.value) && contraseñaXDefecto.value!=0){
+
+        var datos="claveOld="+contraseñaXDefecto.value+"&user="+respuesta+"&clave="+contrasenaCambiada2.value;
+        debugger;
+        var aceptar=plantilla.getElementsByClassName("enviar")[0];
+    
+            var ajax=new XMLHttpRequest();
+    
+            ajax.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+                    
+                    var respuesta=JSON.parse(this.responseText);
+                    
+                    if(respuesta.succes==true){
+
+                        alert("Contraseña actualizada correctamente, inicie sesion con la nueva contraseña");
+                        debugger;
+                        // cerrarUsuario();
+                       
+                        CambioContraseñaHTML=document.getElementById("cambioContraseña");
+                        CambioContraseñaHTML.parentElement.removeChild(CambioContraseñaHTML);
+                        inicioHTML=document.getElementById("identificacion");
+                        inicioHTML.style.display="block";
+                        inicioHTML.children[4].value="";
+                        inicioHTML.children[8].value="";
+
+                    }
+
+                    else{
+                        alert("No se ha podido actualizar la contraseña");
+                    }
+                 
+                }
+             
+            }
+            ajax.open("POST","./api/cambioContraseña.php");
+            ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            ajax.send(datos);
+    }
+
+    else{
+        alert("La contraseñas no coinciden");
+    }
+
+ 
+
+    }   
+}
+      
+
 
 function CompruebaLogueado(){
   var ajax=new XMLHttpRequest();
        ajax.onreadystatechange=function(){
            if(this.readyState==4 && this.status==200){
                var respuesta=JSON.parse(this.responseText);
-            // debugger;
-               if(respuesta.success && respuesta.admin==true){
+            debugger;
+            if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
                    
                 procesaDatosAdmin(respuesta);
 
                 }
-                if(respuesta.success && respuesta.admin==false){
+                if(respuesta.success && respuesta.admin==false && respuesta.contraseñaCambiada==true){
                    
                     procesaDatos(respuesta);
 
                }
+
+               if(respuesta.contraseñaCambiada==false){
+                // alert("Hay que cambiar la contraseña para iniciar sesion de forma correcta");
+
+                document.getElementById("identificacion").style.display="none";
+                var plantilla=traerPlantilla("plantillas/cambioContraseña.html");
+                document.body.appendChild(plantilla);
+               debugger;
+               var aceptar=plantilla.getElementsByClassName("enviar")[0];
+                
+               aceptar.onclick=cambioContraseña(plantilla,respuesta.user);               
+                
+                
+            }
                  
                }
         
@@ -406,10 +510,17 @@ debugger;
                 var btnDespliegue=copia.querySelector(".despliegue");
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
-
-                var btnReseteo=copia.querySelector(".reset");
-                btnReseteo.onclick=ResetContraseñaProfesor(plantilla);
-    
+                debugger;
+                if(respuesta.profesor[i].id_usuario!=respuesta.user){
+                    var btnReseteo=copia.querySelector(".reset");
+                   
+                    btnReseteo.onclick=ResetContraseñaProfesor(respuesta.profesor[i].id_usuario); 
+                }
+                else{
+                    var btnReseteo=copia.querySelector(".reset");
+                    btnReseteo.parentElement.removeChild(btnReseteo);
+                }
+            
             }
 debugger;
             if(respuesta.profesor[i].datos[j].nombre_empresa!=empresa){
@@ -490,7 +601,7 @@ debugger;
                         copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
                         // copiaAlumno.appendChild(clonVisitas);
     
-                   
+                       var reseteoContraseña=document.getElementsByClassName("reset")[i];
                     } 
                   
                     
@@ -521,6 +632,7 @@ debugger;
 
  
 function traerPlantilla(url){
+    // debugger;
     var ajax=new XMLHttpRequest();
     ajax.open("GET",url,false);
     ajax.send();
@@ -725,11 +837,6 @@ function ProgramaGuardar(respuesta,id_visita,botonGuardar){
             
                 ajax.send("visita=" + JSON.stringify(Visita));
             
-           
-
-
+     
     }
 }
-
-
-   

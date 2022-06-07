@@ -72,6 +72,20 @@ class ConexionBD{
                      
     }
     
+    public static function ActualizaContraseña($id_usuario,$contraseña){
+       
+
+        $res = self::$con->query("UPDATE `usuario` SET `contrasena` = '$contraseña' where `id_usuario`='$id_usuario'");
+        
+        if($res!=false){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+      
+    }
 
     public static function BorrarVisita($id_visita){
        

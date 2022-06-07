@@ -14,19 +14,35 @@
             $rol=Session::leer('rol');
       
             if(Login::UsuarioEstaLogueado() && ConexionBD::existeProfesor($correo,$contraseña)){
-
-            $obj->success=true;
-            $obj->user=ConexionBD::obtieneTodosDatos($correo);
-            $obj->admin=false;
-            for ($i=0;$i<count($obj->user);$i++){
-                $idAlumno= $obj->user[$i]["id_alumno_detalle_convenio"];
-                    $obj->user[$i]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
-            }
+              if($contraseña==($correo.$correo)){
+                $obj->contraseñaCambiada=false;
+                $obj->user=$correo;
+                
+              }
+              else{
+                $obj->success=true;
+                $obj->contraseñaCambiada=true;
+                $obj->user=ConexionBD::obtieneTodosDatos($correo);
+                $obj->admin=false;
+                for ($i=0;$i<count($obj->user);$i++){
+                    $idAlumno= $obj->user[$i]["id_alumno_detalle_convenio"];
+                        $obj->user[$i]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
+                }
+              }
+           
 
             }
 
             if(Login::AdminLogueado() && ConexionBD::existeAdmin($correo,$contraseña)){
+              if($contraseña==($correo.$correo)){
+                $obj->contraseñaCambiada=false;
+                $obj->user=$correo;
+                
+              }
+              else{
+                $obj->user=$correo;
                 $obj->success=true;
+                $obj->contraseñaCambiada=true;
                 $obj->profesor=ConexionBD::obtieneProfesores();
                 $obj->admin=true;
                 for($i=0;$i<count($obj->profesor);$i++){
@@ -39,6 +55,8 @@
                   }
                
                 }
+              }
+                
             }
            
     }
