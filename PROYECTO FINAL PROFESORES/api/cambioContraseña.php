@@ -10,13 +10,14 @@ include_once "../helpers/Validator.php";
   
   $id_usuario = $_POST['user'];
   $contraseña = $_POST['clave'];
-  $contraseñaDefecto=$_POST['claveOld'];
+  $contraseñaAntigua=$_POST['claveOld'];
 
   if(isset($_POST['user']) && isset($_POST['clave']) && !empty($_POST['user']) && !empty($_POST['clave']) && !empty($_POST['claveOld'])){
    
   
       if(ConexionBD::conecta()){
-        if($contraseñaDefecto==($id_usuario.$id_usuario)){
+        $contraseñaActualEnBD=ConexionBD::dameContraseña($id_usuario);
+        if(($contraseñaAntigua==($id_usuario.$id_usuario)) || ($contraseñaAntigua==$contraseñaActualEnBD['contrasena'])){
 
           Session::init();
           ConexionBD::ActualizaContraseña($id_usuario,$contraseña);

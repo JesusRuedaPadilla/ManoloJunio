@@ -87,6 +87,16 @@ class ConexionBD{
       
     }
 
+    public static function dameContraseña($id_usuario){
+       
+        $id_usuario;
+        $res = self::$con->query("SELECT contrasena FROM usuario WHERE id_usuario like '$id_usuario'");
+        
+        $registro = $res->fetch(PDO::FETCH_ASSOC);
+        return $registro;
+      
+    }
+
     public static function BorrarVisita($id_visita){
        
 

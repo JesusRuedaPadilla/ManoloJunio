@@ -23,6 +23,7 @@
                 $obj->success=true;
                 $obj->contraseñaCambiada=true;
                 $obj->user=ConexionBD::obtieneTodosDatos($correo);
+                $obj->usuario=$correo;
                 $obj->admin=false;
                 for ($i=0;$i<count($obj->user);$i++){
                     $idAlumno= $obj->user[$i]["id_alumno_detalle_convenio"];
@@ -40,7 +41,7 @@
                 
               }
               else{
-                $obj->user=$correo;
+                $obj->usuario=$correo;
                 $obj->success=true;
                 $obj->contraseñaCambiada=true;
                 $obj->profesor=ConexionBD::obtieneProfesores();

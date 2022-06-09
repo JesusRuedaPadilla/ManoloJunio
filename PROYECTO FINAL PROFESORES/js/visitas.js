@@ -131,9 +131,12 @@ debugger;
                     padre.removeChild(botonCierraSesion);
                     var divEmpresas=padre.getElementsByClassName("empresa");
                     var numEmpresas=divEmpresas.length;
+                    botonCambioContraseña=document.getElementsByClassName("change")[0];
+                    padre.removeChild(botonCambioContraseña);
                     for (let i=0;i<numEmpresas;i++){
                         padre.removeChild(divEmpresas[0]);
                     }
+
                     var divInicioSesion=document.getElementById("identificacion");
                     divInicioSesion.style.display="block";
                     var inputCorreo=divInicioSesion.children[4];
@@ -167,6 +170,8 @@ debugger;
                     padre.removeChild(botonCierraSesion);
                     var divProfesores=padre.getElementsByClassName("profesor");
                     var numProfesores=divProfesores.length;
+                    botonCambioContraseña=document.getElementsByClassName("change")[0];
+                    padre.removeChild(botonCambioContraseña);
                     for (let i=0;i<numProfesores;i++){
                         padre.removeChild(divProfesores[0]);
                     }
@@ -242,7 +247,7 @@ function comprobarUsuario(txtUser,txtContraseña){
 function cambioContraseña(plantilla,respuesta){
     return function(ev){
         ev.preventDefault();
-    debugger
+    debugger;
     var contraseñaXDefecto=plantilla.getElementsByClassName("contrasenaVieja")[0];
     var contrasenaCambiada1=plantilla.getElementsByClassName("contrasenaNueva1")[0];
     var contrasenaCambiada2=plantilla.getElementsByClassName("contrasenaNueva2")[0];
@@ -296,7 +301,62 @@ function cambioContraseña(plantilla,respuesta){
     }   
 }
       
+function ModificaPlantillaCambioContraseña(respuesta){
+    return function(ev){
+        ev.preventDefault();
+    debugger;
+    var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
+    var body=document.getElementsByTagName("body")[0];
+        let logout=document.getElementById("logout");
+        let botonCambioContraseña=document.getElementsByClassName("change")[0];
+        var empresas=document.getElementsByClassName("empresa");
 
+        for(let i=0;i<empresas.length;i++){
+          var empresa= empresas[i].style.display="none";
+        }
+       
+        logout.parentElement.removeChild(logout);
+        botonCambioContraseña.parentElement.removeChild(botonCambioContraseña);
+        // empresas.parentElement.removeChild(empresas);
+
+        document.body.appendChild(plantilla1);
+
+        var aceptar=plantilla1.getElementsByClassName("enviar")[0];
+                
+        aceptar.onclick=cambioContraseña(plantilla1,respuesta.usuario);    
+
+
+    }   
+}
+
+function ModificaPlantillaCambioContraseñaADMIN(respuesta){
+    return function(ev){
+        ev.preventDefault();
+    debugger;
+    var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
+    var body=document.getElementsByTagName("body")[0];
+        let logout=document.getElementById("logout");
+        let botonCambioContraseña=document.getElementsByClassName("change")[0];
+        var profesor=document.getElementsByClassName("profesor");
+
+        for(let i=0;i<profesor.length;i++){
+          var empresa= profesor[i].style.display="none";
+        }
+       
+        logout.parentElement.removeChild(logout);
+        botonCambioContraseña.parentElement.removeChild(botonCambioContraseña);
+        // empresas.parentElement.removeChild(empresas);
+
+        document.body.appendChild(plantilla1);
+
+        var aceptar=plantilla1.getElementsByClassName("enviar")[0];
+                
+        aceptar.onclick=cambioContraseña(plantilla1,respuesta.usuario);    
+
+
+    }   
+}
+   
 
 function CompruebaLogueado(){
   var ajax=new XMLHttpRequest();
@@ -337,6 +397,7 @@ function CompruebaLogueado(){
 }
 
 
+
  function procesaDatos(respuesta){
      
     document.getElementById("identificacion").style.display="none";
@@ -346,6 +407,8 @@ function CompruebaLogueado(){
 
     var botonCierraSesion=plantilla.children[0];
     document.body.appendChild(botonCierraSesion);
+    var botonCambioContraseña=plantilla.getElementsByClassName("change")[0];
+    document.body.appendChild(botonCambioContraseña);
     var divAux=document.createElement("div");
     divAux.appendChild(plantilla.querySelector(".alumno"));
     var alumno = divAux.children[0];
@@ -354,6 +417,14 @@ function CompruebaLogueado(){
     divAux.appendChild(plantilla.querySelector(".acuerdo"));
     var acuerdo = divAux.children[2];
     botonCierraSesion.onclick=cerrarUsuario();
+debugger;
+
+    botonCambioContraseña.onclick=ModificaPlantillaCambioContraseña(respuesta);
+ 
+    // botonCambioContraseña.onclick=traerPlantilla("plantillas/cambioContraseña.html");
+    // var desaparece=plantilla;
+
+    // desaparece.parentElement.removeChild(desaparece);
  
     var copiaVISITAS= alumno.querySelector(".visita");
     divAux.appendChild(copiaVISITAS);
@@ -475,9 +546,11 @@ debugger;
     var plantilla=traerPlantilla("plantillas/visitasAdmin.html");
 
    
-
+debugger;
     var botonCierraSesion=plantilla.children[0];
     document.body.appendChild(botonCierraSesion);
+    var botonCambioContraseña=plantilla.getElementsByClassName("change")[0];
+    document.body.appendChild(botonCambioContraseña);
     var divAux=document.createElement("div");
     divAux.appendChild(plantilla.querySelector(".alumno"));
     var alumno = divAux.children[0];
@@ -487,6 +560,13 @@ debugger;
     var acuerdo = divAux.children[2];
     botonCierraSesion.onclick=cerrarUsuarioAdmin();
  
+    botonCambioContraseña.onclick=ModificaPlantillaCambioContraseñaADMIN(respuesta);
+    // var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
+    // botonCambioContraseña.onclick=cambioContraseña(plantilla1,respuesta);
+    // var desaparece=plantilla;
+
+    // desaparece.parentElement.removeChild(desaparece);
+
     var copiaVISITAS= alumno.querySelector(".visita");
     divAux.appendChild(copiaVISITAS);
 
@@ -511,7 +591,7 @@ debugger;
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
                 debugger;
-                if(respuesta.profesor[i].id_usuario!=respuesta.user){
+                if(respuesta.profesor[i].id_usuario!=respuesta.usuario){
                     var btnReseteo=copia.querySelector(".reset");
                    
                     btnReseteo.onclick=ResetContraseñaProfesor(respuesta.profesor[i].id_usuario); 
@@ -622,11 +702,14 @@ debugger;
                 copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
       
              }
+             debugger;
              copiaAnexo.appendChild(copiaAlumno);
+
              
         }
     
         }
+       
        
  }
 
@@ -644,8 +727,7 @@ function traerPlantilla(url){
 
 
 }
-
-
+ 
 
 function ProgramaBorrado(id_visita,botonBorrar){
     return function(ev){
