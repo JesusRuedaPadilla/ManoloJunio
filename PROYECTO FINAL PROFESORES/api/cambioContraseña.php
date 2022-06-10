@@ -17,7 +17,7 @@ include_once "../helpers/Validator.php";
   
       if(ConexionBD::conecta()){
         $contraseñaActualEnBD=ConexionBD::dameContraseña($id_usuario);
-        if(($contraseñaAntigua==($id_usuario.$id_usuario)) || ($contraseñaAntigua==$contraseñaActualEnBD['contrasena'])){
+        if($contraseñaAntigua==$contraseñaActualEnBD['contrasena']){
 
           Session::init();
           ConexionBD::ActualizaContraseña($id_usuario,$contraseña);
