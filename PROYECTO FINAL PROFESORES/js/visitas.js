@@ -18,7 +18,7 @@ window.addEventListener("load", function(){
 function ocultaEmpresa(){
     return function (ev){
         ev.preventDefault();
-debugger;
+// debugger;
 
         var span=this;
         var empresa=span.parentElement.parentElement.parentElement;
@@ -42,7 +42,7 @@ debugger;
 function ocultaEmpresaAdmin(){
     return function (ev){
         ev.preventDefault();
-debugger;
+// debugger;
 
         var span=this;
         var empresa=span.parentElement.parentElement;
@@ -73,10 +73,10 @@ function ResetContraseñaProfesor(id_usuario){
         ev.preventDefault();
 
         var botonReset=this;
-        debugger
+        // debugger
     
             var datos="user="+id_usuario;
-            debugger;
+            // debugger;
         
                 var ajax=new XMLHttpRequest();
         
@@ -88,7 +88,7 @@ function ResetContraseñaProfesor(id_usuario){
                         if(respuesta.succes==true){
     
                             alert("Contraseña reseteada correctamente");
-                            debugger;
+                            // debugger;
                             // cerrarUsuario();
                            
                             // CambioContraseñaHTML=document.getElementById("cambioContraseña");
@@ -118,7 +118,7 @@ function ResetContraseñaProfesor(id_usuario){
 function cerrarUsuario(){
     return function (ev){
         ev.preventDefault();
-debugger;
+// debugger;
         var ajax=new XMLHttpRequest();
         ajax.onreadystatechange=function(){
             if(this.readyState==4 && this.status==200){
@@ -157,7 +157,7 @@ debugger;
 function cerrarUsuarioAdmin(){
     return function (ev){
         ev.preventDefault();
-debugger;
+// debugger;
         var ajax=new XMLHttpRequest();
         ajax.onreadystatechange=function(){
             if(this.readyState==4 && this.status==200){
@@ -221,7 +221,7 @@ function comprobarUsuario(txtUser,txtContraseña){
                 document.getElementById("identificacion").style.display="none";
                 var plantilla=traerPlantilla("plantillas/cambioContraseña.html");
                 document.body.appendChild(plantilla);
-               debugger;
+            //    debugger;
                var aceptar=plantilla.getElementsByClassName("enviar")[0];
                 
                aceptar.onclick=cambioContraseña(plantilla,respuesta.user);               
@@ -247,7 +247,7 @@ function comprobarUsuario(txtUser,txtContraseña){
 function cambioContraseña(plantilla,respuesta){
     return function(ev){
         ev.preventDefault();
-    debugger;
+    // debugger;
     var contraseñaXDefecto=plantilla.getElementsByClassName("contrasenaVieja")[0];
     var contrasenaCambiada1=plantilla.getElementsByClassName("contrasenaNueva1")[0];
     var contrasenaCambiada2=plantilla.getElementsByClassName("contrasenaNueva2")[0];
@@ -255,7 +255,7 @@ function cambioContraseña(plantilla,respuesta){
     if((contrasenaCambiada1.value==contrasenaCambiada2.value) && contraseñaXDefecto.value!=0){
 
         var datos="claveOld="+contraseñaXDefecto.value+"&user="+respuesta+"&clave="+contrasenaCambiada2.value;
-        debugger;
+        // debugger;
         var aceptar=plantilla.getElementsByClassName("enviar")[0];
     
             var ajax=new XMLHttpRequest();
@@ -268,7 +268,7 @@ function cambioContraseña(plantilla,respuesta){
                     if(respuesta.succes==true){
 
                         alert("Contraseña actualizada correctamente, inicie sesion con la nueva contraseña");
-                        debugger;
+                        // debugger;
                         // cerrarUsuario();
                        
                         CambioContraseñaHTML=document.getElementById("cambioContraseña");
@@ -304,7 +304,7 @@ function cambioContraseña(plantilla,respuesta){
 function ModificaPlantillaCambioContraseña(respuesta){
     return function(ev){
         ev.preventDefault();
-    debugger;
+    // debugger;
     var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
     var body=document.getElementsByTagName("body")[0];
         let logout=document.getElementById("logout");
@@ -332,7 +332,7 @@ function ModificaPlantillaCambioContraseña(respuesta){
 function ModificaPlantillaCambioContraseñaADMIN(respuesta){
     return function(ev){
         ev.preventDefault();
-    debugger;
+    // debugger;
     var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
     var body=document.getElementsByTagName("body")[0];
         let logout=document.getElementById("logout");
@@ -363,7 +363,7 @@ function CompruebaLogueado(){
        ajax.onreadystatechange=function(){
            if(this.readyState==4 && this.status==200){
                var respuesta=JSON.parse(this.responseText);
-            debugger;
+            // debugger;
             if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
                    
                 procesaDatosAdmin(respuesta);
@@ -381,7 +381,7 @@ function CompruebaLogueado(){
                 document.getElementById("identificacion").style.display="none";
                 var plantilla=traerPlantilla("plantillas/cambioContraseña.html");
                 document.body.appendChild(plantilla);
-               debugger;
+            //    debugger;
                var aceptar=plantilla.getElementsByClassName("enviar")[0];
                 
                aceptar.onclick=cambioContraseña(plantilla,respuesta.user);               
@@ -417,7 +417,7 @@ function CompruebaLogueado(){
     divAux.appendChild(plantilla.querySelector(".acuerdo"));
     var acuerdo = divAux.children[2];
     botonCierraSesion.onclick=cerrarUsuario();
-debugger;
+// debugger;
 
     botonCambioContraseña.onclick=ModificaPlantillaCambioContraseña(respuesta);
  
@@ -448,7 +448,7 @@ debugger;
             btnDespliegue.onclick=ocultaEmpresa(plantilla);
 
         }
-        debugger;
+        // debugger;
         if(respuesta.admin==true){
             alert("El usuario introducido ES un administrador");
             
@@ -492,7 +492,7 @@ debugger;
                     // debugger;
                     for (let l=1;l<=4;l++){
                         elementos[l].onchange=function(){
-                            debugger;
+                            // debugger;
                         let botonGuardar= this.parentElement.parentElement.querySelector("button");
                         // console.log(botonGuardar);
                         // console.log(this);
@@ -530,7 +530,7 @@ debugger;
             botones[0].innerHTML="Añadir";
             var botones1= clonVisitas.querySelectorAll("button");
             botones[0].onclick=ProgramaInsertar(respuesta.user[i],botones1,respuesta.user);
-debugger;
+// debugger;
             copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
   
          }
@@ -546,7 +546,7 @@ debugger;
     var plantilla=traerPlantilla("plantillas/visitasAdmin.html");
 
    
-debugger;
+// debugger;
     var botonCierraSesion=plantilla.children[0];
     document.body.appendChild(botonCierraSesion);
     var botonCambioContraseña=plantilla.getElementsByClassName("change")[0];
@@ -590,7 +590,7 @@ debugger;
                 var btnDespliegue=copia.querySelector(".despliegue");
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
-                debugger;
+                // debugger;
                 if(respuesta.profesor[i].id_usuario!=respuesta.usuario){
                     var btnReseteo=copia.querySelector(".reset");
                    
@@ -602,7 +602,7 @@ debugger;
                 }
             
             }
-debugger;
+// debugger;
             if(respuesta.profesor[i].datos[j].nombre_empresa!=empresa){
                 empresa=  respuesta.profesor[i].datos[j].nombre_empresa;
                 convenio=" ";
@@ -666,12 +666,13 @@ debugger;
                             // console.log(this);
                             // botonGuardar.setAttribute("disabled",false);
                             botonGuardar.disabled=false;
-    
+                            
                             }
                         }
                         
                         var botonBorrar=clonVisitas.children[5].children[1];
                         var botonGuardar=clonVisitas.children[5].children[0];
+                        // debugger;
                         botonBorrar.onclick=ProgramaBorrado(respuesta.profesor[i].datos[j].visitas[l].id_visita,botonBorrar);
                         // debugger;
                         botonGuardar.onclick=ProgramaGuardar(respuesta.profesor[i],respuesta.profesor[i].datos[j].visitas[l].id_visita,botonGuardar);
@@ -682,6 +683,9 @@ debugger;
                         // copiaAlumno.appendChild(clonVisitas);
     
                        var reseteoContraseña=document.getElementsByClassName("reset")[i];
+                      
+                     
+                       
                     } 
                   
                     
@@ -691,6 +695,19 @@ debugger;
     
             
             // debugger;
+            // var check=document.getElementsByClassName("checker");
+            
+            //    var hola= check.length;
+            //    var tr= check.length.parentElement.parentElement;
+            //    tr.removeChild(tr.children[6]);
+            
+            // var tr=check.parentElement.parentElement;
+            
+           
+            // if(check!=null){
+            //     check.parentElement.removeChild(check);
+            // }
+          
                 var clonVisitas=copiaVISITAS.cloneNode(true);
                 var botones= clonVisitas.querySelectorAll("button");
                 botones[1].parentElement.removeChild(botones[1]);
@@ -698,13 +715,36 @@ debugger;
                 botones[0].innerHTML="Añadir";
                 var botones1= clonVisitas.querySelectorAll("button");
                 botones[0].onclick=ProgramaInsertar(respuesta.profesor[i].datos[j],botones1,respuesta.profesor);
-    // debugger;
+             
                 copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
-      
+            //  if(check.checked==true){
+            //     alert("PILLALO");
+            //  }
+            //     else{
+            //         alert("AAA");
+            //     }
              }
-             debugger;
+            //  debugger;
              copiaAnexo.appendChild(copiaAlumno);
+             debugger;
+             var check=document.getElementsByClassName("checker");
+            //  debugger;
+            for(let i=0;i<check.length;i++){
+                check[i].onchange=compruebaNumeroVisitas();
+            }
+            
+             var tr= document.getElementsByClassName("visita");
+             var longitudTr=tr.length-1;
+            tr[longitudTr];
+            if(tr[longitudTr].children[5].children[0].textContent=="Añadir"){
+                var ocultaCheck=tr[longitudTr].children[6].children[0].parentElement;
+                ocultaCheck.style.display="none";
+            }
 
+          
+           
+      
+           
              
         }
     
@@ -713,13 +753,91 @@ debugger;
        
  }
 
+ function compruebaNumeroVisitas(){
+    return function(ev){
+        ev.preventDefault();
+       
+        
+        if(this.checked=="false"){
+            this.checked="true";
+        }
+        else if(this.checked=="true"){
+            this.checked="false";
+        }
+        debugger;
+    //   var numVisitas= this.parentElement.parentElement.parentElement.children.length-1;
+    //     for(let i=0;i<numVisitas;i++){
+    //        var visitaSelecc= this.parentElement.parentElement;
+
+          var holas= this.parentElement.parentElement.parentElement.children;
+          var numberOfCheckedItems = 0; 
+          for(let i=0;i<holas.length-1;i++){
+            
+           var chequeado=holas[i].children[6].children[0].checked;
+            
+           if(chequeado==true){
+            numberOfCheckedItems=numberOfCheckedItems+1;  
+           }
+           var chequeado = Array(holas.length-1);
+           if(numberOfCheckedItems==3){
+            for(let i=0;i<holas.length-1;i++){
+           
+            chequeado[i]=holas[i].children[6].children[0].checked;
+            if(chequeado[i]==false){
+                var botoncheckbox=this.parentElement.parentElement.parentElement.getElementsByClassName("checker")[i];
+              botoncheckbox.setAttribute("disabled",true);
+            }
+
+            }
+        }
+        else if(numberOfCheckedItems<3){
+            for(let i=0;i<holas.length-1;i++){
+           
+                chequeado[i]=holas[i].children[6].children[0].checked;
+                if(chequeado[i]==false){
+                  var botoncheckbox=this.parentElement.parentElement.parentElement.getElementsByClassName("checker")[i];
+                  botoncheckbox.removeAttribute("disabled");
+                }
+    
+                }
+        }
+          }
+        // }
+        // alert("HOLA");
+
+    //     var checkboxes = document.getElementsByName("favorite_pet");  
+    // var numberOfCheckedItems = 0;  
+    // for(var i = 0; i < checkboxes.length; i++)  
+    // {  
+    //     if(checkboxes[i].checked)  
+    //         numberOfCheckedItems++;  
+    // }  
+    // if(numberOfCheckedItems > 2)  
+    // {  
+    //     alert("You can't select more than two favorite pets!");  
+    //     return false;  
+    // }  
+    //     var ajax=new XMLHttpRequest();
+    //     ajax.onreadystatechange=function(){
+    //         if(this.readyState==4 && this.status==200){
+    //             var respuesta=JSON.parse(this.responseText);
+    //          // debugger;
+    //          if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
+                    
+    //              procesaDatosAdmin(respuesta);
+    //          }
+    // }
+    // }
+        // ajax.open("GET","./api/SesionPHPInit.php");
+        // ajax.send();
+ }
+}
  
 function traerPlantilla(url){
     // debugger;
     var ajax=new XMLHttpRequest();
     ajax.open("GET",url,false);
     ajax.send();
-
     var TextoPlantilla=ajax.responseText;
     var div=document.createElement("div");
     div.innerHTML=TextoPlantilla;
@@ -766,6 +884,7 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
     return function(ev){
         // debugger;
         var fila=this.parentElement.parentElement;
+    
         var inputs=fila.querySelectorAll("input");
         // let indice = inputs[2].value.indexOf(" ' ' ");
         let cadenaExtraida1 = inputs[2].value.substring("0", "2");
@@ -821,9 +940,9 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
                     Filainsertada.children[i].children[0].value="";
 
                    }
-
+    // debugger;
                    Filainsertada.parentElement.insertBefore(fila, Filainsertada.parentElement.children[0]);
-                   debugger;
+                //    debugger;
                    botonBorrar= fila.children[5].children[0].cloneNode(true);
                 //    fila.children[5].children[0].disabled=true;
                    var botonGuardar=fila.children[5].children[0].innerHTML="Guardar";
@@ -832,8 +951,16 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
                 //    debugger;
                     fila.children[5].children[0].onclick=ProgramaGuardar(respuesta.id_alumno_detalle_convenio,id_visitaInsertada,botonGuardar);
                     fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
-                   
+                    fila.children[6].style.display="block";
+                    debugger;
+                    var check=document.getElementsByClassName("checker");
+                    for(let i=0;i<check.length;i++){
+                        check[i].onchange=compruebaNumeroVisitas();
+                    }
+            // clonCheckBox.appendChild(inputs[0].parentElement);
                  }
+                //  debugger;
+              
                  if(respuestas.fallo){
                      alert("Compruebe que todos los datos introducidos son correctos");
                  }
@@ -863,7 +990,7 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
 
 function ProgramaGuardar(respuesta,id_visita,botonGuardar){
     return function(ev){
-        debugger;
+        // debugger;
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
         // debugger;
@@ -878,7 +1005,7 @@ function ProgramaGuardar(respuesta,id_visita,botonGuardar){
             if(this.readyState==4 && this.status==200){
                 // debugger;
                 var respuesta=JSON.parse(this.responseText);
-                debugger;
+                // debugger;
                 if(respuesta.success){
 
                     alert("VISITA ACTUALIZADA CORRECTAMENTE");

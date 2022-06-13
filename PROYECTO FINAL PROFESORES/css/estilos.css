@@ -45,3 +45,13 @@ div {
     left: 20px;
 }
 
+.checker{
+    position: relative;
+    left: 20px;
+}
+
+p{
+    display: inline;
+    left: 25px;
+    position: relative;
+}
