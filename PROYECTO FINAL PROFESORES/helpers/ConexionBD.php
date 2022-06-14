@@ -126,16 +126,10 @@ class ConexionBD{
       
     }
 
-    public static function ActualizaDietas($Visita){
+    public static function ActualizaDietas($id_visita){
        
-        $fecha_inicio=$Visita[0];
-        $hora_inicio=$Visita[1];
-        $fecha_fin=$Visita[2];
-        $hora_fin=$Visita[3];
-        $id_alumno_detalle_convenio=$Visita[4];
-        $id_visita=$Visita[5];
-
-        $res = self::$con->query("UPDATE `visita` SET `fecha_inicio` = '$fecha_inicio', `hora_inicio` = '$hora_inicio', `fecha_fin` = '$fecha_fin', `hora_fin` = '$hora_fin' WHERE `visita`.`id_visita` = '$id_visita' AND `visita`.`id_alumno_detalle_convenio` = '$id_alumno_detalle_convenio'");
+    
+        $res = self::$con->query("UPDATE `visita` SET `dieta` = '1' WHERE `id_visita` = '$id_visita'");
         
         if($res!=false){
             return true;
@@ -146,6 +140,22 @@ class ConexionBD{
         
       
     }
+
+    public static function ActualizaDietasACero($id_visita){
+       
+    
+        $res = self::$con->query("UPDATE `visita` SET `dieta` = '0' WHERE `id_visita` = '$id_visita'");
+        
+        if($res!=false){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+      
+    }
+
 
     public static function InsertarVisitas($Visita){
         $fecha_inicio=$Visita[0];

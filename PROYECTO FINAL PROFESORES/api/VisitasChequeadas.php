@@ -9,15 +9,24 @@ include_once "../helpers/Validator.php";
 
   $obj=new stdClass();
   
-    $chequeo = $_POST['check'];
+    $id_visita = $_POST['id_visita'];
+    $dieta = $_POST['dieta'];
+    if(ConexionBD::conecta()){
+      if($dieta==1){
+  
+        ConexionBD::ActualizaDietasACero($id_visita);
+        $obj->succes=true;
+      
+  
+    }
+    else{
 
-      if(ConexionBD::conecta()){
-
-            ConexionBD::ActualizaContraseña($id_usuario,$contraseña);
+            ConexionBD::ActualizaDietas($id_visita);
             $obj->succes=true;
           
       }
-      
+    }
+  
     else{
         $obj->succes=false;
     } 

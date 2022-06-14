@@ -662,7 +662,7 @@ function CompruebaLogueado(){
                         //  debugger;
                         for(let ñ=0;ñ<check.length;ñ++){
                             debugger;
-                            elementos[5].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j]);
+                            elementos[5].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j].visitas[l]);
                         }
 
                         if(elementos[5].value=respuesta.profesor[i].datos[j].visitas[l].dieta==1){
@@ -764,9 +764,10 @@ function CompruebaLogueado(){
 
  function compruebaNumeroVisitas(respuesta){
     return function(ev){
-        respuesta;
-        respuesta.visitas.length;
-     
+        debugger;
+       
+        var datos="id_visita="+respuesta.id_visita+"&dieta="+respuesta.dieta;
+        
         ev.preventDefault();
        if(numberOfCheckedItems==3){
         this.setAttribute("disabled",true);
@@ -780,10 +781,17 @@ function CompruebaLogueado(){
         else if(this.checked=="true"){
             this.checked="false";
         }
-       
-    //   var numVisitas= this.parentElement.parentElement.parentElement.children.length-1;
-    //     for(let i=0;i<numVisitas;i++){
-    //        var visitaSelecc= this.parentElement.parentElement;
+
+        var ajax=new XMLHttpRequest();
+        ajax.onreadystatechange=function(){
+            if(this.readyState==4 && this.status==200){
+                var respuesta=JSON.parse(this.responseText);
+ 
+            }
+        }
+            ajax.open("POST","./api/VisitasChequeadas.php");
+            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            ajax.send(datos);
 
           var holas= this.parentElement.parentElement.parentElement.children;
           var numberOfCheckedItems = 0; 
@@ -809,21 +817,6 @@ function CompruebaLogueado(){
             debugger;
             chequeado="check="+chequeado;
             
-            var ajax=new XMLHttpRequest();
-            ajax.onreadystatechange=function(){
-                if(this.readyState==4 && this.status==200){
-                    var respuesta=JSON.parse(this.responseText);
-                 // debugger;
-                 if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
-  
-                 }
-  
-              }
-              
-          }
-          ajax.open("POST","./api/VisitasChequeadas.php");
-          ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-          ajax.send(chequeado);
         }
         else if(numberOfCheckedItems<3){
             for(let i=0;i<holas.length-1;i++){
