@@ -651,11 +651,26 @@ function CompruebaLogueado(){
                         // debugger;
                         var clonVisitas=copiaVISITAS.cloneNode(true);
                         var elementos= clonVisitas.querySelectorAll("input");
-    
+                        debugger;
                         elementos[1].value=respuesta.profesor[i].datos[j].visitas[l].fecha_inicio;
                         elementos[2].value=respuesta.profesor[i].datos[j].visitas[l].hora_inicio;
                         elementos[3].value=respuesta.profesor[i].datos[j].visitas[l].fecha_fin;
                         elementos[4].value=respuesta.profesor[i].datos[j].visitas[l].hora_fin;
+                        elementos[5].value=respuesta.profesor[i].datos[j].visitas[l].dieta;
+                        
+                        var check= clonVisitas.querySelectorAll("input");
+                        //  debugger;
+                        for(let ñ=0;ñ<check.length;ñ++){
+                            debugger;
+                            elementos[5].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j]);
+                        }
+
+                        if(elementos[5].value=respuesta.profesor[i].datos[j].visitas[l].dieta==1){
+
+                           var holaar= elementos[5];
+                           holaar.checked=true;
+
+                        }
                         // var botones= clonVisitas.querySelectorAll("button");
                         // debugger;
                         for (let k=1;k<=4;k++){
@@ -725,12 +740,12 @@ function CompruebaLogueado(){
           debugger;
              copiaAnexo.appendChild(copiaAlumno);
             //  debugger;
-             var check= copiaAnexo.querySelectorAll("input");
-             //  debugger;
-             for(let ñ=0;ñ<check.length;ñ++){
-                 debugger;
-                 check[ñ].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j]);
-             }
+            //  var check= copiaAnexo.querySelectorAll("input");
+            //  //  debugger;
+            //  for(let ñ=0;ñ<check.length;ñ++){
+            //      debugger;
+            //      check[ñ].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j]);
+            //  }
             
              var tr= document.getElementsByClassName("visita");
              var longitudTr=tr.length-1;
@@ -750,7 +765,8 @@ function CompruebaLogueado(){
  function compruebaNumeroVisitas(respuesta){
     return function(ev){
         respuesta;
-        
+        respuesta.visitas.length;
+     
         ev.preventDefault();
        if(numberOfCheckedItems==3){
         this.setAttribute("disabled",true);
