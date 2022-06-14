@@ -669,9 +669,19 @@ function CompruebaLogueado(){
                         }
 
                         if(elementos[5].value=respuesta.profesor[i].datos[j].visitas[l].dieta==1){
-
+                            debugger;
                            var holaar= elementos[5];
                            holaar.checked=true;
+
+                           if(holaar.checked==true){
+                            holaar.parentElement.parentElement.children[1].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.parentElement.children[2].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.parentElement.children[3].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.parentElement.children[4].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.previousElementSibling.children[0].disabled=true;
+                            holaar.parentElement.previousElementSibling.children[1].disabled=true;
+                        }
+                           
 
                         }
                         // var botones= clonVisitas.querySelectorAll("button");
@@ -769,7 +779,23 @@ function CompruebaLogueado(){
  function compruebaNumeroVisitas(respuesta){
     return function(ev){
         debugger;
-       
+        if(this.checked==true){
+            this.parentElement.parentElement.children[1].children[0].setAttribute("readonly",true);
+            this.parentElement.parentElement.children[2].children[0].setAttribute("readonly",true);
+            this.parentElement.parentElement.children[3].children[0].setAttribute("readonly",true);
+            this.parentElement.parentElement.children[4].children[0].setAttribute("readonly",true);
+            this.parentElement.previousElementSibling.children[0].disabled=true;
+            this.parentElement.previousElementSibling.children[1].disabled=true;
+        }
+        else if(this.checked==false){
+            this.parentElement.parentElement.children[1].children[0].removeAttribute("readonly");
+            this.parentElement.parentElement.children[2].children[0].removeAttribute("readonly");
+            this.parentElement.parentElement.children[3].children[0].removeAttribute("readonly");
+            this.parentElement.parentElement.children[4].children[0].removeAttribute("readonly");
+            this.parentElement.previousElementSibling.children[0].disabled=false;
+            this.parentElement.previousElementSibling.children[1].disabled=false;
+        }
+     
         var datos="id_visita="+respuesta.id_visita+"&dieta="+respuesta.dieta;
         
         ev.preventDefault();
@@ -867,7 +893,7 @@ function ProgramaBorrado(id_visita,botonBorrar){
                     // debugger;
                    var FilaEliminada= botonBorrar.parentElement.parentElement;
                    FilaEliminada.parentElement.removeChild(FilaEliminada);
-                   alert("VISITA ELIMINADA CORRECTAMENTE");
+                //    alert("VISITA ELIMINADA CORRECTAMENTE");
                  }
  
                   
@@ -968,13 +994,14 @@ function ProgramaInsertar(respuesta,botones1){
                         // debugger;
                         var respuestas=JSON.parse(this.responseText);
                         for(let i=0;i<check.length;i++){
+                            debugger;
                             respuestas;
                             check[0].onchange=compruebaNumeroVisitasAlInsertar(respuestas.response,respuestas.response.id_visita);
                         }
                     }
                         
                     }
-                    ajax.open("POST","./api/dameVisitaAdmin.php");
+                    ajax.open("POST","./api/dameVisitaAdmin.php",false);
                     ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
                     ajax.send("id_visita="+id_visitaInsertada);
 
@@ -1012,11 +1039,44 @@ function ProgramaInsertar(respuesta,botones1){
 function compruebaNumeroVisitasAlInsertar(respuesta,id_visitaInsertada){
     return function(ev){
         debugger;
-        respuesta;
-        id_visitaInsertada;
+        if(this.checked==true){
+            this.parentElement.parentElement.children[1].children[0].setAttribute("readonly",true);
+            this.parentElement.parentElement.children[2].children[0].setAttribute("readonly",true);
+            this.parentElement.parentElement.children[3].children[0].setAttribute("readonly",true);
+            this.parentElement.parentElement.children[4].children[0].setAttribute("readonly",true);
+            this.parentElement.previousElementSibling.children[0].disabled=true;
+            this.parentElement.previousElementSibling.children[1].disabled=true;
+        }
+        else if(this.checked==false){
+            this.parentElement.parentElement.children[1].children[0].removeAttribute("readonly");
+            this.parentElement.parentElement.children[2].children[0].removeAttribute("readonly");
+            this.parentElement.parentElement.children[3].children[0].removeAttribute("readonly");
+            this.parentElement.parentElement.children[4].children[0].removeAttribute("readonly");
+            this.parentElement.previousElementSibling.children[0].disabled=false;
+            this.parentElement.previousElementSibling.children[1].disabled=false;
+        }
+     
         var datos="id_visita="+id_visitaInsertada+"&dieta="+respuesta.dieta;
-        
-        ev.preventDefault();
+        // var ajax=new XMLHttpRequest();
+        // ajax.onreadystatechange=function(){
+        //     if(this.readyState==4 && this.status==200){
+
+        //         var respuestas=JSON.parse(this.responseText);
+
+        //         respuesta;
+        //         id_visitaInsertada;
+        //         var datos="id_visita="+id_visitaInsertada+"&dieta="+respuesta.dieta;
+
+    
+        //     }
+        // }
+        // ajax.open("POST","./api/dameVisitaAdmin.php",false);
+        // ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        // ajax.send(datos);
+
+        debugger;
+        // fila[0].children[1].children[0].setAttribute("readonly", true);
+        // ev.preventDefault();
        if(numberOfCheckedItems==3){
         this.setAttribute("disabled",true);
        }
@@ -1025,21 +1085,25 @@ function compruebaNumeroVisitasAlInsertar(respuesta,id_visitaInsertada){
        
         if(this.checked=="false"){
             this.checked="true";
+            
         }
         else if(this.checked=="true"){
             this.checked="false";
+            
         }
 
         var ajax=new XMLHttpRequest();
         ajax.onreadystatechange=function(){
             if(this.readyState==4 && this.status==200){
                 var respuesta=JSON.parse(this.responseText);
- 
+                respuesta.dieta;
             }
         }
             ajax.open("POST","./api/VisitasChequeadas.php");
             ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
             ajax.send(datos);
+
+            
 
           var holas= this.parentElement.parentElement.parentElement.children;
           var numberOfCheckedItems = 0; 
@@ -1067,12 +1131,24 @@ function compruebaNumeroVisitasAlInsertar(respuesta,id_visitaInsertada){
             
         }
         else if(numberOfCheckedItems<3){
+          
+                // this.parentElement.parentElement.children[1].children[0].setAttribute("readonly",true);
+                // this.parentElement.parentElement.children[2].children[0].setAttribute("readonly",true);
+                // this.parentElement.parentElement.children[3].children[0].setAttribute("readonly",true);
+                // this.parentElement.parentElement.children[4].children[0].setAttribute("readonly",true);
+           
+          
             for(let i=0;i<holas.length-1;i++){
            
                 chequeado[i]=holas[i].children[6].children[0].checked;
+        
                 if(chequeado[i]==false){
                   var botoncheckbox=this.parentElement.parentElement.parentElement.getElementsByClassName("checker")[i];
                   botoncheckbox.removeAttribute("disabled");
+                //   this.parentElement.parentElement.children[1].children[0].removeAttribute("readonly");
+                //   this.parentElement.parentElement.children[2].children[0].removeAttribute("readonly");
+                //   this.parentElement.parentElement.children[3].children[0].removeAttribute("readonly");
+                //   this.parentElement.parentElement.children[4].children[0].removeAttribute("readonly");
                 }
     
                 }

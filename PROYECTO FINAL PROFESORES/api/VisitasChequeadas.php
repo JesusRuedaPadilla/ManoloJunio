@@ -11,6 +11,7 @@ include_once "../helpers/Validator.php";
   
     $id_visita = $_POST['id_visita'];
     $dieta = $_POST['dieta'];
+    
     if(ConexionBD::conecta()){
       if($dieta==1){
   
@@ -23,6 +24,8 @@ include_once "../helpers/Validator.php";
 
             ConexionBD::ActualizaDietas($id_visita);
             $obj->succes=true;
+            $obj->dieta="1";
+
           
       }
     }
