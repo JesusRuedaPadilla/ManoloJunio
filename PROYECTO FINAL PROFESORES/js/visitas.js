@@ -177,6 +177,9 @@ function cerrarUsuarioAdmin(){
                     }
                     var divInicioSesion=document.getElementById("identificacion");
                     divInicioSesion.style.display="block";
+                    debugger;
+                    var span= divInicioSesion.getElementsByTagName("span")[0];
+                    span.innerHTML="";
                     var inputCorreo=divInicioSesion.children[4];
                     var inputContraseña=divInicioSesion.children[8];
                     inputCorreo.value="";

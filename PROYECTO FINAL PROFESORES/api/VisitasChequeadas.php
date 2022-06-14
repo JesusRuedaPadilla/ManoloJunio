@@ -33,6 +33,4 @@ include_once "../helpers/Validator.php";
 
   echo json_encode($obj);
 
-
-
 ?>

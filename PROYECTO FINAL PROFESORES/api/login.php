@@ -15,7 +15,10 @@ include_once "../helpers/Validator.php";
     $contraseña = $_POST['clave'];
 
       if(ConexionBD::conecta()){
-
+        if(!ConexionBD::existeProfesor($correo,$contraseña) && !ConexionBD::existeProfesor($correo,$contraseña)){
+          $obj->success=false;
+          $obj->error="El usuario o la contraseña son incorrectos";
+        }
         if(ConexionBD::existeProfesor($correo,$contraseña)){
                 // echo "USUARIO LOGUEADO"."<br>";
                     
