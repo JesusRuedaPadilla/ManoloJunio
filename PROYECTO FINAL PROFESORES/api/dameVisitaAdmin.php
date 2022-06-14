@@ -1,0 +1,34 @@
+<?php
+include_once "../helpers/Validator.php";
+include_once "../helpers/Session.php";
+include_once "../helpers/Login.php";
+include_once "../helpers/ConexionBD.php"; 
+
+
+ $obj=new stdClass();
+            Session::init();
+            ConexionBD::conecta();
+            $id_visitaInsertada= $_POST['id_visita'];
+
+        if($id_visitaInsertada==null){
+          $obj->fallo=true;
+        }
+        
+        else{
+
+          $registro=ConexionBD::dameVisitaSeleccionada($id_visitaInsertada);
+        
+          $obj->success=true;
+          $obj->response=$registro;
+        }
+           
+        
+             
+                
+
+            // $obj->success=false;
+            // $obj->error="La sesion no se ha podido cerrar.";
+
+  echo json_encode($obj);
+
+?>

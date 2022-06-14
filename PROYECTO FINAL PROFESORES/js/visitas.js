@@ -532,7 +532,7 @@ function CompruebaLogueado(){
             // debugger;
             botones[0].innerHTML="Añadir";
             var botones1= clonVisitas.querySelectorAll("button");
-            botones[0].onclick=ProgramaInsertar(respuesta.user[i],botones1,respuesta.user);
+            botones[0].onclick=ProgramaInsertar(respuesta.user[i],botones1);
 // debugger;
             copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
   
@@ -732,7 +732,8 @@ function CompruebaLogueado(){
                 // debugger;
                 botones[0].innerHTML="Añadir";
                 var botones1= clonVisitas.querySelectorAll("button");
-                botones[0].onclick=ProgramaInsertar(respuesta.profesor[i].datos[j],botones1,respuesta.profesor);
+                debugger;
+                botones[0].onclick=ProgramaInsertar(respuesta.profesor[i].datos[j],botones1);
              
                 copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
 // debugger;
@@ -885,9 +886,9 @@ function ProgramaBorrado(id_visita,botonBorrar){
     }
 }
 
-function ProgramaInsertar(respuesta,botones1,usuarios){
+function ProgramaInsertar(respuesta,botones1){
     return function(ev){
-        // debugger;
+
         var fila=this.parentElement.parentElement;
     
         var inputs=fila.querySelectorAll("input");
@@ -953,15 +954,31 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
                    var botonGuardar=fila.children[5].children[0].innerHTML="Guardar";
                    fila.children[5].children[0].parentElement.appendChild(botonBorrar);
                    botonBorrar.innerHTML="Borrar";
-                //    debugger;
+                 
                     fila.children[5].children[0].onclick=ProgramaGuardar(respuesta.id_alumno_detalle_convenio,id_visitaInsertada,botonGuardar);
                     fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
                     fila.children[6].style.display="block";
-                    debugger;
-                    var check=fila.parentElement.getElementsByClassName("checker")[0];
-                    for(let i=0;i<check.length;i++){
-                        check[i].onchange=compruebaNumeroVisitas(respuesta.id_alumno_detalle_convenio);
+                    // debugger;
+                    var check=fila.parentElement.getElementsByClassName("checker");
+                    
+                debugger;
+                var ajax=new XMLHttpRequest();
+                ajax.onreadystatechange=function(){
+                    if(this.readyState==4 && this.status==200){
+                        // debugger;
+                        var respuestas=JSON.parse(this.responseText);
+                        for(let i=0;i<check.length;i++){
+                            respuestas;
+                            check[0].onchange=compruebaNumeroVisitasAlInsertar(respuestas.response,respuestas.response.id_visita);
+                        }
                     }
+                        
+                    }
+                    ajax.open("POST","./api/dameVisitaAdmin.php");
+                    ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                    ajax.send("id_visita="+id_visitaInsertada);
+
+                   
             // clonCheckBox.appendChild(inputs[0].parentElement);
                  }
                 //  debugger;
@@ -992,6 +1009,80 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
     }
 }
 
+function compruebaNumeroVisitasAlInsertar(respuesta,id_visitaInsertada){
+    return function(ev){
+        debugger;
+        respuesta;
+        id_visitaInsertada;
+        var datos="id_visita="+id_visitaInsertada+"&dieta="+respuesta.dieta;
+        
+        ev.preventDefault();
+       if(numberOfCheckedItems==3){
+        this.setAttribute("disabled",true);
+       }
+        else{
+
+       
+        if(this.checked=="false"){
+            this.checked="true";
+        }
+        else if(this.checked=="true"){
+            this.checked="false";
+        }
+
+        var ajax=new XMLHttpRequest();
+        ajax.onreadystatechange=function(){
+            if(this.readyState==4 && this.status==200){
+                var respuesta=JSON.parse(this.responseText);
+ 
+            }
+        }
+            ajax.open("POST","./api/VisitasChequeadas.php");
+            ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            ajax.send(datos);
+
+          var holas= this.parentElement.parentElement.parentElement.children;
+          var numberOfCheckedItems = 0; 
+          for(let i=0;i<holas.length-1;i++){
+            
+           var chequeado=holas[i].children[6].children[0].checked;
+            
+           if(chequeado==true){
+            numberOfCheckedItems=numberOfCheckedItems+1;  
+           }
+           var chequeado = Array(holas.length-1);
+           if(numberOfCheckedItems==3){
+            for(let i=0;i<holas.length-1;i++){
+           
+            chequeado[i]=holas[i].children[6].children[0].checked;
+            if(chequeado[i]==false){
+                var botoncheckbox=this.parentElement.parentElement.parentElement.getElementsByClassName("checker")[i];
+              botoncheckbox.setAttribute("disabled",true);
+              
+            }
+
+            }
+            debugger;
+            chequeado="check="+chequeado;
+            
+        }
+        else if(numberOfCheckedItems<3){
+            for(let i=0;i<holas.length-1;i++){
+           
+                chequeado[i]=holas[i].children[6].children[0].checked;
+                if(chequeado[i]==false){
+                  var botoncheckbox=this.parentElement.parentElement.parentElement.getElementsByClassName("checker")[i];
+                  botoncheckbox.removeAttribute("disabled");
+                }
+    
+                }
+        }
+    }
+    }
+    
+ }
+
+}
 
 function ProgramaGuardar(respuesta,id_visita,botonGuardar){
     return function(ev){

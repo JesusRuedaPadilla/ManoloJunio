@@ -97,6 +97,18 @@ class ConexionBD{
       
     }
 
+    
+    public static function dameVisitaSeleccionada($id_visita){
+       
+        $id_visita;
+        $res = self::$con->query("SELECT * FROM visita WHERE id_visita like '$id_visita'");
+        
+        $registro = $res->fetch(PDO::FETCH_ASSOC);
+        return $registro;
+      
+    }
+
+
     public static function BorrarVisita($id_visita){
        
 
@@ -168,6 +180,7 @@ class ConexionBD{
         $res2 = self::$con->query("COMMIT");
 
         $res3= self::$con->query("SELECT MAX(`id_visita`)as `id_visita`  FROM visita");
+        // $res3= self::$con->query("SELECT `visita` FROM visita");
         $registros = $res3->fetchAll(PDO::FETCH_ASSOC);
         return $registros;
     }
