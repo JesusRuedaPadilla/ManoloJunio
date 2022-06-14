@@ -55,3 +55,9 @@ p{
     left: 25px;
     position: relative;
 }
+select{
+    position: relative;
+    top: 10px;
+    display: inline-block;
+    left: 450px;
+}

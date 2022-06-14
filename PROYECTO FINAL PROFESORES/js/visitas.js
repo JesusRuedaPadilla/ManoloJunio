@@ -166,8 +166,10 @@ function cerrarUsuarioAdmin(){
                 if(respuesta.success){
                     
                     var botonCierraSesion=document.getElementById("logout");
+                    var select=document.getElementsByClassName("select")[0];
                     var padre=botonCierraSesion.parentNode;
                     padre.removeChild(botonCierraSesion);
+                    padre.removeChild(select);
                     var divProfesores=padre.getElementsByClassName("profesor");
                     var numProfesores=divProfesores.length;
                     botonCambioContraseña=document.getElementsByClassName("change")[0];
@@ -335,9 +337,11 @@ function ModificaPlantillaCambioContraseña(respuesta){
 function ModificaPlantillaCambioContraseñaADMIN(respuesta){
     return function(ev){
         ev.preventDefault();
-    // debugger;
+    debugger;
     var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
     var body=document.getElementsByTagName("body")[0];
+    var select=document.getElementsByClassName("select")[0];
+    body.removeChild(select);
         let logout=document.getElementById("logout");
         let botonCambioContraseña=document.getElementsByClassName("change")[0];
         var profesor=document.getElementsByClassName("profesor");
@@ -554,38 +558,65 @@ function CompruebaLogueado(){
     document.body.appendChild(botonCierraSesion);
     var botonCambioContraseña=plantilla.getElementsByClassName("change")[0];
     document.body.appendChild(botonCambioContraseña);
-    var divAux=document.createElement("div");
-    divAux.appendChild(plantilla.querySelector(".alumno"));
-    var alumno = divAux.children[0];
-    divAux.appendChild(plantilla.querySelector(".anexo"));
-    var anexo = divAux.children[1];
-    divAux.appendChild(plantilla.querySelector(".acuerdo"));
-    var acuerdo = divAux.children[2];
+    var select=plantilla.getElementsByClassName("select")[0];
+    document.body.appendChild(select);
+    select.innerHTML="";
     botonCierraSesion.onclick=cerrarUsuarioAdmin();
- 
+
     botonCambioContraseña.onclick=ModificaPlantillaCambioContraseñaADMIN(respuesta);
-    // var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
-    // botonCambioContraseña.onclick=cambioContraseña(plantilla1,respuesta);
-    // var desaparece=plantilla;
+    
 
-    // desaparece.parentElement.removeChild(desaparece);
+    for(let q=0;q<respuesta.profesor.length;q++){
 
-    var copiaVISITAS= alumno.querySelector(".visita");
-    divAux.appendChild(copiaVISITAS);
+        var option=document.createElement("option");
+  
+        option.innerHTML=respuesta.profesor[q].nombre+" "+respuesta.profesor[q].apellidos;
+        // debugger;
+    
+        
+        select.appendChild(option);
+    
+            option.onclick=mostrarProfesor(respuesta.profesor[q],plantilla);
+           
+       
+    }
+    muestraPrimerProfesor(respuesta.profesor[0],plantilla);
+}
+
+function muestraPrimerProfesor(respuesta,plantilla){
+
+     
+
+var divAux=document.createElement("div");
+divAux.appendChild(plantilla.querySelector(".alumno"));
+var alumno = divAux.children[0];
+divAux.appendChild(plantilla.querySelector(".anexo"));
+var anexo = divAux.children[1];
+divAux.appendChild(plantilla.querySelector(".acuerdo"));
+var acuerdo = divAux.children[2];
+
+// var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
+// botonCambioContraseña.onclick=cambioContraseña(plantilla1,respuesta);
+// var desaparece=plantilla;
+
+// desaparece.parentElement.removeChild(desaparece);
+
+var copiaVISITAS= alumno.querySelector(".visita");
+divAux.appendChild(copiaVISITAS);
 
     var empresa=" ";
     var convenio=" ";
     var sede=" ";
     var nombre=" ";
     // debugger;
-    for(let i=0;i<respuesta.profesor.length;i++){
+
         // debugger;
-        for(let j=0;j<respuesta.profesor[i].datos.length;j++){
+        for(let j=0;j<respuesta.datos.length;j++){
 
-            if(respuesta.profesor[i].nombre!=nombre){
-                nombre=  respuesta.profesor[i].nombre;
-                apellidos= respuesta.profesor[i].apellidos;
-
+            if(respuesta.nombre!=nombre){
+                nombre=  respuesta.nombre;
+                apellidos= respuesta.apellidos;
+// debugger;
                 var copia=plantilla.children[0].cloneNode(true);
                 document.body.appendChild(copia);
                 copia.querySelector(".nombre").innerHTML=nombre +" "+apellidos;
@@ -594,20 +625,20 @@ function CompruebaLogueado(){
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
                 // debugger;
-                if(respuesta.profesor[i].id_usuario!=respuesta.usuario){
+                if(respuesta.rol!="administrador"){
                     var btnReseteo=copia.querySelector(".reset");
                    
-                    btnReseteo.onclick=ResetContraseñaProfesor(respuesta.profesor[i].id_usuario); 
+                    btnReseteo.onclick=ResetContraseñaProfesor(respuesta.id_usuario); 
                 }
-                else{
+                else if(respuesta.rol=="administrador"){
                     var btnReseteo=copia.querySelector(".reset");
                     btnReseteo.parentElement.removeChild(btnReseteo);
                 }
             
             }
-// debugger;
-            if(respuesta.profesor[i].datos[j].nombre_empresa!=empresa){
-                empresa=  respuesta.profesor[i].datos[j].nombre_empresa;
+debugger;
+            if(respuesta.datos[j].nombre_empresa!=empresa){
+                empresa=  respuesta.datos[j].nombre_empresa;
                 convenio=" ";
                 var copia1=plantilla.children[1].cloneNode(true);
                 document.body.appendChild(copia1);
@@ -624,8 +655,8 @@ function CompruebaLogueado(){
             //     alert("El usuario introducido ES un administrador");
                 
             // }
-            if(respuesta.profesor[i].datos[j].Descrip!=convenio){
-                convenio= respuesta.profesor[i].datos[j].Descrip;
+            if(respuesta.datos[j].Descrip!=convenio){
+                convenio= respuesta.datos[j].Descrip;
                 sede=" ";
                 var copiaConvenio=acuerdo.cloneNode(true);
                 copiaConvenio.querySelector(".descrAcuerdo").innerHTML=convenio;
@@ -633,42 +664,42 @@ function CompruebaLogueado(){
                 copia.appendChild(copiaConvenio);
             }
     // debugger;
-            if(respuesta.profesor[i].datos[j].descripcion!=sede){
-                sede= respuesta.profesor[i].datos[j].descripcion;
+            if(respuesta.datos[j].descripcion!=sede){
+                sede= respuesta.datos[j].descripcion;
                 var copiaAnexo=anexo.cloneNode(true);
                 copiaAnexo.querySelector(".sede").innerHTML=sede;
                 copiaConvenio.appendChild(copiaAnexo);
                 
             }
     
-            if(respuesta.profesor[i].datos[j].nombre_alumno!=alumno){
-                alum= respuesta.profesor[i].datos[j].nombre_alumno;
+            if(respuesta.datos[j].nombre_alumno!=alumno){
+                alum= respuesta.datos[j].nombre_alumno;
                 var copiaAlumno = alumno.cloneNode(true);
     
                  copiaAlumno.querySelector(".nombreAlumno").innerHTML=alum;
              
             // debugger;
-                if(respuesta.profesor[i].datos[j].visitas.length>0){
+                if(respuesta.datos[j].visitas.length>0){
     
-                    for(let l=0;l<respuesta.profesor[i].datos[j].visitas.length;l++){
+                    for(let l=0;l<respuesta.datos[j].visitas.length;l++){
                         // debugger;
                         var clonVisitas=copiaVISITAS.cloneNode(true);
                         var elementos= clonVisitas.querySelectorAll("input");
                         debugger;
-                        elementos[1].value=respuesta.profesor[i].datos[j].visitas[l].fecha_inicio;
-                        elementos[2].value=respuesta.profesor[i].datos[j].visitas[l].hora_inicio;
-                        elementos[3].value=respuesta.profesor[i].datos[j].visitas[l].fecha_fin;
-                        elementos[4].value=respuesta.profesor[i].datos[j].visitas[l].hora_fin;
-                        elementos[5].value=respuesta.profesor[i].datos[j].visitas[l].dieta;
+                        elementos[1].value=respuesta.datos[j].visitas[l].fecha_inicio;
+                        elementos[2].value=respuesta.datos[j].visitas[l].hora_inicio;
+                        elementos[3].value=respuesta.datos[j].visitas[l].fecha_fin;
+                        elementos[4].value=respuesta.datos[j].visitas[l].hora_fin;
+                        elementos[5].value=respuesta.datos[j].visitas[l].dieta;
                         
                         var check= clonVisitas.querySelectorAll("input");
                         //  debugger;
                         for(let ñ=0;ñ<check.length;ñ++){
                             debugger;
-                            elementos[5].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j].visitas[l]);
+                            elementos[5].onchange=compruebaNumeroVisitas(respuesta.datos[j].visitas[l]);
                         }
 
-                        if(elementos[5].value=respuesta.profesor[i].datos[j].visitas[l].dieta==1){
+                        if(elementos[5].value=respuesta.datos[j].visitas[l].dieta==1){
                             debugger;
                            var holaar= elementos[5];
                            holaar.checked=true;
@@ -701,16 +732,16 @@ function CompruebaLogueado(){
                         var botonBorrar=clonVisitas.children[5].children[1];
                         var botonGuardar=clonVisitas.children[5].children[0];
                         // debugger;
-                        botonBorrar.onclick=ProgramaBorrado(respuesta.profesor[i].datos[j].visitas[l].id_visita,botonBorrar);
+                        botonBorrar.onclick=ProgramaBorrado(respuesta.datos[j].visitas[l].id_visita,botonBorrar);
                         // debugger;
-                        botonGuardar.onclick=ProgramaGuardar(respuesta.profesor[i],respuesta.profesor[i].datos[j].visitas[l].id_visita,botonGuardar);
+                        botonGuardar.onclick=ProgramaGuardar(respuesta,respuesta.datos[j].visitas[l].id_visita,botonGuardar);
                         botonGuardar.disabled=true;
                         // debugger;
     
                         copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
                         // copiaAlumno.appendChild(clonVisitas);
     
-                       var reseteoContraseña=document.getElementsByClassName("reset")[i];
+                       var reseteoContraseña=document.getElementsByClassName("reset")[0];
                       
                      
                        
@@ -743,7 +774,7 @@ function CompruebaLogueado(){
                 botones[0].innerHTML="Añadir";
                 var botones1= clonVisitas.querySelectorAll("button");
                 debugger;
-                botones[0].onclick=ProgramaInsertar(respuesta.profesor[i].datos[j],botones1);
+                botones[0].onclick=ProgramaInsertar(respuesta.datos[j],botones1);
              
                 copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
 // debugger;
@@ -767,14 +798,261 @@ function CompruebaLogueado(){
             if(tr[longitudTr].children[5].children[0].textContent=="Añadir"){
                 var ocultaCheck=tr[longitudTr].children[6].children[0].parentElement;
                 ocultaCheck.style.display="none";
-            }
+            
   
         }
     
         }
        
+
+    
+}
+   
+
+function mostrarProfesor(respuesta){
+        return function(ev){
+// debugger;
+// for(let g=0;g<4;g++){
+//     document.getElementById("identificacion").parentElement.removeChild(document.getElementById("identificacion").nextElementSibling);
+//     g+1;
+// }
+var eliminaProfesor=document.getElementsByClassName("profesor")[0];
+eliminaProfesor.parentElement.removeChild(eliminaProfesor);
+// var a=document.getElementsByClassName("empresa")[0];
+// a.parentElement.removeChild(a);
+// var b=document.getElementsByClassName("profesor")[0];
+// b.parentElement.removeChild(b);
+// var b=document.getElementsByClassName("profesor")[0];
+// b.parentElement.removeChild(b);
+
+// document.body.children[4].style.display="none";
+
+var plantilla=traerPlantilla("plantillas/visitasAdmin.html");
+plantilla.children[0].style.display="none";
+
+var divAux=document.createElement("div");
+divAux.appendChild(plantilla.querySelector(".alumno"));
+var alumno = divAux.children[0];
+divAux.appendChild(plantilla.querySelector(".anexo"));
+var anexo = divAux.children[1];
+divAux.appendChild(plantilla.querySelector(".acuerdo"));
+var acuerdo = divAux.children[2];
+
+// var plantilla1=traerPlantilla("plantillas/cambioContraseña.html");
+// botonCambioContraseña.onclick=cambioContraseña(plantilla1,respuesta);
+// var desaparece=plantilla;
+
+// desaparece.parentElement.removeChild(desaparece);
+
+var copiaVISITAS= alumno.querySelector(".visita");
+divAux.appendChild(copiaVISITAS);
+
+    var empresa=" ";
+    var convenio=" ";
+    var sede=" ";
+    var nombre=" ";
+    // debugger;
+
+        // debugger;
+        for(let j=0;j<respuesta.datos.length;j++){
+
+            if(respuesta.nombre!=nombre){
+                nombre=  respuesta.nombre;
+                apellidos= respuesta.apellidos;
+// debugger;
+                plantilla.children[2].removeChild(plantilla.children[2].children[1])
+                var copia=plantilla.children[2].cloneNode(true);
+                document.body.appendChild(copia);
+                copia.querySelector(".nombre").innerHTML=nombre +" "+apellidos;
+                
+                var btnDespliegue=copia.querySelector(".despliegue");
+                btnDespliegue.innerHTML=" + ";
+                btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
+                debugger;
+                if(respuesta.rol!="administrador"){
+                    var btnReseteo=copia.querySelector(".reset");
+                   
+                    btnReseteo.onclick=ResetContraseñaProfesor(respuesta.id_usuario); 
+                }
+                else if(respuesta.rol=="administrador"){
+                    var btnReseteo=copia.querySelector(".reset");
+                    btnReseteo.parentElement.removeChild(btnReseteo);
+                }
+            
+            }
+// debugger;
+            if(respuesta.datos[j].nombre_empresa!=empresa){
+                empresa=  respuesta.datos[j].nombre_empresa;
+                convenio=" ";
+                var copia1=plantilla.children[3].cloneNode(true);
+                document.body.appendChild(copia1);
+                copia1.querySelector(".nombre").innerHTML=empresa;
+                copia1.style.display="none";
+                copia.appendChild(copia1);
+                // var btnDespliegue=copia.querySelector(".despliegue");
+                // btnDespliegue.innerHTML=" + ";
+                // btnDespliegue.onclick=ocultaEmpresa(plantilla);
+    
+            }
+            // debugger;
+            // if(respuesta.admin==true){
+            //     alert("El usuario introducido ES un administrador");
+                
+            // }
+            if(respuesta.datos[j].Descrip!=convenio){
+                convenio= respuesta.datos[j].Descrip;
+                sede=" ";
+                var copiaConvenio=acuerdo.cloneNode(true);
+                copiaConvenio.querySelector(".descrAcuerdo").innerHTML=convenio;
+                copiaConvenio.style.display="none";
+                copia.appendChild(copiaConvenio);
+            }
+    // debugger;
+            if(respuesta.datos[j].descripcion!=sede){
+                sede= respuesta.datos[j].descripcion;
+                var copiaAnexo=anexo.cloneNode(true);
+                copiaAnexo.querySelector(".sede").innerHTML=sede;
+                copiaConvenio.appendChild(copiaAnexo);
+                
+            }
+    
+            if(respuesta.datos[j].nombre_alumno!=alumno){
+                alum= respuesta.datos[j].nombre_alumno;
+                var copiaAlumno = alumno.cloneNode(true);
+    
+                 copiaAlumno.querySelector(".nombreAlumno").innerHTML=alum;
+             
+            // debugger;
+                if(respuesta.datos[j].visitas.length>0){
+    
+                    for(let l=0;l<respuesta.datos[j].visitas.length;l++){
+                        // debugger;
+                        var clonVisitas=copiaVISITAS.cloneNode(true);
+                        var elementos= clonVisitas.querySelectorAll("input");
+                        debugger;
+                        elementos[1].value=respuesta.datos[j].visitas[l].fecha_inicio;
+                        elementos[2].value=respuesta.datos[j].visitas[l].hora_inicio;
+                        elementos[3].value=respuesta.datos[j].visitas[l].fecha_fin;
+                        elementos[4].value=respuesta.datos[j].visitas[l].hora_fin;
+                        elementos[5].value=respuesta.datos[j].visitas[l].dieta;
+                        
+                        var check= clonVisitas.querySelectorAll("input");
+                        //  debugger;
+                        for(let ñ=0;ñ<check.length;ñ++){
+                            debugger;
+                            elementos[5].onchange=compruebaNumeroVisitas(respuesta.datos[j].visitas[l]);
+                        }
+
+                        if(elementos[5].value=respuesta.datos[j].visitas[l].dieta==1){
+                            debugger;
+                           var holaar= elementos[5];
+                           holaar.checked=true;
+
+                           if(holaar.checked==true){
+                            holaar.parentElement.parentElement.children[1].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.parentElement.children[2].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.parentElement.children[3].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.parentElement.children[4].children[0].setAttribute("readonly",true);
+                            holaar.parentElement.previousElementSibling.children[0].disabled=true;
+                            holaar.parentElement.previousElementSibling.children[1].disabled=true;
+                        }
+                           
+
+                        }
+                        // var botones= clonVisitas.querySelectorAll("button");
+                        // debugger;
+                        for (let k=1;k<=4;k++){
+                            elementos[k].onchange=function(){
+                                // debugger;
+                            let botonGuardar= this.parentElement.parentElement.querySelector("button");
+                            // console.log(botonGuardar);
+                            // console.log(this);
+                            // botonGuardar.setAttribute("disabled",false);
+                            botonGuardar.disabled=false;
+                            
+                            }
+                        }
+                        
+                        var botonBorrar=clonVisitas.children[5].children[1];
+                        var botonGuardar=clonVisitas.children[5].children[0];
+                        // debugger;
+                        botonBorrar.onclick=ProgramaBorrado(respuesta.datos[j].visitas[l].id_visita,botonBorrar);
+                        // debugger;
+                        botonGuardar.onclick=ProgramaGuardar(respuesta,respuesta.datos[j].visitas[l].id_visita,botonGuardar);
+                        botonGuardar.disabled=true;
+                        // debugger;
+    
+                        copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
+                        // copiaAlumno.appendChild(clonVisitas);
+    
+                       var reseteoContraseña=document.getElementsByClassName("reset")[0];
+                      
+                     
+                       
+                    } 
+                  
+                    
+                //  debugger;
+                 
+            }
+    
+            
+            // debugger;
+            // var check=document.getElementsByClassName("checker");
+            
+            //    var hola= check.length;
+            //    var tr= check.length.parentElement.parentElement;
+            //    tr.removeChild(tr.children[6]);
+            
+            // var tr=check.parentElement.parentElement;
+            
+           
+            // if(check!=null){
+            //     check.parentElement.removeChild(check);
+            // }
+          
+                var clonVisitas=copiaVISITAS.cloneNode(true);
+                var botones= clonVisitas.querySelectorAll("button");
+                botones[1].parentElement.removeChild(botones[1]);
+                // debugger;
+                botones[0].innerHTML="Añadir";
+                var botones1= clonVisitas.querySelectorAll("button");
+                debugger;
+                botones[0].onclick=ProgramaInsertar(respuesta.datos[j],botones1);
+             
+                copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
+// debugger;
+             
+         
+             }
+            //  debugger;
+          debugger;
+             copiaAnexo.appendChild(copiaAlumno);
+            //  debugger;
+            //  var check= copiaAnexo.querySelectorAll("input");
+            //  //  debugger;
+            //  for(let ñ=0;ñ<check.length;ñ++){
+            //      debugger;
+            //      check[ñ].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j]);
+            //  }
+            
+             var tr= document.getElementsByClassName("visita");
+             var longitudTr=tr.length-1;
+            tr[longitudTr];
+            if(tr[longitudTr].children[5].children[0].textContent=="Añadir"){
+                var ocultaCheck=tr[longitudTr].children[6].children[0].parentElement;
+                ocultaCheck.style.display="none";
+            
+  
+        }
+    
+        }
        
- }
+    }
+}
+    
+       
+ 
 
  function compruebaNumeroVisitas(respuesta){
     return function(ev){
