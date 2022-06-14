@@ -9,8 +9,7 @@ include_once "../helpers/Validator.php";
 
   $obj=new stdClass();
   
-    $id_usuario = $_POST['user'];
-    $contraseña=$id_usuario.$id_usuario;
+    $chequeo = $_POST['check'];
 
       if(ConexionBD::conecta()){
 

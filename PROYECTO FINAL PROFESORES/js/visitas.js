@@ -717,21 +717,20 @@ function CompruebaLogueado(){
                 botones[0].onclick=ProgramaInsertar(respuesta.profesor[i].datos[j],botones1,respuesta.profesor);
              
                 copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
-            //  if(check.checked==true){
-            //     alert("PILLALO");
-            //  }
-            //     else{
-            //         alert("AAA");
-            //     }
+// debugger;
+             
+         
              }
             //  debugger;
+          debugger;
              copiaAnexo.appendChild(copiaAlumno);
-             debugger;
-             var check=document.getElementsByClassName("checker");
             //  debugger;
-            for(let i=0;i<check.length;i++){
-                check[i].onchange=compruebaNumeroVisitas();
-            }
+             var check= copiaAnexo.querySelectorAll("input");
+             //  debugger;
+             for(let ñ=0;ñ<check.length;ñ++){
+                 debugger;
+                 check[ñ].onchange=compruebaNumeroVisitas(respuesta.profesor[i].datos[j]);
+             }
             
              var tr= document.getElementsByClassName("visita");
              var longitudTr=tr.length-1;
@@ -740,12 +739,7 @@ function CompruebaLogueado(){
                 var ocultaCheck=tr[longitudTr].children[6].children[0].parentElement;
                 ocultaCheck.style.display="none";
             }
-
-          
-           
-      
-           
-             
+  
         }
     
         }
@@ -753,18 +747,24 @@ function CompruebaLogueado(){
        
  }
 
- function compruebaNumeroVisitas(){
+ function compruebaNumeroVisitas(respuesta){
     return function(ev){
-        ev.preventDefault();
-       
+        respuesta;
         
+        ev.preventDefault();
+       if(numberOfCheckedItems==3){
+        this.setAttribute("disabled",true);
+       }
+        else{
+
+       
         if(this.checked=="false"){
             this.checked="true";
         }
         else if(this.checked=="true"){
             this.checked="false";
         }
-        debugger;
+       
     //   var numVisitas= this.parentElement.parentElement.parentElement.children.length-1;
     //     for(let i=0;i<numVisitas;i++){
     //        var visitaSelecc= this.parentElement.parentElement;
@@ -786,9 +786,28 @@ function CompruebaLogueado(){
             if(chequeado[i]==false){
                 var botoncheckbox=this.parentElement.parentElement.parentElement.getElementsByClassName("checker")[i];
               botoncheckbox.setAttribute("disabled",true);
+              
             }
 
             }
+            debugger;
+            chequeado="check="+chequeado;
+            
+            var ajax=new XMLHttpRequest();
+            ajax.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+                    var respuesta=JSON.parse(this.responseText);
+                 // debugger;
+                 if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
+  
+                 }
+  
+              }
+              
+          }
+          ajax.open("POST","./api/VisitasChequeadas.php");
+          ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+          ajax.send(chequeado);
         }
         else if(numberOfCheckedItems<3){
             for(let i=0;i<holas.length-1;i++){
@@ -801,35 +820,9 @@ function CompruebaLogueado(){
     
                 }
         }
-          }
-        // }
-        // alert("HOLA");
-
-    //     var checkboxes = document.getElementsByName("favorite_pet");  
-    // var numberOfCheckedItems = 0;  
-    // for(var i = 0; i < checkboxes.length; i++)  
-    // {  
-    //     if(checkboxes[i].checked)  
-    //         numberOfCheckedItems++;  
-    // }  
-    // if(numberOfCheckedItems > 2)  
-    // {  
-    //     alert("You can't select more than two favorite pets!");  
-    //     return false;  
-    // }  
-    //     var ajax=new XMLHttpRequest();
-    //     ajax.onreadystatechange=function(){
-    //         if(this.readyState==4 && this.status==200){
-    //             var respuesta=JSON.parse(this.responseText);
-    //          // debugger;
-    //          if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
-                    
-    //              procesaDatosAdmin(respuesta);
-    //          }
-    // }
-    // }
-        // ajax.open("GET","./api/SesionPHPInit.php");
-        // ajax.send();
+    }
+    }
+    
  }
 }
  
@@ -953,9 +946,9 @@ function ProgramaInsertar(respuesta,botones1,usuarios){
                     fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
                     fila.children[6].style.display="block";
                     debugger;
-                    var check=document.getElementsByClassName("checker");
+                    var check=fila.parentElement.getElementsByClassName("checker")[0];
                     for(let i=0;i<check.length;i++){
-                        check[i].onchange=compruebaNumeroVisitas();
+                        check[i].onchange=compruebaNumeroVisitas(respuesta.id_alumno_detalle_convenio);
                     }
             // clonCheckBox.appendChild(inputs[0].parentElement);
                  }
