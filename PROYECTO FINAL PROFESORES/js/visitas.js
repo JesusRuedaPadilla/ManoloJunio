@@ -1063,11 +1063,20 @@ function generaDatosExcel(respuestas){
         var DatosVisitasExcel = Array(respuestas.profesor.length);
         for(let i=0;i<respuestas.profesor.length;i++){
             for(let j=0;j<respuestas.profesor[i].datos.length;j++){
-// debugger;
-                var nombreProf=respuestas.profesor[i].nombre+ " "+respuestas.profesor[i].apellidos;
-                var localidad=respuestas.profesor[i].datos[j].localidad;
-                var provincia=respuestas.profesor[i].datos[j].provincia;
-                    DatosVisitasExcel[i]=[{nombreProf,localidad,provincia}];
+                for(let k=0;k<respuestas.profesor[i].datos[j].visitas.length;k++){
+
+                    var nombreProf=respuestas.profesor[i].nombre+ " "+respuestas.profesor[i].apellidos;
+                    var localidad=respuestas.profesor[i].datos[j].localidad;
+                    var provincia=respuestas.profesor[i].datos[j].provincia;
+                    var nombreAlumno=respuestas.profesor[i].datos[j].nombre_alumno;
+                    var dietas=respuestas.profesor[i].datos[j].visitas[k].dieta;
+
+                    if(dietas==1){
+                        DatosVisitasExcel[i]=[{nombreProf,localidad,provincia,nombreAlumno,dietas}];
+                    }
+            
+                }
+
             }
         
              }
@@ -1085,9 +1094,9 @@ function generaDatosExcel(respuestas){
             
                 }
             }
-                ajax.open("POST","./api/VisitasChequeadas.php");
+                ajax.open("POST","./api/generaExcel.php");
                 ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-                ajax.send("visita=" + JSON.stringify(Visita));
+                ajax.send("DatosVisitas=" + JSON.stringify(DatosVisitasExcel));
 
         }
 
