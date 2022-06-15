@@ -28,11 +28,7 @@ include_once "../helpers/ConexionBD.php";
         }
           
         }
-           
-        
-             
-                
-
+       
             // $obj->success=false;
             // $obj->error="La sesion no se ha podido cerrar.";
 

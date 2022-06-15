@@ -212,7 +212,7 @@ function comprobarUsuario(txtUser,txtContraseña){
          
          
             if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
-                   
+                   debugger;
                 procesaDatosAdmin(respuesta);
 
                 }
@@ -374,8 +374,9 @@ function CompruebaLogueado(){
                var respuesta=JSON.parse(this.responseText);
             // debugger;
             if(respuesta.success && respuesta.admin==true && respuesta.contraseñaCambiada==true){
-                   
+                   debugger;
                 procesaDatosAdmin(respuesta);
+
 
                 }
                 if(respuesta.success && respuesta.admin==false && respuesta.contraseñaCambiada==true){
@@ -578,17 +579,18 @@ function CompruebaLogueado(){
         
         select.appendChild(option);
     
-            option.onclick=mostrarProfesor(respuesta.profesor[q],plantilla);
+            option.onclick=mostrarProfesor(respuesta.profesor[q],plantilla,respuesta);
            
        
     }
-    muestraPrimerProfesor(respuesta.profesor[0],plantilla);
+
+    muestraPrimerProfesor(respuesta.profesor[0],plantilla,respuesta);
 }
 
-function muestraPrimerProfesor(respuesta,plantilla){
+function muestraPrimerProfesor(respuesta,plantilla,respuestas){
 
      
-
+debugger;
 var divAux=document.createElement("div");
 divAux.appendChild(plantilla.querySelector(".alumno"));
 var alumno = divAux.children[0];
@@ -622,7 +624,8 @@ divAux.appendChild(copiaVISITAS);
                 var copia=plantilla.children[0].cloneNode(true);
                 document.body.appendChild(copia);
                 copia.querySelector(".nombre").innerHTML=nombre +" "+apellidos;
-                
+                var excel=copia.getElementsByClassName("excel")[0];
+                excel.onclick=generaDatosExcel(respuestas);
                 var btnDespliegue=copia.querySelector(".despliegue");
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
@@ -638,7 +641,7 @@ divAux.appendChild(copiaVISITAS);
                 }
             
             }
-debugger;
+// debugger;
             if(respuesta.datos[j].nombre_empresa!=empresa){
                 empresa=  respuesta.datos[j].nombre_empresa;
                 convenio=" ";
@@ -811,7 +814,7 @@ debugger;
 }
    
 
-function mostrarProfesor(respuesta){
+function mostrarProfesor(respuesta,respuestas){
         return function(ev){
 // debugger;
 // for(let g=0;g<4;g++){
@@ -866,7 +869,8 @@ divAux.appendChild(copiaVISITAS);
                 var copia=plantilla.children[2].cloneNode(true);
                 document.body.appendChild(copia);
                 copia.querySelector(".nombre").innerHTML=nombre +" "+apellidos;
-                
+                var excel=copia.getElementsByClassName("excel")[0];
+                excel.onclick=generaDatosExcel(respuestas);
                 var btnDespliegue=copia.querySelector(".despliegue");
                 btnDespliegue.innerHTML=" + ";
                 btnDespliegue.onclick=ocultaEmpresaAdmin(plantilla);
@@ -1053,7 +1057,41 @@ divAux.appendChild(copiaVISITAS);
     }
 }
     
-       
+function generaDatosExcel(respuestas){
+    return function(ev){
+        debugger;
+        var DatosVisitasExcel = Array(respuestas.profesor.length);
+        for(let i=0;i<respuestas.profesor.length;i++){
+            for(let j=0;j<respuestas.profesor[i].datos.length;j++){
+// debugger;
+                var nombreProf=respuestas.profesor[i].nombre+ " "+respuestas.profesor[i].apellidos;
+                var localidad=respuestas.profesor[i].datos[j].localidad;
+                var provincia=respuestas.profesor[i].datos[j].provincia;
+                    DatosVisitasExcel[i]=[{nombreProf,localidad,provincia}];
+            }
+        
+             }
+
+            var ajax=new XMLHttpRequest();
+            ajax.onreadystatechange=function(){
+                if(this.readyState==4 && this.status==200){
+                    var respuesta=JSON.parse(this.responseText);
+                    if(respuesta.succes){
+                        alert("Se ha descargado el EXCEL");
+                    }
+                    else{
+                        alert("Ha ocurrido un error al generar el Excel");
+                    }
+            
+                }
+            }
+                ajax.open("POST","./api/VisitasChequeadas.php");
+                ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                ajax.send("visita=" + JSON.stringify(Visita));
+
+        }
+
+    } 
  
 
  function compruebaNumeroVisitas(respuesta){
