@@ -1084,13 +1084,13 @@ function generaDatosExcel(respuestas){
             var ajax=new XMLHttpRequest();
             ajax.onreadystatechange=function(){
                 if(this.readyState==4 && this.status==200){
-                    var respuesta=JSON.parse(this.responseText);
-                    if(respuesta.succes){
+                    // var respuesta=JSON.parse(this.responseText);
+                    // if(respuesta.success){
                         alert("Se ha descargado el EXCEL");
-                    }
-                    else{
-                        alert("Ha ocurrido un error al generar el Excel");
-                    }
+                    // }
+                    // else{
+                    //     alert("Ha ocurrido un error al generar el Excel");
+                    // }
             
                 }
             }

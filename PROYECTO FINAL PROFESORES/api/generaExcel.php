@@ -14,12 +14,12 @@ include_once "../helpers/Login.php";
 include_once "../helpers/ConexionBD.php"; 
 
 $visitas=json_decode($_POST['DatosVisitas']);
-$nombreProf=$visitas[0][0]->nombreProf;
-$localidad=$visitas[0][0]->localidad;
-$localidad=$localidad;
-$provincia=$visitas[0][0]->provincia;
-$nombreAlumno=$visitas[0][0]->nombreAlumno;
-$dietas=$visitas[0][0]->dietas;
+// $nombreProf=$visitas[0][0]->nombreProf;
+// $localidad=$visitas[0][0]->localidad;
+// $localidad=$localidad;
+// $provincia=$visitas[0][0]->provincia;
+// $nombreAlumno=$visitas[0][0]->nombreAlumno;
+// $dietas=$visitas[0][0]->dietas;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 // use \PhpOffice\PhpSpreadsheet\IOFactory;
@@ -38,13 +38,13 @@ $spreadsheet->getDefaultStyle()->getFont()->setName('Tahoma');
 
 $sheet = $spreadsheet->getActiveSheet();
 
-for($i=1;$i<count($visitas);$i++){
+for($i=1;$i<=count($visitas);$i++){
 
-    $nombreProf=$visitas[$i][0]->nombreProf;
-$localidad=$visitas[$i][0]->localidad;
-$provincia=$visitas[$i][0]->provincia;
-$nombreAlumno=$visitas[$i][0]->nombreAlumno;
-$dietas=$visitas[$i][0]->dietas;
+    $nombreProf=$visitas[$i-1][0]->nombreProf;
+$localidad=$visitas[$i-1][0]->localidad;
+$provincia=$visitas[$i-1][0]->provincia;
+$nombreAlumno=$visitas[$i-1][0]->nombreAlumno;
+$dietas=$visitas[$i-1][0]->dietas;
 
     $sheet->setCellValue("A$i", "$nombreProf");
     $sheet->setCellValue("B$i", "$localidad");
@@ -70,3 +70,4 @@ $writer = new Xlsx($spreadsheet);
 $writer->save('visitas.xlsx');
 
 ?>
+
