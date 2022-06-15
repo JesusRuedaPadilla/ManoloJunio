@@ -1260,7 +1260,7 @@ function ProgramaInsertar(respuesta,botones1){
                    var botonGuardar=fila.children[5].children[0].innerHTML="Guardar";
                    fila.children[5].children[0].parentElement.appendChild(botonBorrar);
                    botonBorrar.innerHTML="Borrar";
-                 
+                 debugger;
                     fila.children[5].children[0].onclick=ProgramaGuardar(respuesta.id_alumno_detalle_convenio,id_visitaInsertada,botonGuardar);
                     fila.children[5].children[1].onclick=ProgramaBorrado(id_visitaInsertada,botonBorrar);
                     fila.children[6].style.display="block";
@@ -1306,9 +1306,9 @@ function ProgramaInsertar(respuesta,botones1){
                 // debugger;
                 ajax.open("POST","./api/InsertarVisita.php");
                 ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-                // debugger;
+                debugger;
             
-                ajax.send("visita=" + JSON.stringify(Visita));
+                ajax.send("visita=" + JSON.stringify(Visita)+"&id_usuario="+respuesta.id_usuario);
             
            
 
