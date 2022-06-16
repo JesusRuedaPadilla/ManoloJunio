@@ -1070,9 +1070,14 @@ function generaDatosExcel(respuestas){
                     var provincia=respuestas.profesor[i].datos[j].provincia;
                     var nombreAlumno=respuestas.profesor[i].datos[j].nombre_alumno;
                     var dietas=respuestas.profesor[i].datos[j].visitas[k].dieta;
+                    var fecha_inicio=respuestas.profesor[i].datos[j].visitas[k].fecha_inicio;
+                    var hora_inicio=respuestas.profesor[i].datos[j].visitas[k].hora_inicio;
+                    var fecha_fin=respuestas.profesor[i].datos[j].visitas[k].fecha_fin;
+                    var hora_fin=respuestas.profesor[i].datos[j].visitas[k].hora_fin;
 
                     if(dietas==1){
-                        DatosVisitasExcel[i]=[{nombreProf,localidad,provincia,nombreAlumno,dietas}];
+                        DatosVisitasExcel[i]=[{nombreProf,localidad,provincia,nombreAlumno,dietas,fecha_inicio,hora_inicio,
+                        fecha_fin,hora_fin}];
                     }
             
                 }
@@ -1084,13 +1089,13 @@ function generaDatosExcel(respuestas){
             var ajax=new XMLHttpRequest();
             ajax.onreadystatechange=function(){
                 if(this.readyState==4 && this.status==200){
-                    // var respuesta=JSON.parse(this.responseText);
-                    // if(respuesta.success){
+                    var respuesta=JSON.parse(this.responseText);
+                    if(respuesta.success==true){
                         alert("Se ha descargado el EXCEL");
-                    // }
-                    // else{
-                    //     alert("Ha ocurrido un error al generar el Excel");
-                    // }
+                    }
+                    else if(respuesta.success==false){
+                        alert("Ha ocurrido un error al generar el Excel");
+                    }
             
                 }
             }
