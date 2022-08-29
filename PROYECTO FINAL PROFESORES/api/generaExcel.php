@@ -61,7 +61,7 @@ for($i=1;$i<=count($visitas);$i++){
         $fecha_fin=null;
         $hora_fin=null;
         
-    $obj->success=false;
+    // $obj->success=false;
     }
     else{
     

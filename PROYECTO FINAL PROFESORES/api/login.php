@@ -15,7 +15,7 @@ include_once "../helpers/Validator.php";
     $contraseña = $_POST['clave'];
 
       if(ConexionBD::conecta()){
-        if(!ConexionBD::existeProfesor($correo,$contraseña) && !ConexionBD::existeProfesor($correo,$contraseña)){
+        if(!ConexionBD::existeProfesor($correo,$contraseña)){
           $obj->success=false;
           $obj->error="El usuario o la contraseña son incorrectos";
         }
@@ -45,6 +45,7 @@ include_once "../helpers/Validator.php";
                   for ($i=0;$i<count($obj->user);$i++){
                       $idAlumno= $obj->user[$i]["id_alumno_detalle_convenio"];
                        $obj->user[$i]["visitas"]=ConexionBD::obtieneVisitas($idAlumno);
+                       
                   }
                 
                

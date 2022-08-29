@@ -413,7 +413,7 @@ function CompruebaLogueado(){
     document.getElementById("identificacion").style.display="none";
     var plantilla=traerPlantilla("plantillas/visitas.html");
 
-   
+//    debugger;
 
     var botonCierraSesion=plantilla.children[0];
     document.body.appendChild(botonCierraSesion);
@@ -500,6 +500,7 @@ function CompruebaLogueado(){
                     elementos[4].value=respuesta.user[i].visitas[j].hora_fin;
                     // var botones= clonVisitas.querySelectorAll("button");
                     // debugger;
+
                     for (let l=1;l<=4;l++){
                         elementos[l].onchange=function(){
                             // debugger;
@@ -518,8 +519,12 @@ function CompruebaLogueado(){
                     // debugger;
                     botonGuardar.onclick=ProgramaGuardar(respuesta.user[i],respuesta.user[i].visitas[j].id_visita,botonGuardar);
                     botonGuardar.disabled=true;
-                    // debugger;
+                    debugger;
+                    if(respuesta.user[i].visitas[j].dieta==1){
+                        botonBorrar.parentElement.removeChild(botonBorrar);
+                        botonGuardar.parentElement.removeChild(botonGuardar);
 
+                    }
                     copiaAlumno.querySelector("table tbody").appendChild(clonVisitas);
                     // copiaAlumno.appendChild(clonVisitas);
 
@@ -1257,7 +1262,7 @@ function ProgramaInsertar(respuesta,botones1){
         // var cadenita= cadenaExtraida2-cadenaExtraida1;
         // debugger;
     
-        if(((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")) || 
+        if(((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")) ||
         (inputs[1].value>inputs[3].value) || ((inputs[1].value==inputs[3].value) && (inputs[2].value>=inputs[4].value)) /*|| cadenita<2*/){
             var Visita=null;
         }
@@ -1292,7 +1297,7 @@ function ProgramaInsertar(respuesta,botones1){
                 var respuestas=JSON.parse(this.responseText);
     
                 if(respuestas.success && respuestas.response){
-                   
+                   debugger;
                     // alert(Visita[0]);
                 //   debugger;
                    var id_visitaInsertada= respuestas.response[0].id_visita;
@@ -1498,9 +1503,22 @@ function ProgramaGuardar(respuesta,id_visita,botonGuardar){
         var fila=this.parentElement.parentElement;
         var inputs=fila.querySelectorAll("input");
         // debugger;
-        var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio,id_visita];
+        
+      
+        if(((inputs[1].value=="") || (inputs[2].value=="") || (inputs[3].value=="") || (inputs[4].value=="")) ||
+        (inputs[1].value>inputs[3].value) || ((inputs[1].value==inputs[3].value) && (inputs[2].value>=inputs[4].value))){
+            var $Visita=null;
+
+
+        }
+        else{
+            var Visita=[inputs[1].value, inputs[2].value,inputs[3].value,inputs[4].value,respuesta.id_alumno_detalle_convenio,id_visita];
+        }
+        
         // console.log(inputs[1].value + "<->"+ inputs[2].value + "<->"+inputs[3].value + "<->"+inputs[4].value + "<->");
-    
+    debugger;
+       
+
         // ev.preventDefault();
         // debugger;
         // var visita=Añadido.children[1].children[0].value;
